@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <title>Mes orchidées - Gestion de collections</title>
+</head>
+<body>
+
+   <aside id="main-sidebar">
+        <nav class="sidebar-menu" aria-label="Menu principal">
+            <ul>
+                <li><a href="index.html"><i class="icon-home" aria-hidden="true"></i> Accueil</a></li>
+                <li><a href="encyclopedie.html"><i class="icon-book" aria-hidden="true"></i> Encyclopédie</a></li>
+                <li><a href="macollection.html"><i class="icon-flower" aria-hidden="true"></i> Ma collection</a></li>
+                <li><a href="conseils.html"><i class="icon-heart" aria-hidden="true"></i> Conseils</a></li>
+                <li><a href="administration.html"><i class="icon-settings" aria-hidden="true"></i> Administration</a></li>
+                <li><a href="authentification.html"><i class="icon-log-in" aria-hidden="true"></i> Authentification</a></li>
+                <li><a href="deconnexion.html"><i class="icon-log-out" aria-hidden="true"></i> Déconnexion</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <header id="main-header">
+        <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
+        <h2>Encyclopédie & gestion de collections</h2>
+        
+        <button type="button" class="menu-toggle" aria-label="Ouvrir le menu de navigation" aria-controls="main-sidebar" onclick="toggleSidebar()">
+            <span class="hamburger-bar"></span>
+        </button>
+    </header>
+
+    <div class="loader" id="loader"></div>
+    <div id="latin-bg-layer" class="latin-bg"></div> 
+    
+    <main class="main-content">
+        <section class="hero">
+            <div class="title-group">
+                <h1 class="main-title">MES ORCHIDÉES</h1>
+                <p class="sub-title">Le monde fascinant des orchidées</p>
+            </div>
+            
+            <div class="orchid-focus">
+                <img src="./assets/images/site/orchidee_hero.png" alt="Orchidée Phalaenopsis en gros plan" id="hero-orchid">
+            </div>
+
+            <div class="search-container">
+                <form id="landing-search-form" action="encyclopedie.php" method="GET" class="search-box">
+                    <label for="search-input" class="sr-only">Rechercher une espèce d'orchidée</label>
+                    <input type="text" id="search-input" name="search" placeholder="Rechercher une espèce..." autocomplete="on">
+                    <button type="submit" class="search-btn">Rechercher</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer id="main-footer">
+        <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
+        <p>&copy; Mes Orchidées - Projet Fil Rouge DWWM - Jeremy Ferrier - 2026/2027</p>
+    </footer>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('main-sidebar');
+            sidebar.classList.toggle('sidebar-open');
+        }
+    </script>
+
+</body>
+</html>

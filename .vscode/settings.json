@@ -1,0 +1,27 @@
+{
+    // 1. Active les bulles de suggestions de base (balises, attributs, id, etc.)
+    "editor.quickSuggestions": {
+        "other": "on",
+        "comments": "off",
+        "strings": "on"
+    },
+    "editor.suggestOnTriggerCharacters": true,
+
+    // 2. Désactive l'IA "fantôme" qui écrit des lignes grises à ta place
+    "editor.inlineSuggest.enabled": false,
+
+    // 3. LA CLÉ : Interdit à la touche "Entrée" de valider une suggestion par erreur
+    // Pour valider une suggestion de la bulle, tu devras VRAIMENT appuyer sur "Tab"
+    "editor.acceptSuggestionOnEnter": "off",
+
+    // 4. Force VS Code à fermer automatiquement tes balises (ex: si tu tapes <a>, il écrit </a>)
+    "html.autoClosingTags": true,
+    "editor.autoClosingBrackets": "always",
+
+    // 5. Configuration Emmet (pour générer la structure avec le raccourci "!" + Tab)
+    "emmet.triggerExpansionOnTab": true,
+    "emmet.includeLanguages": {
+        "html": "html",
+        "plaintext": "html"
+    }
+}
