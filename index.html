@@ -8,13 +8,21 @@
 </head>
 <body>
 
-   <aside id="main-sidebar">
+<aside id="main-sidebar">
+        <div class="sidebar-brand">
+            <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
+            <h2>Mes Orchidées</h2>
+        </div>
+
         <nav class="sidebar-menu" aria-label="Menu principal">
-            <ul>
+            <ul class="menu-group-main">
                 <li><a href="index.html"><i class="icon-home" aria-hidden="true"></i> Accueil</a></li>
                 <li><a href="encyclopedie.html"><i class="icon-book" aria-hidden="true"></i> Encyclopédie</a></li>
                 <li><a href="macollection.html"><i class="icon-flower" aria-hidden="true"></i> Ma collection</a></li>
                 <li><a href="conseils.html"><i class="icon-heart" aria-hidden="true"></i> Conseils</a></li>
+            </ul>
+
+            <ul class="menu-group-user">
                 <li><a href="administration.html"><i class="icon-settings" aria-hidden="true"></i> Administration</a></li>
                 <li><a href="authentification.html"><i class="icon-log-in" aria-hidden="true"></i> Authentification</a></li>
                 <li><a href="deconnexion.html"><i class="icon-log-out" aria-hidden="true"></i> Déconnexion</a></li>
@@ -46,8 +54,8 @@
             </div>
 
             <div class="search-container">
-                <form id="landing-search-form" action="encyclopedie.php" method="GET" class="search-box">
-                    <label for="search-input" class="sr-only">Rechercher une espèce d'orchidée</label>
+                <form id="landing-search-form" action="#" method="GET" class="search-box">
+                    <label for="search-input" class="sr-only"></label>
                     <input type="text" id="search-input" name="search" placeholder="Rechercher une espèce..." autocomplete="on">
                     <button type="submit" class="search-btn">Rechercher</button>
                 </form>
@@ -56,15 +64,189 @@
     </main>
 
     <footer id="main-footer">
-        <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
-        <p>&copy; Mes Orchidées - Projet Fil Rouge DWWM - Jeremy Ferrier - 2026/2027</p>
+        <a href="mentions.html" class="footer-link">Mentions légales</a>
+
+        <div class="footer-center">
+            <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
+            <p>&copy; Mes Orchidées - Projet Fil Rouge DWWM - Jeremy Ferrier - 2026/2027</p>
+        </div>
+
+        <a href="confidentialite.html" class="footer-link">Politiques de confidentialité</a>
     </footer>
 
+    <!--Modales résultat de recherche et fiches plante-->
+    <div id="modal-results" class="modal-overlay">
+        <div class="modal-container">
+            <button type="button" class="modal-close" onclick="closeModal('modal-results')">&times;</button>
+            <h3 class="modal-title">Résultats de recherche</h3>
+            
+            <div id="search-results-list" class="results-list"></div>
+        </div>
+    </div>
+
+    <div id="modal-orchid-card" class="modal-overlay">
+        <div class="modal-container orchid-card-view">
+            <button type="button" class="modal-close" onclick="closeModal('modal-orchid-card')">&times;</button>
+            
+            <div class="orchid-card-content">
+                <h3 id="detail-title" class="modal-title">Nom de l'orchidée</h3>
+                <p id="detail-species" class="orchid-species">Nom scientifique</p>
+                
+                <div class="orchid-detail-body">
+                    <img id="detail-img" src="" alt="Focus orchidée">
+                    <div class="orchid-info-text">
+                        <p><strong>Origine :</strong> <span id="detail-origin">...</span></p>
+                        <p><strong>Arrosage :</strong> <span id="detail-watering">...</span></p>
+                        <p><strong>Conseil :</strong> <span id="detail-tips">...</span></p>
+                    </div>
+                </div>
+
+                <button type="button" class="btn-add-collection" onclick="addToCollection()">Ajouter à ma collection</button>
+            </div>
+        </div>
+    </div>
     <script>
+        // 1. Logique d'ouverture/fermeture de ma sidebar
         function toggleSidebar() {
             const sidebar = document.getElementById('main-sidebar');
             sidebar.classList.toggle('sidebar-open');
         }
+
+        // 2. Logique du générateur de noms d'orchidées en fond
+        // Liste de 20 noms d'orchidées
+        const orchidNames = [
+            "Phalaenopsis amabilis", "Cattleya labiata", "Dendrobium nobile", 
+            "Vanda coerulea", "Oncidium flexuosum", "Paphiopedilum insigne", 
+            "Odontoglossum crispum", "Cymbidium eberhardtii", "Laelia purpurata", 
+            "Miltonia spectabilis", "Masdevallia coccinea", "Lycaste deppei", 
+            "Stanhopea tigrina", "Brassia verrucosa", "Acacalis cyanea", 
+            "Acineta superba", "Aerangis citrata", "Angraecum sesquipedale", 
+            "Barkeria spectabilis", "Bletilla striata"
+        ];
+
+        const container = document.getElementById('latin-bg-layer');
+
+        function createFloatingWord() {
+            // Étape A : Création de la balise HTML du mot
+            const span = document.createElement('span');
+            span.classList.add('latin-word');
+            
+            // Choix d'un nom au hasard dans ma liste
+            const randomName = orchidNames[Math.floor(Math.random() * orchidNames.length)];
+            span.textContent = randomName;
+
+            // Étape B : Calcul des coordonnées aléatoires (en pourcentage de l'écran)
+            // On s'arrête à 85% en largeur et hauteur pour éviter que les mots ne dépassent
+            const randomX = Math.floor(Math.random() * 85); 
+            const randomY = Math.floor(Math.random() * 85);
+
+            span.style.left = randomX + '%';
+            span.style.top = randomY + '%';
+
+            // Étape C : Insertion du mot dans le conteneur de fond
+            container.appendChild(span);
+
+            // Étape D : Déclenchement du fondu (Fade up) après un tout petit instant
+            setTimeout(() => {
+                span.classList.add('word-visible');
+            }, 50);
+
+            // Étape E : Disparition et suppression du mot après 6 secondes
+            setTimeout(() => {
+                span.classList.remove('word-visible'); // Lance le fondu de disparition
+                
+                // Une fois le fondu fini, on supprime carrément la balise pour ne pas alourdir la page
+                setTimeout(() => {
+                    span.remove();
+                }, 2500);
+            }, 6000);
+        }
+
+        // Étape F : Lancement de la boucle infinie
+        // Un nouveau mot apparaît toutes les 1,5 secondes
+        setInterval(createFloatingWord, 1500);
+
+        // On en lance 3 dès le chargement de la page pour ne pas attendre que l'écran soit vide au début
+        createFloatingWord();
+        setTimeout(createFloatingWord, 1000);
+        setTimeout(createFloatingWord, 1500);
+
+    // Modales de recherche de plantes et de fiche plantes
+    // 1. Simuler une base de données locale (En attendant le PHP / SQL)
+const orchidsDatabase = [
+    { name: "Phalaenopsis amabilis", origin: "Asie du Sud-Est", watering: "1 fois par semaine", tips: "Lumière vive mais pas de soleil direct.", img: "./assets/images/site/orchidee_hero.png" },
+    { name: "Cattleya labiata", origin: "Brésil", watering: "Laisser sécher entre deux arrosages", tips: "Demande beaucoup d'humidité ambiante.", img: "./assets/images/site/orchidee_hero.png" },
+    { name: "Vanda coerulea", origin: "Inde / Chine", watering: "Bassinage quotidien des racines", tips: "Cultiver de préférence suspendue, racines nues.", img: "./assets/images/site/orchidee_hero.png" }
+];
+
+// 2. Écouter la soumission du formulaire de recherche
+document.getElementById('landing-search-form').addEventListener('submit', function(e) {
+    e.preventDefault(); // Empêche la page de se recharger
+    
+    const query = document.getElementById('search-input').value.toLowerCase().trim();
+    if(query === "") return;
+
+    // Filtrer la "base de données"
+    const filteredResults = orchidsDatabase.filter(orchid => orchid.name.toLowerCase().includes(query));
+
+    // Générer le contenu de la Modale 1
+    const resultsList = document.getElementById('search-results-list');
+    resultsList.innerHTML = ""; // Vide les anciens résultats
+
+    if (filteredResults.length === 0) {
+        resultsList.innerHTML = "<p style='text-align:center; padding:15px;'>Aucune orchidée trouvée...</p>";
+    } else {
+        filteredResults.forEach(orchid => {
+            const row = document.createElement('div');
+            row.classList.add('result-item');
+            row.innerHTML = `
+                <span>${orchid.name}</span>
+                <button type="button" class="btn-select" onclick="openDetailCard('${orchid.name}')">Sélectionner</button>
+            `;
+            resultsList.appendChild(row);
+        });
+    }
+
+    // Ouvrir la Modale 1
+    openModal('modal-results');
+});
+
+// 3. Fonctions de contrôle des Modales
+function openModal(modalId) {
+    document.getElementById(modalId).classList.add('modal-active');
+}
+
+function closeModal(modalId) {
+    document.getElementById(modalId).classList.remove('modal-active');
+}
+
+// 4. Passer à la Modale 2 : Fiche détaillée
+function openDetailCard(orchidName) {
+    // Fermer la modale des résultats
+    closeModal('modal-results');
+
+    // Trouver l'orchidée sélectionnée
+    const orchid = orchidsDatabase.find(o => o.name === orchidName);
+
+    if(orchid) {
+        // Injecter les données dans la Modale 2
+        document.getElementById('detail-title').innerText = orchid.name.split(' ')[0]; // Genre
+        document.getElementById('detail-species').innerText = orchid.name; // Nom complet
+        document.getElementById('detail-origin').innerText = orchid.origin;
+        document.getElementById('detail-watering').innerText = orchid.watering;
+        document.getElementById('detail-tips').innerText = orchid.tips;
+        document.getElementById('detail-img').src = orchid.img;
+
+        // Ouvrir la Modale 2
+        openModal('modal-orchid-card');
+    }
+}
+
+// 5. Simulation d'ajout en collection
+function addToCollection() {
+    alert("Orchidée ajoutée avec succès à votre collection ! (Bientôt relié au PHP/SQL)");
+    closeModal('modal-orchid-card');
+}
     </script>
 
 </body>

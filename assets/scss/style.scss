@@ -1,0 +1,30 @@
+// ==========================================================================
+// CENTRALISATION SASS - MES ORCHIDÉES
+// ==========================================================================
+
+// 1. configuration
+@import 'abstracts/variables';
+@import 'abstracts/mixins';
+
+// 2. styles de base
+@import 'base/reset';
+@import 'base/typography';
+
+// 3. Éléments de structure (Layout)
+@import 'layout/header';
+@import 'layout/sidebar';
+@import 'layout/footer';
+
+// 4. Composants réutilisables
+@import 'components/buttons';
+@import 'components/search';
+@import 'components/cards';
+@import 'components/modals';
+
+// 5. Pages spécifiques
+@import 'pages/accueil';
+@import 'pages/encyclopedie';
+@import 'pages/collection';
+@import 'pages/conseils';
+@import 'pages/authentification';
+@import 'pages/admin';

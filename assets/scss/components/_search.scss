@@ -1,0 +1,53 @@
+// ==========================================================================
+// COMPOSANT : BARRE DE RECHERCHE (AJUSTEMENT CONTRASTE ET ARRONDIS)
+// ==========================================================================
+
+.search-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px;
+    border-radius: 50px; // Forme pilule parfaite pour la barre
+    width: 100%;
+    
+    // On applique notre mixin de verre
+    @include glass-effect; 
+    // TRUC DE PRO : On ajoute un tout petit fond blanc hyper transparent (8%) 
+    // en plus du mixin pour forcer le verre à être visible sur ton fond ultra sombre
+    background-color: rgba(255, 255, 255, 0.05); 
+
+    // Le champ texte d'entrée
+    input {
+        flex: 1;
+        background: transparent; 
+        border: none;
+        color: $clr-white;
+        padding: 12px 25px;
+        font-family: $font-body; // Inter
+        font-size: 15px;
+        outline: none; 
+
+        &::placeholder {
+            color: rgba(255, 255, 255, 0.4); 
+        }
+    }
+
+    // Le bouton de validation à l'intérieur de la boîte
+    .search-btn {
+        background-color: $clr-gold;
+        color: $clr-bg; 
+        border: none;
+        padding: 15px 30px;
+        border-radius: 50px; // CORRECTION : Bords parfaitement arrondis style pilule !
+        font-family: $font-titles; // Cinzel
+        font-size: 14px;
+        font-weight: bold;
+        letter-spacing: 1px;
+        transition: transform 0.2s ease, opacity 0.2s ease;
+
+        &:hover {
+            opacity: 0.9;
+            transform: scale(1.02); 
+        }
+    }
+}
