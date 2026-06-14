@@ -1,122 +1,199 @@
 // ==========================================================================
-// COMPOSANT : FENÊTRES MODALES (7-1 PATTERN SASS)
+// COMPOSANT : FENÊTRES MODALES (FICHE TECHNIQUE UNIFORME - REPRODUCTION STRICTE)
 // ==========================================================================
 
+// Le calque d'arrière-plan qui assombrit le site
 .modal-overlay {
     position: fixed;
     inset: 0;
-    background-color: rgba(6, 14, 10, 0.7); // Fond sombre de sécurité
-    backdrop-filter: blur(5px);
-    z-index: 200;
+    background-color: rgba(6, 14, 10, 0.8); // Fond très sombre
+    backdrop-filter: blur(6px);
+    z-index: 500;
     display: flex;
     align-items: center;
     justify-content: center;
-    
-    // Caché par défaut
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease;
 
-    // Classe active pour ouvrir la modale
-    &.modal-active {
+    &.active {
         opacity: 1;
         pointer-events: all;
     }
 }
 
+// La grande boîte de la fiche plante (Copie conforme image_2b1bff.png)
 .modal-container {
-    width: 90%;
-    max-width: 600px;
-    padding: 30px;
-    border-radius: 12px;
+    width: 95%;
+    max-width: 780px; // Largeur confortable pour le tableau des caractéristiques
+    padding: 35px;
+    border-radius: 8px;
     position: relative;
-    
-    @include glass-effect; // Ton mixin magique !
-    background-color: rgba(255, 255, 255, 0.05);
+    @include glass-effect;
+    background-color: rgba(14, 32, 24, 0.85); // Vert foncé opaque identique au mockup
 
+    // La croix de fermeture en haut à droite
     .modal-close {
         position: absolute;
-        top: 15px;
-        right: 20px;
+        top: 20px;
+        right: 25px;
         background: transparent;
         border: none;
-        color: $clr-white;
-        font-size: 28px;
-        
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 36px;
+        cursor: pointer;
+        transition: color 0.2s;
+
         &:hover {
             color: $clr-gold;
         }
     }
-
-    .modal-title {
-        color: $clr-gold;
-        font-size: 24px;
-        margin-bottom: 20px;
-        text-align: center;
-    }
 }
 
-// Style des lignes de résultats dans la Modale 1
-.result-item {
+// --- STRUCTURE INTERNE DE LA FICHE ---
+.orchid-modal-view {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 15px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    font-family: $font-body;
+    flex-direction: column;
+    gap: 25px;
 
-    .btn-select {
-        background-color: $clr-gold;
-        color: $clr-bg;
-        border: none;
-        padding: 6px 15px;
-        border-radius: 20px;
-        font-family: $font-titles;
-        font-size: 12px;
-        font-weight: bold;
-    }
-}
-
-// Style de la fiche de la Modale 2
-.orchid-card-view {
-    max-width: 500px;
-    text-align: center;
-
-    .orchid-species {
-        font-style: italic;
-        opacity: 0.6;
-        margin-top: -15px;
-        margin-bottom: 20px;
-    }
-
-    .orchid-detail-body {
+    // Entête : Photo à gauche, Titres à droite
+    .modal-header-block {
         display: flex;
-        gap: 20px;
-        align-items: center;
-        margin-bottom: 25px;
-        text-align: left;
+        gap: 30px;
+        align-items: flex-start;
 
-        img {
-            width: 120px;
-            height: 120px;
-            object-fit: contain;
+        .modal-orchid-img {
+            width: 140px;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .modal-title-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+
+            h2 {
+                font-family: $font-titles; // Cinzel
+                font-size: 32px;
+                color: $clr-gold;
+                margin: 0;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }
+
+            .modal-scientific {
+                font-family: $font-titles; // Cinzel
+                font-size: 20px;
+                color: #ffffff;
+                margin: 0;
+                font-style: italic;
+            }
+
+            .modal-label-desc {
+                font-family: $font-titles; // Cinzel
+                font-size: 14px;
+                color: $clr-gold;
+                margin-top: 10px;
+                margin-bottom: 2px;
+                letter-spacing: 1px;
+            }
+
+            .modal-short-text {
+                font-family: $font-body; // Inter
+                font-size: 14px;
+                line-height: 1.4;
+                color: #ffffff;
+                opacity: 0.9;
+                margin: 0;
+            }
         }
     }
 
-    .btn-add-collection {
-        width: 100%;
-        background-color: transparent;
-        color: $clr-gold;
-        border: 1px solid $clr-gold;
-        padding: 12px;
-        border-radius: 50px;
-        font-family: $font-titles;
-        font-weight: bold;
-        transition: all 0.3s ease;
+    // La grille des caractéristiques (3 colonnes de blocs grisés arrondis)
+    .modal-specs-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px 20px;
 
-        &:hover {
-            background-color: $clr-gold;
-            color: $clr-bg;
+        .spec-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+
+            label {
+                font-family: $font-titles; // Cinzel
+                font-size: 12px;
+                color: $clr-gold;
+                letter-spacing: 1px;
+                text-transform: uppercase;
+            }
+
+            .spec-value {
+                background-color: rgba(255, 255, 255, 0.12); // Bloc grisé du mockup
+                color: #ffffff;
+                font-family: $font-body; // Inter
+                font-size: 13px;
+                padding: 8px 16px;
+                border-radius: 20px; // Coins très arrondis
+                border: 1px solid rgba(255, 255, 255, 0.05);
+            }
+        }
+    }
+
+    // Section basse : Longue description
+    .modal-description-block {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        h4 {
+            font-family: $font-titles; // Cinzel
+            font-size: 13px;
+            color: $clr-gold;
+            margin: 0;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .modal-long-desc {
+            background-color: rgba(255, 255, 255, 0.06); // Grand bloc arrondi pour le paragraphe
+            font-family: $font-body; // Inter
+            font-size: 13px;
+            line-height: 1.5;
+            color: #ffffff;
+            padding: 20px;
+            border-radius: 30px;
+            margin: 0;
+            text-align: justify;
+        }
+    }
+
+    // Le bouton d'action calé tout en bas à droite
+    .modal-footer-action {
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+
+        .btn-add-collection {
+            background-color: #c4a47c; // Couleur sable/doré
+            color: #0e2018;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-family: $font-titles; // Cinzel
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: opacity 0.2s;
+
+            &:hover {
+                opacity: 0.9;
+            }
         }
     }
 }

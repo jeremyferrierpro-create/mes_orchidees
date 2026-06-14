@@ -8,12 +8,11 @@
 </head>
 <body>
 
-<aside id="main-sidebar">
+    <aside id="main-sidebar">
         <div class="sidebar-brand">
             <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
             <h2>Mes Orchidées</h2>
         </div>
-
         <nav class="sidebar-menu" aria-label="Menu principal">
             <ul class="menu-group-main">
                 <li><a href="index.html"><i class="icon-home" aria-hidden="true"></i> Accueil</a></li>
@@ -21,7 +20,6 @@
                 <li><a href="macollection.html"><i class="icon-flower" aria-hidden="true"></i> Ma collection</a></li>
                 <li><a href="conseils.html"><i class="icon-heart" aria-hidden="true"></i> Conseils</a></li>
             </ul>
-
             <ul class="menu-group-user">
                 <li><a href="administration.html"><i class="icon-settings" aria-hidden="true"></i> Administration</a></li>
                 <li><a href="authentification.html"><i class="icon-log-in" aria-hidden="true"></i> Authentification</a></li>
@@ -33,7 +31,6 @@
     <header id="main-header">
         <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
         <h2>Encyclopédie & gestion de collections</h2>
-        
         <button type="button" class="menu-toggle" aria-label="Ouvrir le menu de navigation" aria-controls="main-sidebar" onclick="toggleSidebar()">
             <span class="hamburger-bar"></span>
         </button>
@@ -65,55 +62,98 @@
 
     <footer id="main-footer">
         <a href="mentions.html" class="footer-link">Mentions légales</a>
-
         <div class="footer-center">
             <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
             <p>&copy; Mes Orchidées - Projet Fil Rouge DWWM - Jeremy Ferrier - 2026/2027</p>
         </div>
-
         <a href="confidentialite.html" class="footer-link">Politiques de confidentialité</a>
     </footer>
 
-    <!--Modales résultat de recherche et fiches plante-->
-    <div id="modal-results" class="modal-overlay">
+    <div id="orchid-modal" class="modal-overlay">
         <div class="modal-container">
-            <button type="button" class="modal-close" onclick="closeModal('modal-results')">&times;</button>
-            <h3 class="modal-title">Résultats de recherche</h3>
+            <button type="button" class="modal-close" onclick="closeModal()">&times;</button>
             
-            <div id="search-results-list" class="results-list"></div>
-        </div>
-    </div>
-
-    <div id="modal-orchid-card" class="modal-overlay">
-        <div class="modal-container orchid-card-view">
-            <button type="button" class="modal-close" onclick="closeModal('modal-orchid-card')">&times;</button>
-            
-            <div class="orchid-card-content">
-                <h3 id="detail-title" class="modal-title">Nom de l'orchidée</h3>
-                <p id="detail-species" class="orchid-species">Nom scientifique</p>
+            <div class="orchid-modal-view">
                 
-                <div class="orchid-detail-body">
-                    <img id="detail-img" src="" alt="Focus orchidée">
-                    <div class="orchid-info-text">
-                        <p><strong>Origine :</strong> <span id="detail-origin">...</span></p>
-                        <p><strong>Arrosage :</strong> <span id="detail-watering">...</span></p>
-                        <p><strong>Conseil :</strong> <span id="detail-tips">...</span></p>
+                <div class="modal-header-block">
+                    <img id="modal-orchid-img" src="./assets/images/orchids/acacalis_cyanea.png" alt="Photo" class="modal-orchid-img">
+                    <div class="modal-title-group">
+                        <h2 id="modal-orchid-title">ACACALIS CYANEA</h2>
+                        <p id="modal-orchid-scientific" class="modal-scientific">ACACALIS CYANEA</p>
+                        <p id="modal-orchid-vernacular" class="modal-subtitle">AGANISIA</p>
+                        <h4 class="modal-label-desc">DESCRIPTION COURTE :</h4>
+                        <p id="modal-orchid-short" class="modal-short-text">...</p>
                     </div>
                 </div>
 
-                <button type="button" class="btn-add-collection" onclick="addToCollection()">Ajouter à ma collection</button>
+                <div class="modal-specs-grid">
+                    <div class="spec-item">
+                        <label>Ordre</label>
+                        <div id="spec-ordre" class="spec-value">...</div>
+                    </div>
+                    <div class="spec-item">
+                        <label>Espèce</label>
+                        <div id="spec-espece" class="spec-value">...</div>
+                    </div>
+                    <div class="spec-item">
+                        <label>Genre</label>
+                        <div id="spec-genre" class="spec-value">...</div>
+                    </div>
+                    <div class="spec-item">
+                        <label>Famille</label>
+                        <div id="spec-famille" class="spec-value">...</div>
+                    </div>
+                    <div class="spec-item">
+                        <label>Sous-Famille</label>
+                        <div id="spec-subfamily" class="spec-value">...</div>
+                    </div>
+                    <div class="spec-item">
+                        <label>Tribu</label>
+                        <div id="spec-tribu" class="spec-value">...</div>
+                    </div>
+                    <div class="spec-item">
+                        <label>Sous-Tribu</label>
+                        <div id="spec-subtribu" class="spec-value">...</div>
+                    </div>
+                    <div class="spec-item">
+                        <label>Comportement</label>
+                        <div id="spec-behavior" class="spec-value">...</div>
+                    </div>
+                    <div class="spec-item">
+                        <label>Découverte par</label>
+                        <div id="spec-discovered" class="spec-value">...</div>
+                    </div>
+                    <div class="spec-item" style="grid-column: span 3;">
+                        <label>Origines</label>
+                        <div id="spec-origin" class="spec-value">...</div>
+                    </div>
+                </div>
+
+                <div class="modal-description-block">
+                    <h4>Description & Caractéristiques</h4>
+                    <p id="modal-orchid-long" class="modal-long-desc">...</p>
+                </div>
+
+                <div class="modal-footer-action">
+                    <button type="button" class="btn-add-collection">+ COLLECTION</button>
+                </div>
+
             </div>
         </div>
     </div>
+
     <script>
-        // 1. Logique d'ouverture/fermeture de ma sidebar
+        // ==========================================================================
+        // 1. LOGIQUE DE LA SIDEBAR
+        // ==========================================================================
         function toggleSidebar() {
             const sidebar = document.getElementById('main-sidebar');
             sidebar.classList.toggle('sidebar-open');
         }
 
-        // 2. Logique du générateur de noms d'orchidées en fond
-        // Liste de 20 noms d'orchidées
+        // ==========================================================================
+        // 2. LOGIQUE DES NOMS LATINS EN FOND
+        // ==========================================================================
         const orchidNames = [
             "Phalaenopsis amabilis", "Cattleya labiata", "Dendrobium nobile", 
             "Vanda coerulea", "Oncidium flexuosum", "Paphiopedilum insigne", 
@@ -127,126 +167,147 @@
         const container = document.getElementById('latin-bg-layer');
 
         function createFloatingWord() {
-            // Étape A : Création de la balise HTML du mot
             const span = document.createElement('span');
             span.classList.add('latin-word');
             
-            // Choix d'un nom au hasard dans ma liste
             const randomName = orchidNames[Math.floor(Math.random() * orchidNames.length)];
             span.textContent = randomName;
 
-            // Étape B : Calcul des coordonnées aléatoires (en pourcentage de l'écran)
-            // On s'arrête à 85% en largeur et hauteur pour éviter que les mots ne dépassent
             const randomX = Math.floor(Math.random() * 85); 
             const randomY = Math.floor(Math.random() * 85);
 
             span.style.left = randomX + '%';
             span.style.top = randomY + '%';
 
-            // Étape C : Insertion du mot dans le conteneur de fond
             container.appendChild(span);
 
-            // Étape D : Déclenchement du fondu (Fade up) après un tout petit instant
             setTimeout(() => {
                 span.classList.add('word-visible');
             }, 50);
 
-            // Étape E : Disparition et suppression du mot après 6 secondes
             setTimeout(() => {
-                span.classList.remove('word-visible'); // Lance le fondu de disparition
-                
-                // Une fois le fondu fini, on supprime carrément la balise pour ne pas alourdir la page
+                span.classList.remove('word-visible');
                 setTimeout(() => {
                     span.remove();
                 }, 2500);
             }, 6000);
         }
 
-        // Étape F : Lancement de la boucle infinie
-        // Un nouveau mot apparaît toutes les 1,5 secondes
         setInterval(createFloatingWord, 1500);
-
-        // On en lance 3 dès le chargement de la page pour ne pas attendre que l'écran soit vide au début
         createFloatingWord();
         setTimeout(createFloatingWord, 1000);
         setTimeout(createFloatingWord, 1500);
 
-    // Modales de recherche de plantes et de fiche plantes
-    // 1. Simuler une base de données locale (En attendant le PHP / SQL)
-const orchidsDatabase = [
-    { name: "Phalaenopsis amabilis", origin: "Asie du Sud-Est", watering: "1 fois par semaine", tips: "Lumière vive mais pas de soleil direct.", img: "./assets/images/site/orchidee_hero.png" },
-    { name: "Cattleya labiata", origin: "Brésil", watering: "Laisser sécher entre deux arrosages", tips: "Demande beaucoup d'humidité ambiante.", img: "./assets/images/site/orchidee_hero.png" },
-    { name: "Vanda coerulea", origin: "Inde / Chine", watering: "Bassinage quotidien des racines", tips: "Cultiver de préférence suspendue, racines nues.", img: "./assets/images/site/orchidee_hero.png" }
-];
+        // ==========================================================================
+        // 3. BASE DE DONNÉES SIMULÉE (MOCK DATA COMPLÈTE)
+        // ==========================================================================
+        const orchidsDatabase = [
+            { 
+                name: "ACACALIS CYANEA", 
+                vernacular: "AGANISIA", 
+                order: "Asparagales", 
+                species: "Orchidales", 
+                genre: "Aganisia", 
+                family: "Orchidaceae", 
+                subfamily: "Epidendroideae", 
+                tribu: "Cymbidieae", 
+                subtribu: "Sygopetalinae", 
+                behavior: "Epiphyte", 
+                discovered: "John Lindley (1839)", 
+                origin: "Amériques du sud", 
+                img: "./assets/images/orchids/acacalis_cyanea.png",
+                shortDesc: "Orchidée épiphyte d’Amérique du sud. Se développant sur plaque de liège, dans une ambiance chaude et humide.",
+                longDesc: "Acacalis Cyanea, demande une luminosité de sous bois, une humidité ambiante forte et des températures allant de 18 à 25°C. Etant une épiphyte dans son milieu naturel, elle aime croître sur des support d'écorce (liège, séquoia....) Acacalis Cyanea, déteste la lumière vive et les rayons directs du soleil." 
+            },
+            { 
+                name: "CATTLEYA LABIATA", 
+                vernacular: "CATTLEYA FARDÉ", 
+                order: "Asparagales", 
+                species: "Labiata", 
+                genre: "Cattleya", 
+                family: "Orchidaceae", 
+                subfamily: "Epidendroideae", 
+                tribu: "Epidendreae", 
+                subtribu: "Laeliinae", 
+                behavior: "Epiphyte", 
+                discovered: "William Swainson (1818)", 
+                origin: "Brésil", 
+                img: "./assets/images/orchids/cattleya_labiata.png",
+                shortDesc: "Grandes fleurs parfumées et colorées originaires des forêts tropicales du Brésil.",
+                longDesc: "Le Cattleya labiata demande une excellente luminosité sans soleil direct direct pour fleurir. Laissez sécher le substrat entre deux arrosages abondants et maintenez une forte humidité ambiante." 
+            },
+            { 
+                name: "VANDA COERULEA", 
+                vernacular: "VANDA BLEUE", 
+                order: "Asparagales", 
+                species: "Coerulea", 
+                genre: "Vanda", 
+                family: "Orchidaceae", 
+                subfamily: "Epidendroideae", 
+                tribu: "Vandeae", 
+                subtribu: "Aeridinae", 
+                behavior: "Epiphyte", 
+                discovered: "William Griffith (1847)", 
+                origin: "Inde / Chine", 
+                img: "./assets/images/orchids/vanda_coerulea.png",
+                shortDesc: "Superbe orchidée bleue se cultivant sans aucun terreau, racines totalement nues.",
+                longDesc: "La Vanda coerulea nécessite un bassinage quotidien de ses racines à l'eau tiède non calcaire. Donnez-lui un maximum de lumière et une forte ventilation pour éviter la pourriture." 
+            }
+        ];
 
-// 2. Écouter la soumission du formulaire de recherche
-document.getElementById('landing-search-form').addEventListener('submit', function(e) {
-    e.preventDefault(); // Empêche la page de se recharger
-    
-    const query = document.getElementById('search-input').value.toLowerCase().trim();
-    if(query === "") return;
+        // ==========================================================================
+        // 4. MOTEUR DE RECHERCHE ET INJECTION DYNAMIQUE
+        // ==========================================================================
+        
+        // Intercepter la recherche du formulaire
+        document.getElementById('landing-search-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const query = document.getElementById('search-input').value.toLowerCase().trim();
+            if(query === "") return;
 
-    // Filtrer la "base de données"
-    const filteredResults = orchidsDatabase.filter(orchid => orchid.name.toLowerCase().includes(query));
+            // Filtrer la base de données par rapport à la saisie
+            const matchedOrchid = orchidsDatabase.find(orchid => orchid.name.toLowerCase().includes(query));
 
-    // Générer le contenu de la Modale 1
-    const resultsList = document.getElementById('search-results-list');
-    resultsList.innerHTML = ""; // Vide les anciens résultats
-
-    if (filteredResults.length === 0) {
-        resultsList.innerHTML = "<p style='text-align:center; padding:15px;'>Aucune orchidée trouvée...</p>";
-    } else {
-        filteredResults.forEach(orchid => {
-            const row = document.createElement('div');
-            row.classList.add('result-item');
-            row.innerHTML = `
-                <span>${orchid.name}</span>
-                <button type="button" class="btn-select" onclick="openDetailCard('${orchid.name}')">Sélectionner</button>
-            `;
-            resultsList.appendChild(row);
+            if (matchedOrchid) {
+                // On injecte les bonnes données triées dans la modale unique
+                injectModalData(matchedOrchid);
+                openModal();
+            } else {
+                alert("Aucune orchidée ne correspond à votre recherche pour le moment. Essayez : Acacalis, Cattleya ou Vanda.");
+            }
         });
-    }
 
-    // Ouvrir la Modale 1
-    openModal('modal-results');
-});
+        // Fonction d'injection technique dans la structure HTML
+        function injectModalData(orchid) {
+            document.getElementById('modal-orchid-title').innerText = orchid.name;
+            document.getElementById('modal-orchid-scientific').innerText = orchid.name;
+            document.getElementById('modal-orchid-vernacular').innerText = orchid.vernacular;
+            document.getElementById('modal-orchid-short').innerText = orchid.shortDesc;
+            document.getElementById('modal-orchid-long').innerText = orchid.longDesc;
+            document.getElementById('modal-orchid-img').src = orchid.img;
 
-// 3. Fonctions de contrôle des Modales
-function openModal(modalId) {
-    document.getElementById(modalId).classList.add('modal-active');
-}
+            // Correction de la cible spec-origin (sans s)
+            document.getElementById('spec-ordre').innerText = orchid.order;
+            document.getElementById('spec-espece').innerText = orchid.species;
+            document.getElementById('spec-genre').innerText = orchid.genre;
+            document.getElementById('spec-famille').innerText = orchid.family;
+            document.getElementById('spec-subfamily').innerText = orchid.subfamily;
+            document.getElementById('spec-tribu').innerText = orchid.tribu;
+            document.getElementById('spec-subtribu').innerText = orchid.subtribu;
+            document.getElementById('spec-behavior').innerText = orchid.behavior;
+            document.getElementById('spec-discovered').innerText = orchid.discovered;
+            document.getElementById('spec-origin').innerText = orchid.origin;
+        }
 
-function closeModal(modalId) {
-    document.getElementById(modalId).classList.remove('modal-active');
-}
+        // Fonctions d'affichage couplées à ton composant .active
+        function openModal() {
+            document.getElementById('orchid-modal').classList.add('active');
+        }
 
-// 4. Passer à la Modale 2 : Fiche détaillée
-function openDetailCard(orchidName) {
-    // Fermer la modale des résultats
-    closeModal('modal-results');
-
-    // Trouver l'orchidée sélectionnée
-    const orchid = orchidsDatabase.find(o => o.name === orchidName);
-
-    if(orchid) {
-        // Injecter les données dans la Modale 2
-        document.getElementById('detail-title').innerText = orchid.name.split(' ')[0]; // Genre
-        document.getElementById('detail-species').innerText = orchid.name; // Nom complet
-        document.getElementById('detail-origin').innerText = orchid.origin;
-        document.getElementById('detail-watering').innerText = orchid.watering;
-        document.getElementById('detail-tips').innerText = orchid.tips;
-        document.getElementById('detail-img').src = orchid.img;
-
-        // Ouvrir la Modale 2
-        openModal('modal-orchid-card');
-    }
-}
-
-// 5. Simulation d'ajout en collection
-function addToCollection() {
-    alert("Orchidée ajoutée avec succès à votre collection ! (Bientôt relié au PHP/SQL)");
-    closeModal('modal-orchid-card');
-}
+        function closeModal() {
+            document.getElementById('orchid-modal').classList.remove('active');
+        }
     </script>
 
 </body>
