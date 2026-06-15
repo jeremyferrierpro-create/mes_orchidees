@@ -2,7 +2,7 @@
 // LAYOUT : SIDEBAR (MENU LATÉRAL DROIT CONFIGURÉ SELON MOCKUP)
 // ==========================================================================
 
-aside {
+#main-sidebar {
     position: fixed;        
     top: 110px; // Aligné sous le header              
     right: 15px;            
@@ -68,7 +68,7 @@ aside {
 
     // Premier bloc de liens
     .menu-group-main {
-        margin-bottom: auto; // LA MAGIE : Pousse le groupe suivant tout en bas de la navigation !
+        margin-bottom: 70px; // LA MAGIE : Pousse le groupe suivant tout en bas de la navigation !
     }
 
     // Second bloc de liens (Admin / Connexion)
