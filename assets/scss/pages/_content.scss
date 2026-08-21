@@ -25,11 +25,7 @@
 }
 
 // ------------------------------
-// Marge pour le footer fixe sur toutes les pages
-.main-content {
-    padding-bottom: 120px;
-    box-sizing: border-box;
-}
+// Marge pour le footer fixe sur toutes les pages (géré dans _reset.scss)
 
 // PAGE : Ma Collection
 // ------------------------------
@@ -175,6 +171,11 @@
     @include glass-effect;
     background-color: rgba(255, 255, 255, 0.03);
     box-sizing: border-box;
+
+    @include respond-to('xs') {
+        padding: 20px;
+        border-radius: 8px;
+    }
 }
 
 .auth-form {
@@ -347,11 +348,11 @@
     padding: 0 20px;
     box-sizing: border-box;
 
-    @media (max-width: 900px) {
+    @include respond-to('md') {
         grid-template-columns: repeat(2, 1fr);
     }
 
-    @media (max-width: 600px) {
+    @include respond-to('sm') {
         grid-template-columns: 1fr;
     }
 }
@@ -429,6 +430,11 @@
         flex: 1 1 220px;
         min-width: 180px;
         max-width: 300px;
+        
+        @include respond-to('xs') {
+            flex: 1 1 100%;
+            max-width: 100%;
+        }
 
         label {
             font-family: $font-titles;
@@ -753,7 +759,7 @@
     gap: 25px;
     margin-bottom: 40px;
 
-    @media (max-width: 900px) {
+    @include respond-to('md') {
         grid-template-columns: 1fr;
     }
 }
@@ -861,7 +867,7 @@
     gap: 25px;
     align-items: start;
 
-    @media (max-width: 900px) {
+    @include respond-to('md') {
         grid-template-columns: 1fr;
     }
 }
@@ -1124,8 +1130,8 @@
     gap: 15px;
     margin-bottom: 25px;
 
-    @media (max-width: 700px) {
-        grid-template-columns: 1fr;
+    @include respond-to('sm-large') {
+        flex-direction: column;
     }
 }
 
@@ -1254,8 +1260,8 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 15px;
 
-    @media (max-width: 600px) {
-        grid-template-columns: 1fr;
+    @include respond-to('sm') {
+        flex-direction: column;
     }
 }
 

@@ -20,6 +20,23 @@
 
     @include glass-effect; // Notre effet de verre givré réutilisable
 
+    @include respond-to('xs') {
+        margin: 10px;
+        padding: 12px 20px;
+    }
+    
+    @include respond-to('sm') {
+        flex-direction: column; // Sur petit écran (jusqu'à 640px), on empile les liens et le centre
+        gap: 15px;
+        padding: 15px;
+        text-align: center;
+    }
+
+    @include respond-to('micro') {
+        margin: 5px;
+        padding: 10px;
+    }
+
     // --- MON BLOC CENTRAL (LOGO + COPYRIGHT) ---
     .footer-center {
         display: flex;
@@ -37,10 +54,25 @@
             font-size: 13px;
             color: $clr-white;
             opacity: 0.9;
+            text-align: center;
+            white-space: normal; // Autorise le texte à revenir à la ligne si nécessaire
+            
+            @include respond-to('xs') {
+                font-size: 11px;
+            }
         }
     }
 
     // --- MES LIENS DES EXTRÉMITÉS (GAUCHE ET DROITE) ---
+    .footer-links-group {
+        display: flex;
+        gap: 20px;
+        @include respond-to('sm') {
+            flex-direction: column;
+            gap: 15px;
+        }
+    }
+
     .footer-link {
         font-family: $font-body; // Inter
         font-size: 14px;
@@ -49,6 +81,11 @@
 
         &:hover {
             opacity: 0.8; // Petit effet visuel au survol
+        }
+        
+        @include respond-to('xs') {
+            font-size: 12px;
+            text-align: center; // Centrage forcé sur mobile
         }
     }
 }

@@ -30,3 +30,24 @@ $transition-default: 0.3s ease;
 // Mes couches de profondeur (z-index)
 $z-loader: 900;          // Le loader apparaît au-dessus du contenu
 $z-toast: 1000;          // Les toasts apparaissent au-dessus de tout
+
+// -----------------------------------------------------------------------------
+// BREAKPOINTS (14 paliers pour une adaptabilité extrême)
+// Approche Desktop-first (max-width)
+// -----------------------------------------------------------------------------
+$breakpoints: (
+    'xxl': 1920px,      // Écrans ultrawide
+    'xl-large': 1600px, // Écrans de bureau très larges
+    'xl': 1400px,       // Grands laptops
+    'lg-large': 1200px, // Laptops standards
+    'lg': 1024px,       // Tablettes paysage, petits laptops
+    'md-large': 992px,  // Tablettes iPad Pro paysage
+    'md': 850px,        // Tablettes en portrait (grand format)
+    'sm-large': 768px,  // Tablettes standards (iPad portrait)
+    'sm': 640px,        // Grands smartphones
+    'xs-large': 576px,  // Smartphones intermédiaires
+    'xs': 480px,        // Smartphones larges
+    'xxs-large': 400px, // Smartphones standards (iPhone SE)
+    'xxs': 360px,       // Petits smartphones
+    'micro': 300px      // Écrans très étroits
+);

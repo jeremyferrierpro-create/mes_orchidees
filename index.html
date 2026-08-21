@@ -1,47 +1,64 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <meta name="theme-color" content="#0e2018">
-    <meta name="description" content="Mes Orchidées : encyclopédie et gestion de collections pour orchidophiles.">
+    <meta name="description" content="Mes Orchidées : Encyclopédie et gestion de collections pour orchidophiles.">
     <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="./assets/images/site/logotransparent.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="icon" type="image/png" href="./assets/images/site/favicon.png">
+    <link rel="apple-touch-icon" href="./assets/images/site/logotransparent.webp">
+    
+    <!-- Préconnexion unique et optimisée -->
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400;600&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    
+    <!-- Feuille de style principale -->
     <link rel="stylesheet" href="./assets/css/style.css">
-    <title>Mes orchidées - Gestion de collections</title>
+    
+    <!-- Font Awesome asynchrone non-bloquant -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" media="print" onload="this.media='all'">
+    
+    <title>Mes Orchidées - Gestion de collections</title>
 </head>
+
 <body>
     <a class="skip-link" href="#main-content">Aller au contenu</a>
 
-    <nav id="main-sidebar" class="sidebar-container" aria-label="Menu principal">
+    <nav id="main-sidebar" class="sidebar-container" aria-label="Menu principal" role="navigation">
         <div class="sidebar-brand">
-            <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
+            <img src="./assets/images/site/logotransparent.webp" alt="Logo de Mes Orchidées" width="60" height="60">
             <h2>Mes Orchidées</h2>
         </div>
         <div class="sidebar-menu">
             <ul class="menu-group-main">
-                <li><a href="index.html" aria-current="page"><i class="fa-solid fa-home" aria-hidden="true"></i> Accueil</a></li>
-                <li><a href="encyclopedie.html"><i class="fa-solid fa-book" aria-hidden="true"></i> Encyclopédie</a></li>
-                <li><a href="macollection.html"><i class="fa-solid fa-seedling" aria-hidden="true"></i> Ma collection</a></li>
+                <li><a href="index.html" aria-current="page"><i class="fa-solid fa-home" aria-hidden="true"></i>
+                        Accueil</a></li>
+                <li><a href="encyclopedie.html"><i class="fa-solid fa-book" aria-hidden="true"></i> Encyclopédie</a>
+                </li>
+                <li><a href="macollection.html"><i class="fa-solid fa-seedling" aria-hidden="true"></i> Ma
+                        collection</a></li>
                 <li><a href="conseils.html"><i class="fa-solid fa-heart" aria-hidden="true"></i> Conseils</a></li>
             </ul>
             <ul class="menu-group-user">
-                <li><a href="administration.html"><i class="fa-solid fa-gear" aria-hidden="true"></i> Administration</a></li>
-                <li><a href="authentification.html"><i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i> Authentification</a></li>
-                <li><a href="deconnexion.html"><i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i> Déconnexion</a></li>
+                <li><a href="administration.html"><i class="fa-solid fa-gear" aria-hidden="true"></i> Administration</a>
+                </li>
+                <li><a href="authentification.html"><i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i>
+                        Authentification</a></li>
+                <li><a href="deconnexion.html"><i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
+                        Déconnexion</a></li>
             </ul>
         </div>
     </nav>
 
-    <header id="main-header">
-        <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
+    <header id="main-header" role="banner">
+        <img src="./assets/images/site/logotransparent.webp" alt="Logo de Mes Orchidées" width="50" height="50">
         <p class="header-tagline">Encyclopédie &amp; gestion de collections</p>
-        <button type="button" class="menu-toggle" id="menu-toggle-btn" aria-label="Ouvrir ou fermer le menu" aria-controls="main-sidebar" aria-expanded="false">
+        <button type="button" class="menu-toggle" id="menu-toggle-btn" aria-label="Ouvrir ou fermer le menu"
+            aria-controls="main-sidebar" aria-expanded="false">
             <span class="hamburger-bar"></span>
         </button>
     </header>
@@ -50,22 +67,28 @@
 
     <div id="latin-bg-layer" class="latin-bg" aria-hidden="true"></div>
 
-    <main class="main-content" id="main-content">
+    <main class="main-content" id="main-content" role="main">
         <section class="hero" aria-label="Présentation du projet">
             <div class="title-group">
                 <h1 class="main-title">MES ORCHIDÉES</h1>
-                <p class="sub-title">Le monde fascinant des orchidées</p>
+                <p class="sub-title">Le monde fascinant des Orchidées</p>
             </div>
 
             <div class="orchid-focus">
-                <img src="./assets/images/site/orchidee_hero.png" alt="Orchidée Phalaenopsis en gros plan" id="hero-orchid">
+    <img src="./assets/images/site/orchidee_hero.webp" 
+         alt="Orchidée Phalaenopsis en gros plan" 
+         id="hero-orchid" 
+         width="380" 
+         height="380" 
+         fetchpriority="high">
             </div>
 
             <div class="search-container">
                 <form id="landing-search-form" action="encyclopedie.html" method="GET" class="search-box" role="search">
                     <input type="hidden" name="csrf_token" id="csrf-token" value="">
                     <label for="search-input" class="sr-only">Rechercher une espèce d'orchidée par son nom</label>
-                    <input type="text" id="search-input" name="search" placeholder="Ex : Acacalis Cyanea..." autocomplete="on" required>
+                    <input type="text" id="search-input" name="search" placeholder="Ex : Acacalis Cyanea..."
+                        autocomplete="off" required>
                     <button type="submit" class="search-btn">Rechercher</button>
                 </form>
             </div>
@@ -73,16 +96,18 @@
 
     </main>
 
-    <footer id="main-footer">
-        <a href="mentions.html" class="footer-link">Mentions légales</a>
+    <footer id="main-footer" role="contentinfo">
+        <div class="footer-links-group"><a href="mentions.html" class="footer-link">Mentions légales</a><a
+                href="accessibilite.html" class="footer-link">Accessibilité</a></div>
         <div class="footer-center">
-            <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
+            <img src="./assets/images/site/logotransparent.webp" alt="Logo de Mes Orchidées" width="30" height="30">
             <p>&copy; Mes Orchidées - Projet Fil Rouge DWWM - Jeremy Ferrier - 2026/2027</p>
         </div>
         <a href="confidentialite.html" class="footer-link">Politiques de confidentialité</a>
     </footer>
 
-    <div id="orchid-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-orchid-title" aria-hidden="true">
+    <div id="orchid-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-orchid-title"
+        aria-hidden="true">
         <div class="modal-container">
             <button type="button" class="modal-close" aria-label="Fermer la fenêtre de détails de l'orchidée">
                 &times;
@@ -90,7 +115,8 @@
 
             <div class="orchid-modal-view">
                 <div class="modal-header-block">
-                    <img id="modal-orchid-img" src="./assets/images/orchids/acacalis_cyanea.png" alt="Photo de l'orchidée" class="modal-orchid-img">
+                    <img id="modal-orchid-img" src="./assets/images/orchids/acacalis_cyanea.webp" alt=""
+                        aria-hidden="true" class="modal-orchid-img">
                     <div class="modal-title-group">
                         <h2 id="modal-orchid-title">ACACALIS CYANEA</h2>
                         <p id="modal-orchid-scientific" class="modal-scientific">ACACALIS CYANEA</p>
@@ -101,16 +127,36 @@
                 </div>
 
                 <div class="modal-specs-grid">
-                    <div class="spec-item"><span class="spec-label">Ordre</span><div id="spec-ordre" class="spec-value">...</div></div>
-                    <div class="spec-item"><span class="spec-label">Espèce</span><div id="spec-espece" class="spec-value">...</div></div>
-                    <div class="spec-item"><span class="spec-label">Genre</span><div id="spec-genre" class="spec-value">...</div></div>
-                    <div class="spec-item"><span class="spec-label">Famille</span><div id="spec-famille" class="spec-value">...</div></div>
-                    <div class="spec-item"><span class="spec-label">Sous-Famille</span><div id="spec-subfamily" class="spec-value">...</div></div>
-                    <div class="spec-item"><span class="spec-label">Tribu</span><div id="spec-tribu" class="spec-value">...</div></div>
-                    <div class="spec-item"><span class="spec-label">Sous-Tribu</span><div id="spec-subtribu" class="spec-value">...</div></div>
-                    <div class="spec-item"><span class="spec-label">Comportement</span><div id="spec-behavior" class="spec-value">...</div></div>
-                    <div class="spec-item"><span class="spec-label">Découverte par</span><div id="spec-discovered" class="spec-value">...</div></div>
-                    <div class="spec-item spec-item--full"><span class="spec-label">Origines</span><div id="spec-origin" class="spec-value">...</div></div>
+                    <div class="spec-item"><span class="spec-label">Ordre</span>
+                        <div id="spec-ordre" class="spec-value">...</div>
+                    </div>
+                    <div class="spec-item"><span class="spec-label">Espèce</span>
+                        <div id="spec-espece" class="spec-value">...</div>
+                    </div>
+                    <div class="spec-item"><span class="spec-label">Genre</span>
+                        <div id="spec-genre" class="spec-value">...</div>
+                    </div>
+                    <div class="spec-item"><span class="spec-label">Famille</span>
+                        <div id="spec-famille" class="spec-value">...</div>
+                    </div>
+                    <div class="spec-item"><span class="spec-label">Sous-Famille</span>
+                        <div id="spec-subfamily" class="spec-value">...</div>
+                    </div>
+                    <div class="spec-item"><span class="spec-label">Tribu</span>
+                        <div id="spec-tribu" class="spec-value">...</div>
+                    </div>
+                    <div class="spec-item"><span class="spec-label">Sous-Tribu</span>
+                        <div id="spec-subtribu" class="spec-value">...</div>
+                    </div>
+                    <div class="spec-item"><span class="spec-label">Comportement</span>
+                        <div id="spec-behavior" class="spec-value">...</div>
+                    </div>
+                    <div class="spec-item"><span class="spec-label">Découverte par</span>
+                        <div id="spec-discovered" class="spec-value">...</div>
+                    </div>
+                    <div class="spec-item spec-item--full"><span class="spec-label">Origines</span>
+                        <div id="spec-origin" class="spec-value">...</div>
+                    </div>
                 </div>
 
                 <div class="modal-description-block">
@@ -119,7 +165,8 @@
                 </div>
 
                 <div class="modal-footer-action">
-                    <button type="button" class="btn-add-collection" aria-label="Ajouter cette espèce d'orchidée à ma collection personnelle">+ COLLECTION</button>
+                    <button type="button" class="btn-add-collection"
+                        aria-label="Ajouter cette espèce d'orchidée à ma collection personnelle">+ COLLECTION</button>
                 </div>
             </div>
         </div>
@@ -135,4 +182,5 @@
     <script src="./assets/js/btn-ajout-orchid.js" defer></script>
     <script src="./assets/js/app.js" defer></script>
 </body>
+
 </html>

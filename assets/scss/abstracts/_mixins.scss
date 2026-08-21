@@ -29,7 +29,7 @@
 // Lien d'accès rapide clavier (accessibilité WCAG / RGAA)
 .skip-link {
     position: absolute;
-    top: -40px;
+    top: -100px; // S'assure qu'il est complètement en dehors de l'écran
     left: 0;
     z-index: 1000;
     padding: 10px 20px;
@@ -41,5 +41,23 @@
 
     &:focus {
         top: 0;
+    }
+}
+
+// -----------------------------------------------------------------------------
+// RESPONSIVE MIXIN (Appelle les paliers de _variables.scss)
+// Utilisation : @include respond-to('md') { ... }
+// -----------------------------------------------------------------------------
+@mixin respond-to($breakpoint) {
+    // Si la clé existe dans la map $breakpoints
+    @if map-has-key($breakpoints, $breakpoint) {
+        // Crée la media query max-width
+        @media (max-width: map-get($breakpoints, $breakpoint)) {
+            @content;
+        }
+    }
+    // Affiche une erreur si le point d'arrêt n'existe pas
+    @else {
+        @warn "Le point d'arrêt `#{$breakpoint}` n'existe pas dans la variable $breakpoints.";
     }
 }

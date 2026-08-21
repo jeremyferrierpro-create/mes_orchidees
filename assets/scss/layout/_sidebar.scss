@@ -6,11 +6,23 @@
     position: fixed;        
     top: 110px; // Aligné sous le header              
     right: 15px;            
-    width: 320px;           
-    height: calc(100vh - 110px - 110px); // Hauteur fixe entre header et footer
+    width: min(300px, 85vw); // Ne déborde jamais sur un écran de 320px
+    max-height: 85vh;
     z-index: 100;           
     padding: 35px 25px;
     border-radius: 20px;                      
+    
+    @include respond-to('xs') {
+        padding: 25px 15px;
+        width: min(280px, 90vw);
+    }
+    
+    @include respond-to('micro') {
+        padding: 15px 10px;
+        width: 100vw;
+        border-radius: 0;
+        right: 0;
+    }
     
     display: flex;
     flex-direction: column; // Aligne verticalement Logo -> Menu Principal -> Menu Admin
@@ -64,6 +76,10 @@
         display: flex;
         flex-direction: column;
         gap: 18px; // Espace serré entre les liens d'un même groupe
+        
+        @include respond-to('micro') {
+            gap: 10px;
+        }
     }
 
     // Premier bloc de liens

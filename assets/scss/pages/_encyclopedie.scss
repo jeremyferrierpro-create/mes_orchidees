@@ -29,16 +29,17 @@
     }
 }
 
+// La classe .main-content a été centralisée dans _reset.scss
+
 // CONTENEUR DE LA GRILLE (L'ascenseur de la page)
 .encyclopedia-grid-container {
     width: 100%;
     max-width: 1200px;
     flex: 1;
-    max-height: 580px; // Affiche environ 2 lignes de cartes (2x266px + gap)
     overflow-y: auto;
-    padding: 10px;
+    padding: 15px 5px;
+    margin-bottom: 90px;
     box-sizing: border-box;
-    margin-bottom: 40px; // Marge adaptée au lieu du grand espace pour footer
     border-radius: 10px;
 
     &::-webkit-scrollbar {
@@ -54,94 +55,23 @@
 // GRILLE RESPONSIVE DE CARTES
 .orchid-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-    gap: 25px 20px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
+    gap: clamp(15px, 2.5vw, 25px);
+    justify-content: center;
     width: 100%;
     box-sizing: border-box;
-}
-
-// STRUCTURE FORMAT CARTE À JOUER
-.orchid-card {
-    width: 100%;
-    min-height: 266px;
-    padding: 12px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-
-    @include glass-effect;
-    background-color: rgba(255, 255, 255, 0.03);
-    border-radius: 6px;
-
-    .card-img {
-        width: 100%;
-        height: 75px;
-        object-fit: contain;
-        margin-bottom: 2px;
+    
+    @include respond-to('xs') {
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr));
+        gap: 10px;
     }
-
-    .card-info {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        flex: 1;
-        justify-content: space-between;
-
-        h3 {
-            font-family: $font-titles; // Cinzel
-            font-size: 11px;
-            color: $clr-gold;
-            text-align: center;
-            margin: 0;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            width: 100%;
-        }
-
-        .vernacular-name {
-            font-family: $font-body; // Inter
-            font-size: 9px;
-            opacity: 0.8;
-            margin: 0;
-            text-transform: uppercase;
-        }
-
-        .short-desc {
-            font-family: $font-body;
-            font-size: 11px;
-            line-height: 1.2;
-            text-align: center;
-            opacity: 0.9;
-            margin: 4px 0;
-            display: -webkit-box;
-            -webkit-line-clamp: 4;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .card-btn {
-            background-color: #c4a47c;
-            color: #0e2018;
-            border: none;
-            padding: 5px 18px;
-            border-radius: 20px;
-            font-family: $font-titles;
-            font-size: 9px;
-            font-weight: bold;
-            cursor: pointer;
-            letter-spacing: 0.5px;
-            transition: opacity 0.2s;
-
-            &:hover {
-                opacity: 0.9;
-            }
-        }
+    
+    @include respond-to('micro') {
+        grid-template-columns: 1fr; // Force 1 colonne sur les écrans vraiment minuscules (300px)
     }
 }
+
+// Les styles de cartes ont été centralisés dans components/_cards.scss
 
 // Message affiché quand aucun résultat ne correspond
 .no-results {

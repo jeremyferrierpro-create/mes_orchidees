@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -8,6 +8,7 @@
     <meta name="description" content="Authentification à Mes Orchidées.">
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="./assets/images/site/logotransparent.png">
+    <link rel="icon" type="image/png" href="./assets/images/site/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -19,7 +20,7 @@
     <a class="skip-link" href="#main-content">Aller au contenu</a>
   
 
-    <nav id="main-sidebar" class="sidebar-container" aria-label="Menu principal">
+    <nav id="main-sidebar" class="sidebar-container" aria-label="Menu principal" role="navigation">
         <div class="sidebar-brand">
             <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
             <h2>Mes Orchidées</h2>
@@ -39,7 +40,7 @@
         </div>
     </nav>
 
-    <header id="main-header">
+    <header id="main-header" role="banner">
         <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
         <p class="header-tagline">Encyclopédie &amp; gestion de collections</p>
         <button type="button" class="menu-toggle" id="menu-toggle-btn" aria-label="Ouvrir ou fermer le menu" aria-controls="main-sidebar" aria-expanded="false">
@@ -47,7 +48,7 @@
         </button>
     </header>
 
-    <main class="main-content" id="main-content">
+    <main class="main-content" id="main-content" role="main">
         <section class="auth-header" aria-label="Authentification">
             <h1 class="page-title">AUTHENTIFICATION</h1>
             <p class="page-intro">Connectez-vous pour accéder à votre collection personnelle.</p>
@@ -117,13 +118,13 @@
         </section>
     </main>
 
-    <footer id="main-footer">
-        <a href="mentions.html" class="footer-link">Mentions légales</a>
+    <footer id="main-footer" role="contentinfo">
+        <div class="footer-links-group"><a href="mentions.html" class="footer-link">Mentions légales</a><a href="accessibilite.html" class="footer-link">Accessibilité</a></div>
         <div class="footer-center">
             <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
-            <p>&copy; 2026 Mes Orchidées</p>
+            <p>&copy; Mes Orchidées - Projet Fil Rouge DWWM - Jeremy Ferrier - 2026/2027</p>
         </div>
-        <a href="confidentialite.html" class="footer-link">Confidentialités</a>
+        <a href="confidentialite.html" class="footer-link">Politiques de confidentialité</a>
     </footer>
 
     <script src="./assets/js/navigation.js" defer></script>
@@ -135,3 +136,8 @@
     <script src="./assets/js/app.js" defer></script>
 </body>
 </html>
+
+
+
+
+

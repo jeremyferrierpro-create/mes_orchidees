@@ -1,13 +1,14 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <meta name="theme-color" content="#0e2018">
-    <meta name="description" content="Encyclopédie des orchidées : recherchez et consultez les fiches détaillées de chaque espèce.">
+    <meta name="description" content="Encyclopédie des Orchidées : recherchez et consultez les fiches détaillées de chaque espèce.">
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="./assets/images/site/logotransparent.png">
+    <link rel="icon" type="image/png" href="./assets/images/site/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -19,7 +20,7 @@
     <a class="skip-link" href="#main-content">Aller au contenu</a>
     
 
-    <nav id="main-sidebar" class="sidebar-container" aria-label="Menu principal">
+    <nav id="main-sidebar" class="sidebar-container" aria-label="Menu principal" role="navigation">
         <div class="sidebar-brand">
             <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
             <h2>Mes Orchidées</h2>
@@ -39,7 +40,7 @@
         </div>
     </nav>
 
-    <header id="main-header">
+    <header id="main-header" role="banner">
         <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
         <p class="header-tagline">Encyclopédie &amp; gestion de collections</p>
         <button type="button" class="menu-toggle" id="menu-toggle-btn" aria-label="Ouvrir ou fermer le menu" aria-controls="main-sidebar" aria-expanded="false">
@@ -47,8 +48,8 @@
         </button>
     </header>
 
-    <main class="main-content" id="main-content">
-        <section class="encyclopedia-header" aria-label="Recherche dans l'encyclopédie">
+    <main class="main-content" id="main-content" role="main">
+        <section class="encyclopedia-header" aria-label="Recherche dans l'Encyclopédie">
             <h1 class="page-title">ENCYCLOPÉDIE</h1>
             <div class="search-container">
                 <form id="encyclopedia-search-form" action="encyclopedie.html" method="GET" class="search-box" role="search">
@@ -65,13 +66,13 @@
         </section>
     </main>
 
-    <footer id="main-footer">
-        <a href="mentions.html" class="footer-link">Mentions légales</a>
+    <footer id="main-footer" role="contentinfo">
+        <div class="footer-links-group"><a href="mentions.html" class="footer-link">Mentions légales</a><a href="accessibilite.html" class="footer-link">Accessibilité</a></div>
         <div class="footer-center">
             <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
-            <p>&copy; 2026 Mes Orchidées</p>
+            <p>&copy; Mes Orchidées - Projet Fil Rouge DWWM - Jeremy Ferrier - 2026/2027</p>
         </div>
-        <a href="confidentialite.html" class="footer-link">Confidentialités</a>
+        <a href="confidentialite.html" class="footer-link">Politiques de confidentialité</a>
     </footer>
 
     <div id="orchid-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-orchid-title" aria-hidden="true">
@@ -82,7 +83,7 @@
 
             <div class="orchid-modal-view">
                 <div class="modal-header-block">
-                    <img id="modal-orchid-img" src="" alt="Photo de l'orchidée" class="modal-orchid-img">
+                    <img id="modal-orchid-img" src="" alt="" aria-hidden="true" class="modal-orchid-img">
                     <div class="modal-title-group">
                         <h2 id="modal-orchid-title">...</h2>
                         <p id="modal-orchid-scientific" class="modal-scientific">...</p>
@@ -127,3 +128,8 @@
     <script src="./assets/js/app.js" defer></script>
 </body>
 </html>
+
+
+
+
+

@@ -1,270 +1,291 @@
-Modèle de Fichier RDG README --- Général --- Version: 0.1 (2022-11-22) 
+# Mes Orchidées
 
-Ce fichier README a été généré le 2026-06-17 par Jérémy FERRIER.
+**Encyclopédie & Gestion de Collections d'orchidées**
+*Le monde fascinant des orchidées*
 
-Dernière mise-à-jour le : 2026-06-17.
+![Statut](https://img.shields.io/badge/statut-en%20développement-orange)
+![MVP](https://img.shields.io/badge/MVP-Février%202027-blue)
+![Licence](https://img.shields.io/badge/licence-projet%20étudiant-lightgrey)
 
-# INFORMATIONS GENERALES
-
-## Titre du jeu de données :
-Structure relationnelle, données d'encyclopédie et logs de suivi pour l'application "Mes Orchidées"
-
-## DOI:
-Pas de DOI attribué (Projet de certification d'application Web/Web Mobile)
-
-## Adresse de contact :
-jeremyferrierpro-create (via GitHub Repository)
+Projet fil rouge — Formation Développeur Web & Web Mobile (DWWM)
+Auteur : **Jeremy Ferrier** — `DEV_FAD_2026`
 
 ---
 
-# INFORMATIONS METHODOLOGIQUES
+## Sommaire
 
-## Conditions environnementales / experimentales : 
-L'application "Mes Orchidées" est conçue sous forme de WebApp responsive. Les données de suivi biologique proviennent d'observations directes au sein de structures de culture variées (serres chaudes, serres tempérées, orchidariums ou rebords de fenêtres en appartements). L'application gère des paramètres physiques réels mesurés sur site tels que la température ambiante, l'hygrométrie relative, l'orientation de l'installation et le type de ventilation.
-
-## Description des sources et méthodes utilisées pour collecter et générer les données :
-* **Données taxonomiques et scientifiques (Orchids, Botanistes) :** Compilées à partir d'ouvrages classiques de botanique orchidophilique, d'index taxonomiques officiels et enrichies par une modération collaborative d'experts.
-* **Données utilisateurs et suivis (Collection_items, Soins, Rappels) :** Générées en temps réel par les utilisateurs passionnés lors de la saisie d'actions culturales concrètes au sein de leurs serres.
-* **Données de configuration (Care_cycles, Care_tasks) :** Initialisées à partir de protocoles de culture horticole standards d'après les genres dominants (Phalaenopsis, Cattleya, Vanda, Dendrobium, Paphiopedilum, Phragmipedium).
-
-## Méthodes de traitement des données :
-Les transactions, la persistance des données et les calculs d'asynchronisme pour le calendrier des soins sont pilotés par une couche logique en PHP 8+ effectuant des requêtes SQL strictes.
-* **Sécurisation et Anonymisation :** Chiffrement irréversible des mots de passe des utilisateurs via l'algorithme Bcrypt avant insertion en base de données.
-* **Intégrité et Filtrage :** Traitement des fiches médias avec automatisation des formats d'images vers le standard WebP pour la haute performance d'affichage mobile en serre. Protection native contre les failles CSRF/XSS et injections SQL via l'utilisation de requêtes préparées PDO et isolation des couches de données par politiques de sécurité au niveau des lignes (RLS) fournies par Supabase.
-
-## Vérifications d’assurance-qualité faites sur les données :
-* Contraintes strictes de clés étrangères (`FOREIGN KEY`) assurant l'intégrité référentielle inter-tables.
-* Utilisation d'index optimisés (`idx_genre`, `idx_famille`, `idx_status`, etc.) pour garantir des temps de réponse et de filtrage prédictif inférieurs à 3 secondes.
-* Validation obligatoire par un profil Administrateur avant le passage des propositions utilisateur de l'état `pending` à `approved` dans le catalogue général de l'encyclopédie.
-
-## Autres informations contextuelles :
-* **Environnement requis pour lire et interpréter les données :** Système de Gestion de Base de Données (SGBD) relationnel compatible SQL (MySQL 8+ ou PostgreSQL via le service de backend d'infrastructure Supabase).
-* **Moteur de stockage local :** InnoDB avec encodage de caractères étendu `utf8mb4` et collation `utf8mb4_unicode_ci` pour supporter la nomenclature latine, les accents et l'internationalisation.
+- [Who am I ?](#who-am-i-)
+- [Présentation du projet](#présentation-du-projet)
+- [Contexte](#contexte)
+- [Objectifs & périmètre](#objectifs--périmètre)
+- [Contraintes techniques](#contraintes-techniques)
+- [Diagramme d'utilisation](#diagramme-dutilisation)
+- [Maquettage — UX/UI](#maquettage--uxui)
+- [Installation & utilisation](#installation--utilisation)
+- [Arborescence du projet](#arborescence-du-projet)
+- [Annexes](#annexes)
 
 ---
 
-# APERCUS DES DONNEES ET FICHIERS
+## Who am I ?
 
-## Convention de nommage des fichiers :
-* Les fichiers sources de la structure applicative suivent une convention modulaire standardisée : `[nom_de_page].html` ou `[nom_de_page].php` à la racine (ex: `index.html`, `encyclopedie.html`).
-* Les modules réutilisables sont segmentés dans une architecture de fichiers inclusifs au sein du dossier `includes/`.
-* Les fichiers médias d'orchidées suivent la nomenclature standardisée : `orchid_[id_orchidee]_[timestamp].webp`.
+**Prénom & Nom :** Jeremy Ferrier
+**Âge :** 45 ans
+**Ville :** Pamiers
 
-## Arborescence/plan de classement des fichiers :
-```text
+Passionné de voyage (Antibes, La Réunion, Madagascar, Lyon, Paris, Nîmes, Marrakech...), j'ai d'abord évolué dans le monde végétal en tant que producteur floral, fleuriste, gérant de jardinerie, jardinier puis chef d'entreprise, avant de me reconvertir en étudiant développeur web.
+
+Mon objectif : construire des solutions numériques solides et gagner en liberté professionnelle, financière et géographique.
+
+> *« If I want to, I can, I do ! »*
+
+---
+
+## Présentation du projet
+
+Aujourd'hui, 90 % des sites dédiés aux orchidées sont anciens, peu sécurisés et mal adaptés aux mobiles. L'information existe, mais elle est éparpillée sur de nombreux sites différents.
+
+**Mes Orchidées** est une application web qui centralise cette information et accompagne aussi bien les collectionneurs experts que les débutants passionnés, autour de deux grandes fonctionnalités :
+
+1. Une **encyclopédie** avec moteur de recherche rapide.
+2. Un outil de **gestion de collection personnelle** avec système de rappels intelligents.
+
+Le projet repose sur trois piliers :
+
+| Pilier | Description |
+|---|---|
+| **Centraliser** | Une encyclopédie pour trouver facilement des informations fiables sur les orchidées. |
+| **Archiver** | Une collection personnelle pour enregistrer ses plantes et suivre leur évolution. |
+| **Accompagner** | Un système de rappels pour aider l'utilisateur à penser aux soins de ses plantes. |
+
+Une première version (MVP) se concentrera sur la recherche et la gestion de collection ; les autres fonctionnalités seront ajoutées ultérieurement.
+
+---
+
+## Contexte
+
+### Analyse du besoin
+
+| | |
+|---|---|
+| **Cible** | Collectionneurs privés, passionnés & amateurs |
+| **Produit** | Site web responsive, utilisable sur tablette ou mobile |
+| **Planning** | Phase 1 (MVP) — Février 2027 |
+| **Ambition** | Esthétisme, justesse scientifique & facilité d'utilisation |
+
+### Analyse de la concurrence (SWOT)
+
+Douze sites concurrents ont été analysés.
+
+| | Positif | Négatif |
+|---|---|---|
+| **Interne** | Forte autorité SEO, contenu scientifique riche | Sites abandonnés (2006), non sécurisés, non *mobile-friendly* |
+| **Externe** | Captation d'audience, partenariats e-commerce | Refonte des sites associatifs, montée des IA génériques |
+
+Constat : un sentiment de « site abandonné » chez la plupart des concurrents, d'où l'opportunité de proposer une application moderne, simple et responsive.
+
+### Personas
+
+**Jean-Marc — l'expert collectionneur** (58 ans, Paris, médecin à la retraite)
+> *« La précision scientifique au service d'un patrimoine vivant »*
+Collection de 150+ spécimens, exige une rigueur taxonomique absolue et un archivage patrimonial fiable. Frustré par les IA génériques qui commettent des erreurs d'identification et par les interfaces trop « ludiques ».
+
+**Jessica — l'amatrice passionnée** (35 ans, Lyon, architecte d'intérieur freelance)
+> *« Je veux comprendre mes plantes et leur offrir les conditions parfaites chez moi. »*
+~15 orchidées, cherche des fiches de culture claires, des rappels d'entretien et un ton bienveillant, jamais culpabilisant.
+
+---
+
+## Objectifs & périmètre
+
+Objectifs fixés selon la méthode **S.M.A.R.T.** :
+
+- **Périmètre épuré (MVP) :** 8 pages principales, intégrant un moteur de recherche prédictif et un espace utilisateur.
+- **CRUD complet :** permettre à l'utilisateur de Créer, Lire, Modifier et Supprimer des données.
+- **Qualité des données :** validation et enrichissement de l'encyclopédie via une modération collaborative.
+- **Cible à 1 an :** atteindre 100 utilisateurs passionnés et modérateurs actifs.
+
+### Règles techniques
+
+1. Site **100 % responsive**, fluide sur mobile (usage possible en serre).
+2. **Affichage rapide** (< 3 secondes) pour une navigation agréable.
+
+### Planning (diagramme de Gantt — 8 mois)
+
+| Phase | M1 | M2 | M3 | M4 | M5 | M6 | M7 | M8 |
+|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| Spécifications & maquettes (CDC) | ■ | | | | | | | |
+| Développement Frontend (HTML/CSS/JS) | | ■ | ■ | | | | | |
+| Modélisation & BDD (SQL) | | | | ■ | | | | |
+| Logique Backend (PHP) | | | | | ■ | ■ | | |
+| Tests unitaires & recette | | | | | | | ■ | |
+| Corrections & préparation orale | | | | | | | | ■ |
+
+Le suivi est complété par un tableau **Kanban sur GitHub Projects**, où les *User Stories* sont priorisées depuis le *Backlog* jusqu'à la mise en production.
+
+---
+
+## Contraintes techniques
+
+### Architecture & performance
+
+- **Frontend :** HTML5 / CSS3 / JavaScript natif
+- **Backend :** PHP / PostgreSQL (via Supabase)
+- **Hébergement (cible) :** mutualisé type Ionos, LWS
+- Cible de performance : chargement de l'interface en moins de 3 secondes, 100 % responsive
+
+### Sécurisation des accès
+
+- Chiffrement des mots de passe via l'algorithme **bcrypt**
+- Gestion rigoureuse des sessions PHP
+- Jetons de protection contre les failles **CSRF/XSS**
+- Politiques de sécurité **RLS** (Row Level Security) côté Supabase
+
+### Traitement des données (CRUD)
+
+- Automatisation des fiches au format **WebP**
+- Système de **modération collaborative** pour l'administrateur
+
+---
+
+## Diagramme d'utilisation
+
+Trois acteurs interagissent avec l'application :
+
+- **Visiteur (non connecté)** — créer un compte, se connecter, rechercher une orchidée dans l'encyclopédie, consulter les conseils de culture et les fiches descriptives.
+- **Utilisateur connecté (passionné/collectionneur)** — proposer une orchidée à l'encyclopédie, ajouter une orchidée à sa collection, la consulter/éditer, enregistrer un soin, consulter l'historique des soins.
+  - Relation `<extend>` : l'enregistrement d'un soin peut déclencher automatiquement l'émission d'un rappel d'entretien.
+- **Administrateur (Back-Office)** — créer/supprimer un conseil de culture, ajouter/éditer/supprimer une orchidée dans l'encyclopédie, valider ou refuser une orchidée proposée, consulter les détails d'une proposition.
+  - Relation `<include>` : toute validation ou refus d'une proposition déclenche obligatoirement l'émission d'une notification de décision à l'utilisateur.
+
+Les diagrammes UML *use case* détaillés sont disponibles en [Annexe A](#annexes).
+
+---
+
+## Maquettage — UX/UI
+
+Le processus de conception a suivi les étapes classiques : **Arborescence → Style Tile → Accessibilité → Zoning → Wireframe → Mockup**.
+
+### Arborescence (8 pages)
+
+```
+Accueil
+├── Encyclopédie
+├── Ma Collection
+├── Conseils
+├── Administration
+├── Authentification
+├── Confidentialité
+└── Mentions légales
+```
+
+### Style Tile
+
+| Élément | Choix |
+|---|---|
+| **Couleurs** | Vert forêt profond `#0e2018` (fond), doré/bronze `#c4a47c` (boutons/liens), vert accent `#29825B`, blanc `#ffffff` |
+| **Typographie titres** | Cinzel — esprit « livre de botanique » |
+| **Typographie texte** | Inter — moderne et lisible, même sur petit écran |
+| **Visuels** | Photos naturelles d'orchidées « en situation réelle », sans retouche studio excessive |
+
+### Accessibilité (RGAA / WCAG 2.1)
+
+L'application respecte les critères du **RGAA** et les normes **WCAG 2.1**, obligatoires légalement pour le secteur public sous peine d'amende.
+
+4 piliers d'intégration :
+
+- **Contrastes** : ratio ≥ 4.5:1 (texte courant) et ≥ 3:1 (composants d'interface)
+- **Indépendance à la couleur** : palette testée pour le daltonisme
+- **Navigation clavier & modale** : site 100 % pilotable au clavier, *focus trap* dans les fenêtres modales
+- **Sémantique & ARIA** : `alt`, `aria-expanded`, `aria-hidden`, `role="dialog"`, `aria-modal="true"`, classe utilitaire `.sr-only`
+
+Outils de test utilisés : [Adobe Color](https://color.adobe.com/), [RGAA Checker](https://rgaa-checker.com/), [W3C Validator](https://validator.w3.org/nu).
+
+Le maquettage complet des 7 pages principales (zonings, wireframes, mockups) est disponible en [Annexe B](#annexes).
+
+---
+
+## Installation & utilisation
+
+### Prérequis
+
+- Un serveur local type **XAMPP** ou **Laragon** (Apache + PHP)
+- **PostgreSQL** ou un projet **Supabase**
+- **VS Code** (ou tout éditeur de code)
+- **Git**
+
+### Installation locale
+
+```bash
+# 1. Cloner le dépôt
+git clone https://github.com/jeremyferrierpro-create/mes_orchidees.git
+
+# 2. Se placer dans le dossier du projet
+cd mes_orchidees
+
+# 3. Démarrer le serveur local (Laragon / XAMPP)
+#    puis ouvrir dans le navigateur :
+http://localhost/mes_orchidees/index.html
+```
+
+### Utilisation
+
+1. Sur la page d'accueil, utiliser la barre de recherche pour trouver une orchidée par son nom courant ou son nom scientifique — une fenêtre modale affiche alors sa fiche complète.
+2. Créer un compte ou se connecter pour accéder à l'espace **Ma Collection**.
+3. Ajouter ses propres orchidées, enregistrer des soins (arrosage, rempotage...) et consulter l'historique.
+4. Consulter la rubrique **Conseils** pour des fiches de culture générales.
+5. (Administrateur) Gérer l'encyclopédie, les conseils et modérer les propositions des utilisateurs depuis l'espace **Administration**.
+
+---
+
+## Arborescence du projet
+
+```
 C:.
-├── .vscode/
-├── assets/
-│   ├── css/
-│   ├── images/
-│   │   ├── orchids/
-│   │   └── site/
-│   ├── js/
-│   └── scss/
-│       ├── abstracts/
-│       ├── base/
-│       ├── components/
-│       ├── layout/
-│       └── pages/
-├── index.html
-├── encyclopedie.html
-└── README.md
-
-INFORMATIONS SPECIFIQUES AUX DONNEES POUR : DATABASE SCHEMAv1
-Liste des variables/entêtes de colonne :
-1. Table users (Gestion des comptes utilisateurs)
-id : Identifiant unique de l'utilisateur | Type: INT AUTO_INCREMENT | Clé Primaire.
-
-nom : Nom de famille de l'utilisateur | Type: VARCHAR(100).
-
-prenom : Prénom de l'utilisateur | Type: VARCHAR(100).
-
-email : Adresse électronique de connexion | Type: VARCHAR(255) | Contrainte: UNIQUE KEY.
-
-password : Empreinte sécurisée du mot de passe | Type: VARCHAR(255) | Format: Hachage Bcrypt.
-
-role : Niveau de privilèges sur la plateforme | Type: ENUM('user', 'admin') | Valeur par défaut: 'user'.
-
-created_at / updated_at : Horodatages système de création et de modification | Type: TIMESTAMP.
-
-2. Table botanistes (Référentiel des auteurs scientifiques)
-id : Identifiant unique du botaniste | Type: INT AUTO_INCREMENT | Clé Primaire.
-
-nom / prenom : Identité de l'auteur | Type: VARCHAR(100) | Contrainte: UNIQUE KEY conjointe.
-
-annees : Années d'expérience ou de pratique active en orchidologie | Type: INT.
-
-pays : Pays d'origine ou d'exercice majeur | Type: VARCHAR(100).
-
-plantes_decouvertes : Nombre de taxons officiellement répertoriés ou décrits | Type: INT | Valeur par défaut: 0.
-
-biographie : Résumé textuel du parcours de l'expert | Type: TEXT.
-
-3. Table orchids (Encyclopédie botanique de référence)
-id : Identifiant unique de l'orchidée | Type: INT AUTO_INCREMENT | Clé Primaire.
-
-nom_latin : Nomenclature scientifique binomiale officielle | Type: VARCHAR(255) | Contrainte: UNIQUE KEY.
-
-nom_vernaculaire : Appellation commune de la plante | Type: VARCHAR(255).
-
-ordre / famille / sous_famille / tribu / sous_tribu / genre / espece : Arborescence de classification taxonomique stricte | Type: VARCHAR(100).
-
-etat : Mode de croissance biologique naturel | Type: ENUM('epiphyte', 'emiepiphyte', 'terrestre', 'autre') | Valeur par défaut: 'autre'.
-
-botaniste_id : Référence au découvreur de la plante | Type: INT | Clé Étrangère liée à botanistes(id).
-
-origines : Origine géographique endémique naturelle | Type: TEXT.
-
-description : Caractéristiques morphologiques et notes descriptives | Type: TEXT.
-
-image : Chemin ou URI d'accès au fichier visuel | Type: VARCHAR(255) | Format: .webp.
-
-4. Table care_cycles (Dictionnaires des cycles biologiques de culture)
-id : Identifiant unique du cycle | Type: INT AUTO_INCREMENT | Clé Primaire.
-
-code : Identifiant technique de la phase métabolique | Type: ENUM('croissance', 'floraison', 'repos', 'multiplication', 'establishment', 'autre') | Contrainte: UNIQUE KEY.
-
-libelle : Intitulé affiché pour l'utilisateur humain | Type: VARCHAR(100).
-
-duree_mois : Durée standard estimée de la phase | Type: INT | Unité: Mois | Valeur par défaut: 3.
-
-description : Directives globales associées au comportement végétatif | Type: TEXT.
-
-5. Table care_tasks (Nomenclature des actions d'entretien)
-id : Identifiant unique de la tâche | Type: INT AUTO_INCREMENT | Clé Primaire.
-
-slug : Identifiant textuel url-friendly unique | Type: VARCHAR(100) | Contrainte: UNIQUE KEY.
-
-nom : Nom de l'action de soin concrète | Type: VARCHAR(100).
-
-description : Guide méthodologique de réalisation du soin | Type: TEXT.
-
-categorie : Regroupement métier de l'action | Type: ENUM('arrosage', 'rempotage', 'bouturage', 'repiquage', 'sortie_de_flask', 'multiplication', 'engraissage', 'traitement', 'autre').
-
-6. Table user_locations (Coordonnées géographiques et climatiques)
-id : Identifiant unique | Type: INT AUTO_INCREMENT | Clé Primaire.
-
-user_id : Propriétaire de l'emplacement | Type: INT | Clé Étrangère liée à users(id) | Contrainte: UNIQUE KEY (Profil à localisation unique).
-
-pays / region / ville : Adresse macroscopique | Type: VARCHAR(100).
-
-latitude / longitude : Positionnement GPS exact | Type: DECIMAL(10,8) / DECIMAL(11,8) | Séparateur décimal: Point ..
-
-zone_climatique : Classification climatique (ex: zone USDA, climat océanique, méditerranéen) | Type: VARCHAR(100).
-
-altitude : Hauteur par rapport au niveau de la mer | Type: INT | Unité: Mètres.
-
-7. Table collection_sites (Zones de culture intérieures/extérieures)
-id : Identifiant unique de l'espace de culture | Type: INT AUTO_INCREMENT | Clé Primaire.
-
-user_id : Propriétaire du site | Type: INT | Clé Étrangère liée à users(id).
-
-nom_site : Nom personnalisé donné à la zone (ex: "Serre chaude", "Étagère salon") | Type: VARCHAR(255).
-
-type_site : Typologie structurelle de l'environnement | Type: ENUM('serre', 'orchidarium', 'maison', 'piece', 'exterieur', 'autre').
-
-temperature_moyenne : Température nominale mesurée | Type: DECIMAL(5,2) | Unité: Degrés Celsius (180°C) | Séparateur: Point ..
-
-humidite_moyenne : Taux d'humidité relative mesuré | Type: DECIMAL(5,2) | Unité: Pourcentage (10%) | Séparateur: Point ..
-
-luminosite / ventilation / orientation : Paramètres d'exposition physiques | Type: VARCHAR / VARCHAR / VARCHAR(50).
-
-8. Table conseils (Base de connaissances modulaire de culture)
-id : Identifiant unique | Type: INT AUTO_INCREMENT | Clé Primaire.
-
-titre / contenu : Intitulé et corps textuel des bonnes pratiques de culture | Type: VARCHAR(255) / TEXT.
-
-categorie : Domaine technique abordé | Type: ENUM('lumiere', 'arrosage', 'rempotage', 'fertilisation', 'maladies', 'multiplication', 'cycle', 'general') | Valeur par défaut: 'general'.
-
-habitat / etat_orchidee : Type biologique ciblé par le conseil | Type: ENUM('epiphyte', 'emiepiphyte', 'terrestre', 'autre').
-
-famille / genre : Filtres taxonomiques applicables au conseil | Type: VARCHAR(100).
-
-botaniste_id : Expert rattaché ou référent pour le conseil | Type: INT | Clé Étrangère liée à botanistes(id).
-
-niveau : Accessibilité technique du contenu | Type: ENUM('debutant', 'intermediaire', 'avance') | Valeur par défaut: 'debutant'.
-
-actif : Indicateur de publication | Type: BOOLEAN | Valeur par défaut: TRUE (1).
-
-9. Table propositions_orchidees (Flux collaboratif de soumission)
-id : Identifiant unique de la proposition | Type: INT AUTO_INCREMENT | Clé Primaire.
-
-user_id : Utilisateur initiateur de la proposition | Type: INT | Clé Étrangère liée à users(id).
-
-nom_latin / famille / genre / nom_vernaculaire / description / image : Métadonnées du taxon proposé | Types conformes aux variables de la table orchids.
-
-status : État d'avancement du cycle de modération | Type: ENUM('pending', 'approved', 'rejected') | Valeur par défaut: 'pending'.
-
-admin_notes : Justification ou commentaires de l'administrateur | Type: TEXT.
-
-10. Table collection_items (Inventaire personnel des collectionneurs)
-id : Identifiant unique du spécimen possédé | Type: INT AUTO_INCREMENT | Clé Primaire.
-
-user_id : Collectionneur possédant la plante | Type: INT | Clé Étrangère liée à users(id).
-
-orchid_id : Liaison vers la fiche encyclopédique de référence | Type: INT | Clé Étrangère liée à orchids(id).
-
-site_id : Emplacement physique d'affectation de la plante | Type: INT | Clé Étrangère liée à collection_sites(id).
-
-cycle_id : Cycle biologique actuel constaté sur la plante | Type: INT | Clé Étrangère liée à care_cycles(id).
-
-nom_personnalise : Surnom ou code d'identification donné par le cultivateur | Type: VARCHAR(255).
-
-date_acquisition : Date d'entrée dans la collection | Type: DATE | Format: YYYY-MM-DD.
-
-etat_sante : Diagnostic sanitaire actuel | Type: ENUM('sain', 'a_surveiller', 'alerte', 'en_traitement') | Valeur par défaut: 'sain'.
-
-Contrainte d'unicité : unique_user_orchid (user_id, orchid_id) empêchant les doublons stricts d'un même taxon pour une seule instance basique d'utilisateur.
-
-11. Table soins (Registre historique d'exécution des tâches)
-id : Identifiant unique du log | Type: INT AUTO_INCREMENT | Clé Primaire.
-
-user_id / collection_item_id / orchid_id / care_task_id : Entités clés concernées par l'acte de soin | Clés Étrangères associées.
-
-conseil_id / cycle_id : Références optionnelles au contexte d'exécution | Clés Étrangères associées.
-
-date_soin : Date d'administration ou de validation | Type: DATE | Format: YYYY-MM-DD.
-
-realise : Statut d'accomplissement de la tâche | Type: BOOLEAN | Valeur par défaut: FALSE (0).
-
-temperature / hygrometrie / luminosite / ventilation : Relevés physiques précis au moment du soin | Types alignés sur collection_sites.
-
-duree_estimee : Temps passé pour effectuer l'action horticole | Type: INT | Unité: Minutes.
-
-resultat : Évaluation post-intervention | Type: ENUM('ok', 'a_surveiller', 'alerte', 'non_realise') | Valeur par défaut: 'ok'.
-
-12. Table rappels_soins (Moteur d'agenda et planification métabolique)
-id : Identifiant unique du rappel | Type: INT AUTO_INCREMENT | Clé Primaire.
-
-user_id / care_task_id / collection_item_id / orchid_id / cycle_id : Métadonnées associées à la planification | Clés Étrangères.
-
-date_prochaine : Échéance calculée pour le prochain soin | Type: DATE | Format: YYYY-MM-DD.
-
-frequence_jours : Intervalle d'exécution récurrent | Type: INT | Unité: Jours.
-
-statut : État opérationnel du rappel automatique | Type: ENUM('actif', 'termine', 'suspendu') | Valeur par défaut: 'actif'.
-
-13. Table notifications (Journal d'alertes système et applicatives)
-id : Identifiant de notification | Type: INT AUTO_INCREMENT | Clé Primaire.
-
-user_id : Destinataire de l'alerte | Type: INT | Clé Étrangère liée à users(id).
-
-entity_type : Module d'origine de la notification | Type: ENUM('soin', 'conseil', 'orchidee', 'cycle', 'rappel', 'systeme') | Valeur par défaut: 'systeme'.
-
-entity_id : Identifiant de l'enregistrement de l'entité liée | Type: INT.
-
-message : Corps du texte de notification affiché | Type: TEXT.
-
-type : Gravité ou nature de la notification | Type: ENUM('info', 'warning', 'success', 'error') | Valeur par défaut: 'info'.
-
-is_read : Indicateur d'ouverture par l'utilisateur | Type: BOOLEAN | Valeur par défaut: FALSE (0).
-
-meta : Métadonnées additionnelles complexes structurales | Type: JSON.
-
-scheduled_at : Planification de diffusion asynchrone | Type: DATETIME | Format: YYYY-MM-DD HH:MM:SS.
-
-Code des valeurs manquantes :
-La valeur standardisée SQL NULL est explicitement utilisée pour définir l'absence d'information, l'inexistence d'une valeur ou la non-applicabilité d'un paramètre (par exemple lorsqu'un botaniste associé est supprimé de la base de données, la clé étrangère passe à NULL grâce à la clause ON DELETE SET NULL).
-
-Informations additionnelles :
-L'ensemble de ces tables est structuré de façon relationnelle avec cascade logique (ON DELETE CASCADE) pour l'ensemble des données liées au compte utilisateur, assurant une conformité parfaite avec les directives de suppression de données (RGPD / Droit à l'oubli).
+├───.vscode
+└───assets
+    ├───css
+    ├───images
+    │   ├───orchids
+    │   └───site
+    ├───js
+    └───scss
+        ├───abstracts
+        ├───base
+        ├───components
+        ├───layout
+        └───pages
+```
+
+---
+
+## Annexes
+
+| Annexe | Contenu |
+|---|---|
+| **A** | Spécifications fonctionnelles — diagramme UML *use case* complet, architecture |
+| **B** | Dossier de conception UX/UI & accessibilité — zonings, wireframes, mockups des 7 pages, rapports de tests d'accessibilité, audit RGAA Checker, validation W3C |
+| **C** | Environnement technique & outillage (tooling) |
+| **D** | Qualité du code source — extraits HTML / CSS / JavaScript commentés |
+
+### Environnement technique & outillage
+
+| Phase du projet | Outils & technologies utilisés |
+|---|---|
+| Conception & design | Figma, Canva, Gloomap |
+| Environnement de dev | VS Code, XAMPP / Laragon, Git & GitHub |
+| Stack technique (MVP) | HTML5 / CSS3 / JavaScript, PHP / SQL, PostgreSQL / Supabase |
+| Bibliothèques & libs | Ajoutées au fur et à mesure du développement |
+| Rédaction | Google Docs, LibreOffice, Gemini |
+| Recherche | Google, Gemini, [MDN Web Docs](https://developer.mozilla.org/fr/docs/) |
+| Tests & accessibilité | [Adobe Color](https://color.adobe.com/), [RGAA Checker](https://rgaa-checker.com/), [W3C Validator](https://validator.w3.org/nu) |
+
+---
+
+## Dépôt GitHub
+
+🔗 [github.com/jeremyferrierpro-create/mes_orchidees](https://github.com/jeremyferrierpro-create/mes_orchidees.git)
+
+---
+
+<p align="center"> Merci pour votre lecture — <em>Mes Orchidées, le monde fascinant des orchidées.</em> </p>

@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <meta name="theme-color" content="#0e2018">
-    <meta name="description" content="Gérez votre collection d'orchidées, les soins et les rappels.">
+    <meta name="description" content="Gérez votre collection d'Orchidées, les soins et les rappels.">
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="./assets/images/site/logotransparent.png">
+    <link rel="icon" type="image/png" href="./assets/images/site/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -18,7 +19,7 @@
 <body>
     <a class="skip-link" href="#main-content">Aller au contenu</a>
 
-    <nav id="main-sidebar" class="sidebar-container" aria-label="Menu principal">
+    <nav id="main-sidebar" class="sidebar-container" aria-label="Menu principal" role="navigation">
         <div class="sidebar-brand">
             <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
             <h2>Mes Orchidées</h2>
@@ -38,7 +39,7 @@
         </div>
     </nav>
 
-    <header id="main-header">
+    <header id="main-header" role="banner">
         <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
         <p class="header-tagline">Encyclopédie &amp; gestion de collections</p>
         <button type="button" class="menu-toggle" id="menu-toggle-btn" aria-label="Ouvrir ou fermer le menu" aria-controls="main-sidebar" aria-expanded="false">
@@ -46,7 +47,7 @@
         </button>
     </header>
 
-    <main class="main-content" id="main-content">
+    <main class="main-content" id="main-content" role="main">
         <section class="collection-header" aria-label="Ma collection">
             <h1 class="page-title">MA COLLECTION</h1>
         </section>
@@ -70,9 +71,9 @@
                 <article class="dash-card dash-climate" aria-label="Climat moyen de la collection">
                     <h3>CLIMAT</h3>
                     <div class="dash-climate-values" id="dash-climate-values">
-                        <div class="climate-item"><i class="fa-solid fa-temperature-half" aria-hidden="true"></i><strong id="climate-temp">—</strong></div>
-                        <div class="climate-item"><i class="fa-solid fa-droplet" aria-hidden="true"></i><strong id="climate-humidity">—</strong></div>
-                        <div class="climate-item"><i class="fa-solid fa-sun" aria-hidden="true"></i><strong id="climate-light">—</strong></div>
+                        <div class="climate-item"><i class="fa-solid fa-temperature-half" aria-hidden="true"></i><strong id="climate-temp">â€”</strong></div>
+                        <div class="climate-item"><i class="fa-solid fa-droplet" aria-hidden="true"></i><strong id="climate-humidity">â€”</strong></div>
+                        <div class="climate-item"><i class="fa-solid fa-sun" aria-hidden="true"></i><strong id="climate-light">â€”</strong></div>
                     </div>
                 </article>
 
@@ -122,13 +123,13 @@
         </div>
     </main>
 
-    <footer id="main-footer">
-        <a href="mentions.html" class="footer-link">Mentions légales</a>
+    <footer id="main-footer" role="contentinfo">
+        <div class="footer-links-group"><a href="mentions.html" class="footer-link">Mentions légales</a><a href="accessibilite.html" class="footer-link">Accessibilité</a></div>
         <div class="footer-center">
             <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
-            <p>&copy; 2026 Mes Orchidées</p>
+            <p>&copy; Mes Orchidées - Projet Fil Rouge DWWM - Jeremy Ferrier - 2026/2027</p>
         </div>
-        <a href="confidentialite.html" class="footer-link">Confidentialités</a>
+        <a href="confidentialite.html" class="footer-link">Politiques de confidentialité</a>
     </footer>
 
     <!-- MODALE 0 : AJOUTER UNE ORCHIDÉE À LA COLLECTION -->
@@ -189,11 +190,11 @@
                         </div>
                     </div>
 
-                    <!-- Checkbox pour proposer à l'encyclopédie (Masquée si la plante est connue) -->
+                    <!-- Checkbox pour proposer à l'Encyclopédie (Masquée si la plante est connue) -->
                     <div class="form-group" id="add-propose-container" style="display: flex; align-items: center; gap: 10px; margin-top: 20px;">
                         <input type="checkbox" id="add-propose-checkbox" style="width: auto;">
                         <label for="add-propose-checkbox" style="color: var(--color-tan); font-style: italic; font-size: 0.9rem;">
-                            Je souhaite proposer cette orchidée à l'encyclopédie.
+                            Je souhaite proposer cette orchidée à l'Encyclopédie.
                         </label>
                     </div>
 
@@ -212,7 +213,7 @@
             <button type="button" class="modal-close" id="edit-modal-close" aria-label="Fermer la fiche">×</button>
 
             <div class="collection-modal-header">
-                <img id="edit-modal-img" src="" alt="" class="collection-modal-img">
+                <img id="edit-modal-img" src="" alt="" aria-hidden="true" class="modal-orchid-img">
                 <div class="collection-modal-titles">
                     <h2 id="edit-modal-title" class="collection-modal-title"></h2>
                     <p id="edit-modal-short" class="collection-modal-short"></p>
@@ -235,7 +236,7 @@
                     </div>
                     <div class="form-group">
                         <label for="edit-temp">Température du site</label>
-                        <input type="text" id="edit-temp" class="edit-input" placeholder="Ex : 20-25°C">
+                        <input type="text" id="edit-temp" class="edit-input" placeholder="Ex : 20-25Â°C">
                     </div>
                     <div class="form-group">
                         <label for="edit-hygro">Hygrométrie du site</label>
@@ -329,3 +330,8 @@
     <script src="./assets/js/app.js" defer></script>
 </body>
 </html>
+
+
+
+
+

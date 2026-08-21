@@ -19,6 +19,7 @@
     // Le champ texte d'entrée
     input {
         flex: 1;
+        min-width: 0; // TRÈS IMPORTANT : Permet à l'input de se compresser sur mobile
         background: transparent; 
         border: none;
         color: $clr-white;
@@ -29,6 +30,16 @@
 
         &::placeholder {
             color: rgba(255, 255, 255, 0.7); 
+        }
+
+        // Correction pour empêcher le navigateur de mettre un fond blanc en cas d'autocomplétion
+        &:-webkit-autofill,
+        &:-webkit-autofill:hover, 
+        &:-webkit-autofill:focus, 
+        &:-webkit-autofill:active{
+            -webkit-box-shadow: 0 0 0 30px transparent inset !important;
+            -webkit-text-fill-color: $clr-white !important;
+            transition: background-color 5000s ease-in-out 0s;
         }
     }
 

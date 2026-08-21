@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <meta name="theme-color" content="#0e2018">
-    <meta name="description" content="Conseils de culture pour les orchidées filtrables par type de plante et niveau d'expertise.">
+    <meta name="description" content="Conseils de culture pour les Orchidées filtrables par type de plante et niveau d'expertise.">
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="./assets/images/site/logotransparent.png">
+    <link rel="icon" type="image/png" href="./assets/images/site/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -17,7 +18,7 @@
 </head>
 <body>
     <a class="skip-link" href="#main-content">Aller au contenu</a>
-        <nav id="main-sidebar" class="sidebar-container" aria-label="Menu principal">
+        <nav id="main-sidebar" class="sidebar-container" aria-label="Menu principal" role="navigation">
         <div class="sidebar-brand">
             <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
             <h2>Mes Orchidées</h2>
@@ -37,7 +38,7 @@
         </div>
     </nav>
 
-    <header id="main-header">
+    <header id="main-header" role="banner">
         <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
         <p class="header-tagline">Encyclopédie &amp; gestion de collections</p>
         <button type="button" class="menu-toggle" id="menu-toggle-btn" aria-label="Ouvrir ou fermer le menu" aria-controls="main-sidebar" aria-expanded="false">
@@ -45,7 +46,7 @@
         </button>
     </header>
 
-    <main class="main-content" id="main-content">
+    <main class="main-content" id="main-content" role="main">
         <section class="advice-header" aria-label="Conseils de culture">
             <h1 class="page-title">CONSEILS</h1>
         </section>
@@ -62,37 +63,37 @@
         <section class="conseils-grid" aria-label="Rubriques de conseils, cliquez pour consulter">
             <article class="conseil-card" data-category="Conseils de base" tabindex="0" role="button" aria-label="Consulter les conseils de base">
                 <h2>Conseils de base</h2>
-                <p>Débutez votre collection d'orchidées avec ces conseils de base. Selon vos affinités, vous évoluerez vers les épiphytes, terrestres ou hémi-épiphytes. Bonne culture !</p>
+                <p>Débutez votre collection d'Orchidées avec ces conseils de base. Selon vos affinités, vous évoluerez vers les épiphytes, terrestres ou hémi-épiphytes. Bonne culture !</p>
                 <span class="conseil-card-cta">Voir le conseil</span>
             </article>
 
             <article class="conseil-card" data-category="Pour les épiphytes" tabindex="0" role="button" aria-label="Consulter les conseils pour les épiphytes">
                 <h2>Pour les épiphytes</h2>
-                <p>Vous aimez les orchidées épiphytes. Cette rubrique est faîtes pour vous. Vous y trouverez tous les conseils de culture pour réussir vos épiphytes, comme un professionnel ! Bonne culture !</p>
+                <p>Vous aimez les Orchidées épiphytes. Cette rubrique est faîtes pour vous. Vous y trouverez tous les conseils de culture pour réussir vos épiphytes, comme un professionnel ! Bonne culture !</p>
                 <span class="conseil-card-cta">Voir le conseil</span>
             </article>
 
             <article class="conseil-card" data-category="Pour les terrestres" tabindex="0" role="button" aria-label="Consulter les conseils pour les terrestres">
                 <h2>Pour les terrestres</h2>
-                <p>Vous aimez les orchidées terrestres. Cette rubrique est faîtes pour vous. Vous y trouverez tous les conseils de culture pour réussir vos terrestres, comme un professionnel ! Bonne culture !</p>
+                <p>Vous aimez les Orchidées terrestres. Cette rubrique est faîtes pour vous. Vous y trouverez tous les conseils de culture pour réussir vos terrestres, comme un professionnel ! Bonne culture !</p>
                 <span class="conseil-card-cta">Voir le conseil</span>
             </article>
 
             <article class="conseil-card" data-category="Pour les hémi-épiphytes" tabindex="0" role="button" aria-label="Consulter les conseils pour les hémi-épiphytes">
                 <h2>Pour les hémi-épiphytes</h2>
-                <p>Vous aimez les orchidées hémi-épiphytes. Cette rubrique est faîtes pour vous. Vous y trouverez tous les conseils de culture pour réussir vos hémi-épiphytes, comme un professionnel ! Bonne culture !</p>
+                <p>Vous aimez les Orchidées hémi-épiphytes. Cette rubrique est faîtes pour vous. Vous y trouverez tous les conseils de culture pour réussir vos hémi-épiphytes, comme un professionnel ! Bonne culture !</p>
                 <span class="conseil-card-cta">Voir le conseil</span>
             </article>
 
             <article class="conseil-card" data-category="Sortie de flask" tabindex="0" role="button" aria-label="Consulter les conseils sur la sortie de flask">
                 <h2>Sortie de flask</h2>
-                <p>Vous êtes un amateur orchidophile. Vous souhaitez cultiver des orchidées sorties de flask ? Ici, vous trouverez tous nos conseils de pro pour réussir vos sorties de flask.</p>
+                <p>Vous êtes un amateur orchidophile. Vous souhaitez cultiver des Orchidées sorties de flask ? Ici, vous trouverez tous nos conseils de pro pour réussir vos sorties de flask.</p>
                 <span class="conseil-card-cta">Voir le conseil</span>
             </article>
 
             <article class="conseil-card" data-category="Après achat" tabindex="0" role="button" aria-label="Consulter les conseils d'après achat">
                 <h2>Après achat</h2>
-                <p>Vous venez d'acheter vos premières orchidées ? Découvrez nos conseils d'après achat. Nous vous conseillons de consulter les conseils de base, par la suite, pour vous familiariser avec vos orchidées.</p>
+                <p>Vous venez d'acheter vos premières Orchidées ? Découvrez nos conseils d'après achat. Nous vous conseillons de consulter les conseils de base, par la suite, pour vous familiariser avec vos Orchidées.</p>
                 <span class="conseil-card-cta">Voir le conseil</span>
             </article>
         </section>
@@ -110,7 +111,7 @@
             </button>
 
             <div class="conseil-modal-header">
-                <img id="conseil-modal-img" src="" alt="" hidden>
+                <img id="conseil-modal-img" class="conseil-modal-img" src="../assets/images/site/orchidee_hero.webp" alt="Conseils">
                 <div class="conseil-modal-titles">
                     <h2 class="conseil-modal-suptitle">FICHE CONSEILS</h2>
                     <h3 id="conseil-modal-title" class="conseil-modal-title"></h3>
@@ -157,13 +158,13 @@
         </div>
     </section>
 
-    <footer id="main-footer">
-        <a href="mentions.html" class="footer-link">Mentions légales</a>
+    <footer id="main-footer" role="contentinfo">
+        <div class="footer-links-group"><a href="mentions.html" class="footer-link">Mentions légales</a><a href="accessibilite.html" class="footer-link">Accessibilité</a></div>
         <div class="footer-center">
             <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
-            <p>&copy; 2026 Mes Orchidées</p>
+            <p>&copy; Mes Orchidées - Projet Fil Rouge DWWM - Jeremy Ferrier - 2026/2027</p>
         </div>
-        <a href="confidentialite.html" class="footer-link">Confidentialités</a>
+        <a href="confidentialite.html" class="footer-link">Politiques de confidentialité</a>
     </footer>
 
     <script src="./assets/js/conseils-data.js" defer></script>
@@ -175,3 +176,8 @@
     <script src="./assets/js/app.js" defer></script>
 </body>
 </html>
+
+
+
+
+

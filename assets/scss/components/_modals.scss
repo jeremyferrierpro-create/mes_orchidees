@@ -9,7 +9,7 @@
     background-color: rgba(6, 14, 10, 0.8); // Fond très sombre
     backdrop-filter: blur(6px);
     z-index: 500;
-    display: flex;
+    display: none; // Règle l'alerte Lighthouse aria-hidden quand fermée
     align-items: center;
     justify-content: center;
     opacity: 0;
@@ -17,6 +17,7 @@
     transition: opacity 0.3s ease;
 
     &.active {
+        display: flex;
         opacity: 1;
         pointer-events: all;
     }
@@ -24,9 +25,19 @@
 
 // La grande boîte de la fiche plante (Copie conforme image_2b1bff.png)
 .modal-container {
-    width: 95%;
-    max-width: 780px; // Largeur confortable pour le tableau des caractéristiques
-    padding: 35px;
+    width: min(92%, 700px);
+    max-height: 88vh;
+    overflow-y: auto; // Permet le défilement si l'écran est petit (iPhone en paysage ou SE)
+    padding: clamp(15px, 3vw, 30px);
+    
+    @include respond-to('xs') {
+        width: 95%;
+        padding: 15px;
+    }
+    @include respond-to('micro') {
+        width: 100%;
+        border-radius: 0; // Prend tout l'écran
+    }
     border-radius: 8px;
     position: relative;
     @include glass-effect;
@@ -59,14 +70,31 @@
     // Entête : Photo à gauche, Titres à droite
     .modal-header-block {
         display: flex;
-        gap: 30px;
+        flex-direction: row;
+        gap: 20px;
         align-items: flex-start;
+
+        @include respond-to('xs') {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-top: 25px; // Évite que le contenu chevauche la croix de fermeture sur mobile
+        }
 
         .modal-orchid-img {
             width: 140px;
             height: 140px;
             object-fit: cover;
             border-radius: 4px;
+            
+            @include respond-to('xs') {
+                width: 120px;
+                height: 120px;
+            }
+            @include respond-to('micro') {
+                width: 100px;
+                height: 100px;
+            }
         }
 
         .modal-title-group {
@@ -114,8 +142,9 @@
     // La grille des caractéristiques (3 colonnes de blocs grisés arrondis)
     .modal-specs-grid {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 15px 20px;
+        // 3 colonnes sur PC/iPad Pro, 2 colonnes sur tablette, 1 colonne sur iPhone SE
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr));
+        gap: 10px;
 
         .spec-item {
             display: flex;
@@ -167,6 +196,12 @@
             border-radius: 30px;
             margin: 0;
             text-align: justify;
+            
+            @include respond-to('xs') {
+                padding: 15px;
+                border-radius: 15px;
+                font-size: 12px;
+            }
         }
     }
 

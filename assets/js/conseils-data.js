@@ -8,6 +8,7 @@ window.conseilsDatabase = [
         "id": "conseils-base",
         "type": "category",
         "name": "Conseils de base",
+        "img": "./assets/images/site/base.jpg",
         "category": "Conseils de base",
         "content": "Le secret absolu : L'orchidée est une plante dite 'aérienne' dont les racines respirent. Le pire ennemi de votre nouvelle acquisition reste l'asphyxie racinaire due à un excès d'eau.\nLumière : Préférez une lumière vive tamisée, à moins d'un mètre d'une fenêtre, sans jamais de soleil direct brûlant.\nArrosage : Ne versez jamais 'un petit peu chaque jour'. Attendez que le substrat soit presque sec, puis trempez le pot 10 à 15 minutes.\nHygrométrie : Une ambiance humide (autour de 60 %) est favorable. Un bac de graviers humidifiés aide beaucoup.\nEnvironnement : Bannissez le terreau de jardin ordinaire. Utilisez un mélange d'écorces, de tourbe et de perlite bien drainant.",
         "careCards": {
@@ -23,6 +24,7 @@ window.conseilsDatabase = [
         "id": "conseils-epiphytes",
         "type": "category",
         "name": "Pour les épiphytes",
+        "img": "./assets/images/site/epiphyte.jpg",
         "category": "Pour les épiphytes",
         "content": "Le secret absolu : Dans la nature, les racines des orchidées épiphytes respirent autant qu'elles boivent. Le pire ennemi de votre plante n'est pas le manque d'eau, mais l'excès d'humidité qui asphyxie ses racines.\nLumière : Installez votre protégée tout près d'une fenêtre (à moins d'un mètre), mais sans soleil direct brûlant en été.\nArrosage : N'arrosez jamais 'un petit peu chaque jour'. Attendez que le substrat soit presque sec, puis plongez le pot dans un seau d'eau non calcaire 10 à 15 minutes.\nL'indicateur magique : Regardez les racines à travers le pot. Sont-elles grises ? L'orchidée a soif. Sont-elles vertes ? Elle a assez d'eau, attendez.\nEnvironnement : Bannissez le terreau ordinaire ! Utilisez uniquement un mélange d'écorces de pin laissant passer l'air. Ne laissez jamais d'eau stagner au fond du cache-pot.",
         "careCards": {
@@ -38,6 +40,7 @@ window.conseilsDatabase = [
         "id": "conseils-terrestres",
         "type": "category",
         "name": "Pour les terrestres",
+        "img": "./assets/images/site/terrestre.jpg",
         "category": "Pour les terrestres",
         "content": "Le secret absolu : Dans la nature, les racines des orchidées terrestres aiment la fraîcheur de la terre, mais elles détestent être noyées. Le pire ennemi n'est pas la sécheresse passagère, mais la terre compacte et détrempée qui asphyxie ses racines en un clin d'œil.\nLumière : Installez votre protégée dans une pièce bien éclairée, près d'une fenêtre, mais à l'abri des rayons directs.\nArrosage : N'arrosez jamais par petites gouttes quotidiennes. Attendez que le cœur du pot commence à s'alléger, puis arrosez copieusement.\nL'indicateur magique : Soulevez le pot et observez la surface. Est-il devenu très léger et le substrat sec au toucher ? L'orchidée réclame son onde.\nEnvironnement : Bannissez le terreau de jardinage ordinaire, trop lourd. Offrez-lui un mélange spécifique riche en matières drainantes.",
         "careCards": {
@@ -53,6 +56,7 @@ window.conseilsDatabase = [
         "id": "conseils-hemi-epiphytes",
         "type": "category",
         "name": "Pour les hémi-épiphytes",
+        "img": "./assets/images/site/hemiepyphite.jpg",
         "category": "Pour les hémi-épiphytes",
         "content": "Le secret absolu : Dans la nature, ces orchidées possèdent un double système : des racines qui aiment l'humus et d'autres qui grimpent dans l'air pour respirer. Le pire ennemi reste l'asphyxie. Le substrat doit être très aéré pour reproduire ce compromis parfait entre terre et écorce.\nLumière : Installez votre protégée tout près d'une fenêtre (à moins d'un mètre), sans soleil direct brûlant en été.\nArrosage : N'arrosez jamais 'un petit peu chaque jour'. Attendez que le cœur du pot commence à sécher, puis plongez le pot 10 à 15 minutes.\nL'indicateur magique : Observez le poids de la plante. Si le pot est très léger et les racines ternes, l'orchidée a soif.\nEnvironnement : Bannissez le terreau de jardinage ordinaire. Utilisez un mélange d'écorces de pin de calibre moyen enrichi d'un peu de sphaigne.",
         "careCards": {
@@ -68,6 +72,7 @@ window.conseilsDatabase = [
         "id": "conseils-apres-achat",
         "type": "category",
         "name": "Après achat",
+        "img": "./assets/images/site/orchidee_apres_achat.jpg",
         "category": "Après achat",
         "content": "Le transport protégé : Les orchidées détestent les courants d'air et les chocs thermiques. Enveloppez toujours votre plante pour le trajet entre le magasin et votre demeure.\nL'emplacement idéal : Installez-la immédiatement dans une pièce lumineuse, à moins d'un mètre d'une fenêtre, sans aucun soleil direct qui brûlerait ses feuilles.\nLa quarantaine de sécurité : Par prudence, gardez la nouvelle venue isolée des autres plantes pendant deux semaines pour vérifier l'absence de parasites cachés.\nLe premier réflexe d'arrosage : N'arrosez pas tout de suite ! Attendez que les racines visibles deviennent grises.\nPas de rempotage immédiat : Ne rempotez jamais une orchidée en pleine floraison. Le stress lui ferait perdre tous ses boutons.\nLa patience pour l'engrais : Attendez la fin de la floraison et l'apparition d'une nouvelle feuille avant d'apporter de l'engrais.",
         "careCards": {
@@ -83,6 +88,7 @@ window.conseilsDatabase = [
         "id": "conseils-flask",
         "type": "category",
         "name": "Sortie de flask",
+        "img": "./assets/images/site/sortie_flask.webp",
         "category": "Sortie de flask",
         "content": "CONSEIL 'SORTIE DE FLASK' : LE SAUVETAGE DES PLANTULES\nL'avis de l'expert : Sortir des plantules de leur flacon stérile est une opération délicate. Privées de leur milieu nutritif, elles passent d'une humidité saturée à l'air libre. Le choc hydrique et microbien est le principal danger.\nLe Sevrage : Sortez délicatement les plantules du flacon. Lavez-les impérativement à l'eau tiède pour éliminer toute trace de gélose.\nLe Bain Fongicide : Trempez les jeunes plantes quelques minutes dans une solution fongicide douce et biologique.\nL'Installation : Ne les rempotez pas individuellement. Installez-les ensemble en 'communauté' dans un bac communautaire.\nLe Substrat : Utilisez un mélange ultra-fin, aéré et sain : sphaigne du Chili hachée pure ou mélangée à de la fine écorce de pin.\nL'Atmosphère : Placez le bac dans une mini-serre fermée pour maintenir 90 % d'humidité. Ouvrez progressivement quelques minutes par jour sur trois semaines.\nLumière & Chaleur : Une chaleur de fond constante (22-25 °C) et une lumière vive mais tamisée sont vitales.",
         "careCards": {

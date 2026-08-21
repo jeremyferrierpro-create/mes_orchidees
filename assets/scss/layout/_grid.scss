@@ -1,0 +1,70 @@
+// ==========================================================================
+// LAYOUT : GRILLE & SYSTÈME RESPONSIVE AUTOMATIQUE
+// ==========================================================================
+// Ce fichier centralise les comportements structurels génériques de l'application
+// basés sur les 14 breakpoints définis dans _variables.scss.
+
+// --- CONTENEUR FLUIDE GÉNÉRIQUE ---
+.container-fluid {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 clamp(15px, 4vw, 40px);
+    box-sizing: border-box;
+
+    @include respond-to('md') {
+        max-width: 100%;
+        padding: 0 20px;
+    }
+    
+    @include respond-to('xs') {
+        padding: 0 10px;
+    }
+}
+
+// --- GRILLE AUTOMATIQUE ---
+// Un système de grille adaptative très pratique pour les cartes et tableaux de bord
+.grid-auto {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    width: 100%;
+    box-sizing: border-box;
+
+    @include respond-to('sm') {
+        grid-template-columns: 1fr; // Sur smartphone, on passe sur une colonne
+        gap: 15px;
+    }
+}
+
+// --- FLEXBOX EMPILABLE ---
+// Force l'empilement vertical des éléments Flex sur les petits écrans
+.stack-on-mobile {
+    display: flex;
+    flex-wrap: wrap; // Permet de revenir à la ligne par défaut
+    
+    @include respond-to('md') {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+}
+
+// --- TABLEAUX RESPONSIVES ---
+// Empêche les tableaux de casser la page sur smartphone
+.table-responsive-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; // Fluidité sur iOS
+    
+    // Pour indiquer qu'il y a du contenu caché à droite
+    background: linear-gradient(to right, rgba(14, 32, 24, 1) 30%, rgba(255, 255, 255, 0)),
+                linear-gradient(to right, rgba(255, 255, 255, 0), rgba(14, 32, 24, 1) 70%) 0 100%,
+                radial-gradient(farthest-side at 0 50%, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0)),
+                radial-gradient(farthest-side at 100% 50%, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0)) 0 100%;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    background-size: 40px 100%, 40px 100%, 14px 100%, 14px 100%;
+    background-position: 0 0, 100%, 0 0, 100%;
+    background-attachment: local, local, scroll, scroll;
+}

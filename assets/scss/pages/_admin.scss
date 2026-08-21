@@ -23,7 +23,8 @@
     background: transparent;
     border: none;
     text-align: center;
-    width: 300px;
+    width: 100%;
+    max-width: 300px; // Permet de rétrécir sur les écrans < 300px
     h3 {
         font-family: $font-titles;
         color: $clr-gold;
@@ -89,6 +90,8 @@
 
 .admin-table-container {
     width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .admin-table-header {
@@ -97,9 +100,9 @@
     padding: 10px 20px;
     font-family: $font-titles;
     color: $clr-gold;
-    font-size: 0.9rem;
     border-bottom: 1px solid rgba(212, 175, 55, 0.2);
     margin-bottom: 10px;
+    min-width: 600px; // Assure que le tableau ne s'écrase pas sur lui-même
 
     div {
         flex: 1;
@@ -142,6 +145,7 @@
     background: rgba(255, 255, 255, 0.1);
     border-radius: 20px;
     transition: background 0.3s ease;
+    min-width: 600px; // Assure que le tableau ne s'écrase pas sur lui-même
 
     &:hover {
         background: rgba(255, 255, 255, 0.15);
@@ -188,8 +192,15 @@
     display: flex;
     gap: 40px;
 
+    @include respond-to('md') {
+        flex-direction: column; // Empile les gros boutons et les notifications sur tablette/mobile
+        align-items: center;
+        gap: 20px;
+    }
+
     .admin-big-actions {
         flex: 0 0 350px;
+        max-width: 100%; // Empêche le dépassement
         display: flex;
         flex-direction: column;
         gap: 20px;
@@ -197,6 +208,7 @@
 
     .admin-notifications-container {
         flex: 1;
+        width: 100%; // Prend toute la largeur disponible après empilement
         margin: 0;
     }
 }
@@ -286,6 +298,12 @@
             font-size: 1.1rem;
             min-width: 80px;
             text-transform: uppercase;
+        }
+
+        @include respond-to('xs') {
+            flex-direction: column; // Les labels passent au-dessus des inputs sur mobile
+            align-items: flex-start;
+            gap: 5px;
         }
 
         .pill-input {

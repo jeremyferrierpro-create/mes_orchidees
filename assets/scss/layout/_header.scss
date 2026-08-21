@@ -16,16 +16,45 @@
     // Mon logo
     img {
         height: 50px;       
-        width: auto;        
+        width: auto;
+        
+        @include respond-to('sm') {
+            height: 40px;
+        }
+        @include respond-to('xs') {
+            height: 35px;
+        }
     }
 
-    // Mon sous-titre de l'application
-    h1 {
+    // Mon sous-titre (header-tagline)
+    .header-tagline {
+        font-family: $font-titles;
         font-size: 20px;  
         font-weight: 300;   
         letter-spacing: 1px;
-        flex-grow: 1; // Prend toute la place au milieu
+        flex-grow: 1; 
         text-align: left;
         margin-left: 20px;
+        color: $clr-gold;
+        
+        @include respond-to('md') {
+            font-size: 16px;
+        }
+        @include respond-to('sm') {
+            font-size: 14px;
+            margin-left: 10px;
+        }
+        @include respond-to('xs') {
+            display: none; // Cache le texte sur petits écrans pour laisser la place au logo et menu
+        }
+    }
+
+    @include respond-to('xs') {
+        margin: 10px;
+        padding: 10px 15px;
+    }
+    @include respond-to('micro') {
+        margin: 5px;
+        padding: 8px 10px;
     }
 }
