@@ -805,6 +805,11 @@ body {
   box-sizing: border-box;
 }
 
+.main-content {
+  padding-bottom: 120px;
+  box-sizing: border-box;
+}
+
 .collection-list-container {
   width: 100%;
   max-width: 800px;
