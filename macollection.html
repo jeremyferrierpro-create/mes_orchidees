@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <meta name="theme-color" content="#0e2018">
     <meta name="description" content="Gérez votre collection d'orchidées, les soins et les rappels.">
     <link rel="manifest" href="manifest.json">
@@ -39,7 +40,7 @@
 
     <header id="main-header">
         <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
-        <h2>Encyclopédie &amp; gestion de collections</h2>
+        <p class="header-tagline">Encyclopédie &amp; gestion de collections</p>
         <button type="button" class="menu-toggle" id="menu-toggle-btn" aria-label="Ouvrir ou fermer le menu" aria-controls="main-sidebar" aria-expanded="false">
             <span class="hamburger-bar"></span>
         </button>
@@ -130,6 +131,82 @@
         <a href="confidentialite.html" class="footer-link">Confidentialités</a>
     </footer>
 
+    <!-- MODALE 0 : AJOUTER UNE ORCHIDÉE À LA COLLECTION -->
+    <section class="modal-overlay" id="add-collection-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="add-modal-title">
+        <div class="modal-container collection-modal" role="document">
+            <button type="button" class="modal-close" id="add-modal-close" aria-label="Fermer la fenêtre">×</button>
+            
+            <div class="collection-modal-header">
+                <div class="collection-modal-titles">
+                    <h2 id="add-modal-title" class="collection-modal-title">AJOUTER À LA COLLECTION</h2>
+                    <p class="collection-modal-short">Recherchez une orchidée ou proposez-en une nouvelle.</p>
+                </div>
+            </div>
+            
+            <div class="collection-modal-personal" style="border-top: none; padding-top: 10px;">
+                <form id="add-collection-form">
+                    <!-- Zone Recherche / Autocomplete -->
+                    <div class="form-group" style="position: relative;">
+                        <label for="add-orchid-name">Nom de l'orchidée *</label>
+                        <input type="text" id="add-orchid-name" class="edit-input" placeholder="Ex: Phalaenopsis..." autocomplete="off" required>
+                        <div id="add-orchid-suggestions" class="autocomplete-suggestions glassmorphism" style="display: none; background: rgba(14, 32, 24, 0.95); border: 1px solid var(--color-gold);"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="add-orchid-behavior">Comportement *</label>
+                        <select id="add-orchid-behavior" class="edit-input" required>
+                            <option value="">-- Sélectionner --</option>
+                            <option value="Épiphyte">Épiphyte</option>
+                            <option value="Terrestre">Terrestre</option>
+                            <option value="Lithophyte">Lithophyte</option>
+                            <option value="Hémi-épiphyte">Hémi-épiphyte</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="add-orchid-origin">Origine(s)</label>
+                        <input type="text" id="add-orchid-origin" class="edit-input" placeholder="Ex: Amérique du Sud...">
+                    </div>
+
+                    <!-- Informations Botaniques (Optionnelles mais auto-remplies si connue) -->
+                    <h4 style="margin-top: 20px;">TAXONOMIE (OPTIONNEL)</h4>
+                    <div class="personal-fields">
+                        <div class="form-group">
+                            <label for="add-orchid-order">Ordre</label>
+                            <input type="text" id="add-orchid-order" class="edit-input">
+                        </div>
+                        <div class="form-group">
+                            <label for="add-orchid-family">Famille</label>
+                            <input type="text" id="add-orchid-family" class="edit-input">
+                        </div>
+                        <div class="form-group">
+                            <label for="add-orchid-genre">Genre</label>
+                            <input type="text" id="add-orchid-genre" class="edit-input">
+                        </div>
+                        <div class="form-group">
+                            <label for="add-orchid-species">Espèce</label>
+                            <input type="text" id="add-orchid-species" class="edit-input">
+                        </div>
+                    </div>
+
+                    <!-- Checkbox pour proposer à l'encyclopédie (Masquée si la plante est connue) -->
+                    <div class="form-group" id="add-propose-container" style="display: flex; align-items: center; gap: 10px; margin-top: 20px;">
+                        <input type="checkbox" id="add-propose-checkbox" style="width: auto;">
+                        <label for="add-propose-checkbox" style="color: var(--color-tan); font-style: italic; font-size: 0.9rem;">
+                            Je souhaite proposer cette orchidée à l'encyclopédie.
+                        </label>
+                    </div>
+
+                    <div style="display: flex; gap: 15px; margin-top: 20px; justify-content: flex-end;">
+                        <button type="button" class="btn-secondary" id="add-modal-cancel" style="padding: 10px 20px; border-radius: 20px;">Annuler</button>
+                        <button type="submit" class="btn-primary" id="add-modal-save" style="padding: 10px 20px; border-radius: 20px;">Ajouter</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- MODALE 1 : FICHE DE L'ORCHIDÉE (ÉDITION / AFFICHAGE) -->
     <section class="modal-overlay" id="edit-collection-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="edit-modal-title">
         <div class="modal-container collection-modal" role="document">
             <button type="button" class="modal-close" id="edit-modal-close" aria-label="Fermer la fiche">×</button>
@@ -153,11 +230,27 @@
                 <h4>INFORMATIONS PERSONNELLES</h4>
                 <div class="personal-fields">
                     <div class="form-group">
-                        <label for="edit-location">Emplacement</label>
+                        <label for="edit-location">Site de culture (Emplacement)</label>
                         <input type="text" id="edit-location" class="edit-input" placeholder="Ex : Salon, Véranda...">
                     </div>
                     <div class="form-group">
-                        <label for="edit-notes">Notes</label>
+                        <label for="edit-temp">Température du site</label>
+                        <input type="text" id="edit-temp" class="edit-input" placeholder="Ex : 20-25°C">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-hygro">Hygrométrie du site</label>
+                        <input type="text" id="edit-hygro" class="edit-input" placeholder="Ex : 60-70%">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-light">Luminosité du site</label>
+                        <input type="text" id="edit-light" class="edit-input" placeholder="Ex : Vive sans soleil direct">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-ventilation">Ventilation du site</label>
+                        <input type="text" id="edit-ventilation" class="edit-input" placeholder="Ex : Bonne ventilation">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-notes">Notes complémentaires</label>
                         <textarea id="edit-notes" class="edit-textarea" rows="3" placeholder="Notes de culture..."></textarea>
                     </div>
                 </div>
@@ -176,6 +269,7 @@
             <h2 id="care-modal-title" class="care-modal-title">NOUVEAU SOIN</h2>
 
             <form id="care-form" class="care-form">
+                    <input type="hidden" name="csrf_token" id="csrf-token" value="">
                 <div class="care-form-grid">
                     <div class="form-group">
                         <label for="care-orchid">Orchidée</label>
@@ -225,6 +319,9 @@
         </div>
     </section>
 
+    <script src="./assets/js/utils.js" defer></script>
+    <script src="./assets/js/toast.js" defer></script>
+    <script src="./assets/js/loader.js" defer></script>
     <script src="./assets/js/orchids-data.js" defer></script>
     <script src="./assets/js/conseils-data.js" defer></script>
     <script src="./assets/js/navigation.js" defer></script>

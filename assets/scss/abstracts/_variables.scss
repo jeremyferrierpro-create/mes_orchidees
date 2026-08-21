@@ -6,6 +6,27 @@ $clr-gold: #c4a47c;      // Mon doré pour les titres et les icônes
 $clr-white: #ffffff;     // Blanc pur
 $clr-text-p: #ffffff;    // Couleur du texte des paragraphes
 
+// Mes couleurs de statut (pour les toasts et les alertes)
+$clr-success: #50c878;   // Vert clair pour les messages de succès
+$clr-error: #ff2a2a;     // Rouge pour les erreurs
+$clr-warning: #f5a623;   // Orange pour les avertissements
+$clr-info: #4fc3f7;      // Bleu clair pour les informations
+
 // Mes polices de la charte graphique
 $font-titles: 'Cinzel', serif;   // Pour les gros titres H1, H2, H3
 $font-body: 'Inter', sans-serif; // Pour le texte normal et les paragraphes
+
+// Mes espacements normalisés
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 40px;
+
+// Mes transitions réutilisables
+$transition-fast: 0.2s ease;
+$transition-default: 0.3s ease;
+
+// Mes couches de profondeur (z-index)
+$z-loader: 900;          // Le loader apparaît au-dessus du contenu
+$z-toast: 1000;          // Les toasts apparaissent au-dessus de tout

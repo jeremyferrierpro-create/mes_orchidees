@@ -34,10 +34,12 @@
     width: 100%;
     max-width: 1200px;
     flex: 1;
+    max-height: 580px; // Affiche environ 2 lignes de cartes (2x266px + gap)
     overflow-y: auto;
     padding: 10px;
     box-sizing: border-box;
-    margin-bottom: 110px; // Espace étanche au-dessus du footer fixe
+    margin-bottom: 40px; // Marge adaptée au lieu du grand espace pour footer
+    border-radius: 10px;
 
     &::-webkit-scrollbar {
         width: 6px;

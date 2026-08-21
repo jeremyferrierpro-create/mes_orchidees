@@ -99,15 +99,44 @@ function createOrchidCard(orchid) {
     // On ajoute un attribut data pour stocker le nom latin (utile pour le clic)
     article.setAttribute('data-orchid-name', orchid.name);
 
-    // On remplit l'intérieur de la carte avec un modèle de chaîne
-    article.innerHTML = ''
-        + '<img src="' + orchid.img + '" alt="Photographie de ' + orchid.name + '" class="card-img" loading="lazy">'
-        + '<div class="card-info">'
-        + '<h3>' + escapeHtml(orchid.name) + '</h3>'
-        + '<p class="vernacular-name">' + escapeHtml(orchid.vernacular) + '</p>'
-        + '<p class="short-desc">' + escapeHtml(orchid.shortDesc) + '</p>'
-        + '<button type="button" class="card-btn" data-orchid-name="' + escapeHtml(orchid.name) + '">SÉLECTIONNER</button>'
-        + '</div>';
+    // Image
+    const img = document.createElement('img');
+    img.src = orchid.img;
+    img.alt = 'Photographie de ' + orchid.name;
+    img.className = 'card-img';
+    img.loading = 'lazy';
+    article.appendChild(img);
+
+    // Conteneur info
+    const infoDiv = document.createElement('div');
+    infoDiv.className = 'card-info';
+
+    // Titre
+    const title = document.createElement('h3');
+    title.textContent = orchid.name;
+    infoDiv.appendChild(title);
+
+    // Nom vernaculaire
+    const vernac = document.createElement('p');
+    vernac.className = 'vernacular-name';
+    vernac.textContent = orchid.vernacular;
+    infoDiv.appendChild(vernac);
+
+    // Description courte
+    const desc = document.createElement('p');
+    desc.className = 'short-desc';
+    desc.textContent = orchid.shortDesc;
+    infoDiv.appendChild(desc);
+
+    // Bouton de sélection
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'card-btn';
+    btn.setAttribute('data-orchid-name', orchid.name);
+    btn.textContent = 'SÉLECTIONNER';
+    infoDiv.appendChild(btn);
+
+    article.appendChild(infoDiv);
 
     // On retourne l'article créé
     return article;
@@ -142,12 +171,13 @@ function filterOrchids(query) {
 
     // On affiche le résultat du filtre
     renderOrchidGrid(filtered);
+    console.log(`Recherche "${cleanQuery}" terminée, ${filtered.length} résultats trouvés.`);
 }
 
 // Cette fonction met en place la recherche au clavier
 function setupRealtimeSearch() {
-    // Si le champ de recherche n'existe pas, on quitte
-    if (!searchInput) {
+    // On ne met en place la recherche temps réel que si on a la grille
+    if (!searchInput || !gridContainer) {
         return;
     }
 
@@ -262,9 +292,15 @@ function openModal() {
     }
 
     // On ajoute l'écouteur de clavier pour le piège du focus
-    modal.addEventListener('keydown', trapFocus);
+    modal.addEventListener('keydown', handleTrapFocus);
     // On ajoute l'écouteur pour fermer avec la touche Échap
     document.addEventListener('keydown', handleEscape);
+}
+
+function handleTrapFocus(event) {
+    if (window.AppUtils && window.AppUtils.trapFocus) {
+        window.AppUtils.trapFocus(modal, event);
+    }
 }
 
 function closeModal() {
@@ -279,7 +315,7 @@ function closeModal() {
     modal.setAttribute('aria-hidden', 'true');
 
     // On supprime l'écouteur de piège de focus
-    modal.removeEventListener('keydown', trapFocus);
+    modal.removeEventListener('keydown', handleTrapFocus);
     // On supprime l'écouteur de la touche Échap
     document.removeEventListener('keydown', handleEscape);
 
@@ -289,39 +325,7 @@ function closeModal() {
     }
 }
 
-// Cette fonction empêche le focus de sortir de la modale (WCAG 2.1 AA)
-function trapFocus(event) {
-    // Si la touche n'est pas Tab, on ne fait rien
-    if (event.key !== 'Tab') {
-        return;
-    }
-
-    // On liste tous les éléments focusables de la modale
-    const focusableElements = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex="0"]');
-    // Le premier élément focusable
-    const firstElement = focusableElements[0];
-    // Le dernier élément focusable
-    const lastElement = focusableElements[focusableElements.length - 1];
-
-    // Si l'utilisateur appuie sur Maj + Tab
-    if (event.shiftKey) {
-        // Et qu'il est sur le premier élément
-        if (document.activeElement === firstElement) {
-            // On renvoie le focus vers le dernier élément
-            lastElement.focus();
-            // On empêche le comportement par défaut
-            event.preventDefault();
-        }
-    } else {
-        // Si l'utilisateur appuie sur Tab et est sur le dernier élément
-        if (document.activeElement === lastElement) {
-            // On renvoie le focus vers le premier élément
-            firstElement.focus();
-            // On empêche le comportement par défaut
-            event.preventDefault();
-        }
-    }
-}
+// La fonction trapFocus a été déplacée dans utils.js
 
 // Cette fonction ferme la modale avec la touche Échap
 function handleEscape(event) {
@@ -371,13 +375,31 @@ function setupEvents() {
         });
     }
 
-    // Si le formulaire de recherche existe, on empêche son envoi par défaut
+    // Si le formulaire de recherche existe, on gère son envoi
     if (searchForm) {
         searchForm.addEventListener('submit', function (event) {
             // On bloque le rechargement de la page
             event.preventDefault();
-            // Si on est sur la page encyclopédie, on filtre
-            if (searchInput && gridContainer) {
+            
+            if (searchInput && searchForm.id === 'landing-search-form') {
+                // Comportement page d'accueil (Option B) : ouverture directe de la fiche
+                const query = searchInput.value.toLowerCase().trim();
+                if (query.length === 0) return;
+
+                // On cherche la première orchidée qui correspond (nom ou vernaculaire)
+                const matchedOrchid = orchidsDatabase.find(function (orchid) {
+                    return orchid.name.toLowerCase().includes(query) || orchid.vernacular.toLowerCase().includes(query);
+                });
+
+                if (matchedOrchid) {
+                    selectOrchidByName(matchedOrchid.name);
+                } else {
+                    if (window.AppToast) {
+                        window.AppToast.warning("Aucune orchidée trouvée pour cette recherche.");
+                    }
+                }
+            } else if (searchInput && gridContainer) {
+                // Comportement page encyclopédie : on filtre la grille
                 filterOrchids(searchInput.value);
             }
         });
@@ -387,18 +409,17 @@ function setupEvents() {
 // -----------------------------------------------------------
 // 9. FONCTION UTILITAIRE : ÉCHAPPEMENT HTML
 // -----------------------------------------------------------
-
-// Cette fonction empêche les failles XSS en remplaçant les caractères spéciaux
+// escapeHtml est maintenant centralisé dans utils.js (AppUtils.escapeHtml)
+// Si appelé ici, on utilise l'alias global s'il existe.
 function escapeHtml(text) {
-    // On convertit la valeur en chaîne de caractères
+    if (window.AppUtils && window.AppUtils.escapeHtml) {
+        return window.AppUtils.escapeHtml(text);
+    }
+    // Fallback minimal
     const safeText = String(text);
-    // On remplace chaque caractère dangereux par son équivalent HTML
-    return safeText
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
+    return safeText.replace(/[&<>"']/g, function(m) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
+    });
 }
 
 // -----------------------------------------------------------

@@ -84,6 +84,14 @@
             if (closeBtn) {
                 setTimeout(function () { closeBtn.focus(); }, 0);
             }
+
+            modal.addEventListener('keydown', handleTrapFocus);
+        }
+
+        function handleTrapFocus(event) {
+            if (window.AppUtils && window.AppUtils.trapFocus) {
+                window.AppUtils.trapFocus(modal, event);
+            }
         }
 
         /**
@@ -95,6 +103,8 @@
             modal.classList.remove('active');
             modal.setAttribute('aria-hidden', 'true');
             document.body.style.overflow = '';
+            
+            modal.removeEventListener('keydown', handleTrapFocus);
 
             if (lastFocused) {
                 setTimeout(function () { lastFocused.focus(); }, 0);

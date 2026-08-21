@@ -36,11 +36,29 @@
         const editModalTitle = document.getElementById('edit-modal-title');
         const editModalShort = document.getElementById('edit-modal-short');
         const editModalFields = document.getElementById('edit-modal-fields');
-        const editModalLong = document.getElementById('edit-modal-long');
         const editLocation = document.getElementById('edit-location');
+        const editTemp = document.getElementById('edit-temp');
+        const editHygro = document.getElementById('edit-hygro');
+        const editLight = document.getElementById('edit-light');
+        const editVentilation = document.getElementById('edit-ventilation');
         const editNotes = document.getElementById('edit-notes');
         const editSave = document.getElementById('edit-modal-save');
         const editCancel = document.getElementById('edit-modal-cancel');
+
+        const addModal = document.getElementById('add-collection-modal');
+        const addModalClose = document.getElementById('add-modal-close');
+        const addModalCancel = document.getElementById('add-modal-cancel');
+        const addForm = document.getElementById('add-collection-form');
+        const addName = document.getElementById('add-orchid-name');
+        const addSuggestions = document.getElementById('add-orchid-suggestions');
+        const addBehavior = document.getElementById('add-orchid-behavior');
+        const addOrigin = document.getElementById('add-orchid-origin');
+        const addOrder = document.getElementById('add-orchid-order');
+        const addFamily = document.getElementById('add-orchid-family');
+        const addGenre = document.getElementById('add-orchid-genre');
+        const addSpecies = document.getElementById('add-orchid-species');
+        const addProposeContainer = document.getElementById('add-propose-container');
+        const addProposeCheckbox = document.getElementById('add-propose-checkbox');
 
         const careModal = document.getElementById('care-modal');
         const careModalClose = document.getElementById('care-modal-close');
@@ -56,21 +74,21 @@
         let userCollection = [];
         let selectedCollectionId = null;
         let editCollectionId = null;
+        let selectedSuggestionId = null;
 
         // ------------------------------------------------------------------
         // Utilitaires
         // ------------------------------------------------------------------
 
         function escapeHtml(text) {
-            return String(text)
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#039;');
+            if (window.AppUtils) return window.AppUtils.escapeHtml(text);
+            return String(text).replace(/[&<>"']/g, function(m) {
+                return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
+            });
         }
 
         function formatDate(dateStr) {
+            if (window.AppUtils) return window.AppUtils.formatDate(dateStr);
             if (!dateStr) return '—';
             const d = new Date(dateStr);
             if (isNaN(d)) return '—';
@@ -120,7 +138,11 @@
                 addedAt: (existing && existing.addedAt) || new Date().toISOString(),
                 location: (existing && existing.location) || '',
                 notes: (existing && existing.notes) || '',
-                careHistory: (existing && existing.careHistory) || []
+                careHistory: (existing && existing.careHistory) || [],
+                temp: (existing && existing.temp) || '',
+                hygro: (existing && existing.hygro) || '',
+                light: (existing && existing.light) || '',
+                ventilation: (existing && existing.ventilation) || ''
             };
         }
 
@@ -173,8 +195,9 @@
                 return;
             }
 
-            climateTemp.textContent = conseil.careCards.temperature || '—';
-            climateHumidity.textContent = conseil.careCards.hygrometrie || '—';
+            climateTemp.textContent = item.temp || conseil.careCards.temperature || '—';
+            climateHumidity.textContent = item.hygro || conseil.careCards.hygrometrie || '—';
+            climateLight.textContent = item.light || conseil.careCards.luminosite || '—';
 
             const behavior = (item.behavior || '').toLowerCase();
             if (behavior.includes('hémi') || behavior.includes('hemi')) {
@@ -214,9 +237,21 @@
 
             function addNotif(icon, label, color) {
                 const li = document.createElement('li');
-                li.innerHTML = '<i class="fa-solid ' + icon + '" aria-hidden="true"></i>'
-                    + '<span class="notif-dot notif-' + color + '" aria-hidden="true"></span>'
-                    + '<span>' + escapeHtml(label) + '</span>';
+                
+                const i = document.createElement('i');
+                i.className = 'fa-solid ' + icon;
+                i.setAttribute('aria-hidden', 'true');
+                li.appendChild(i);
+                
+                const spanDot = document.createElement('span');
+                spanDot.className = 'notif-dot notif-' + color;
+                spanDot.setAttribute('aria-hidden', 'true');
+                li.appendChild(spanDot);
+                
+                const spanLabel = document.createElement('span');
+                spanLabel.textContent = label;
+                li.appendChild(spanLabel);
+                
                 dashNotifications.appendChild(li);
             }
 
@@ -229,7 +264,10 @@
             grid.innerHTML = '';
 
             if (userCollection.length === 0) {
-                grid.innerHTML = '<p class="empty-collection">Votre collection est vide. Ajoutez des orchidées depuis l\'encyclopédie.</p>';
+                const p = document.createElement('p');
+                p.className = 'empty-collection';
+                p.textContent = 'Votre collection est vide. Ajoutez des orchidées depuis l\'encyclopédie.';
+                grid.appendChild(p);
                 return;
             }
 
@@ -256,7 +294,10 @@
                 remove.className = 'btn-remove-collection';
                 remove.setAttribute('data-collection-id', item.collectionId);
                 remove.setAttribute('aria-label', 'Retirer ' + item.name);
-                remove.innerHTML = '<i class="fa-solid fa-trash" aria-hidden="true"></i>';
+                const rmIcon = document.createElement('i');
+                rmIcon.className = 'fa-solid fa-trash';
+                rmIcon.setAttribute('aria-hidden', 'true');
+                remove.appendChild(rmIcon);
                 card.appendChild(remove);
 
                 card.addEventListener('click', function (event) {
@@ -278,11 +319,17 @@
                 grid.appendChild(card);
             }
 
-            const addCard = document.createElement('a');
-            addCard.href = 'encyclopedie.html';
+            const addCard = document.createElement('button');
+            addCard.type = 'button';
             addCard.className = 'collection-thumb collection-thumb-add';
             addCard.setAttribute('aria-label', 'Ajouter une orchidée à la collection');
-            addCard.innerHTML = '<span class="add-plus">+</span>';
+            const spanPlus = document.createElement('span');
+            spanPlus.className = 'add-plus';
+            spanPlus.textContent = '+';
+            addCard.appendChild(spanPlus);
+            
+            addCard.addEventListener('click', openAddModal);
+            
             grid.appendChild(addCard);
         }
 
@@ -291,13 +338,23 @@
 
             const item = selectedCollectionId ? getCollectionItem(selectedCollectionId) : null;
             if (!item) {
-                careTableBody.innerHTML = '<tr><td colspan="4">Sélectionnez une orchidée pour voir ses soins.</td></tr>';
+                const tr = document.createElement('tr');
+                const td = document.createElement('td');
+                td.colSpan = 4;
+                td.textContent = 'Sélectionnez une orchidée pour voir ses soins.';
+                tr.appendChild(td);
+                careTableBody.appendChild(tr);
                 return;
             }
 
             const history = item.careHistory || [];
             if (history.length === 0) {
-                careTableBody.innerHTML = '<tr><td colspan="4">Aucun soin enregistré pour ' + escapeHtml(item.name) + '.</td></tr>';
+                const tr = document.createElement('tr');
+                const td = document.createElement('td');
+                td.colSpan = 4;
+                td.textContent = 'Aucun soin enregistré pour ' + item.name + '.';
+                tr.appendChild(td);
+                careTableBody.appendChild(tr);
                 return;
             }
 
@@ -333,7 +390,10 @@
 
             const item = selectedCollectionId ? getCollectionItem(selectedCollectionId) : null;
             if (!item) {
-                conseilPreview.innerHTML = '<p class="conseil-empty">Sélectionnez une orchidée pour afficher ses conseils de culture.</p>';
+                const p = document.createElement('p');
+                p.className = 'conseil-empty';
+                p.textContent = 'Sélectionnez une orchidée pour afficher ses conseils de culture.';
+                conseilPreview.appendChild(p);
                 return;
             }
 
@@ -353,11 +413,23 @@
             if (conseil) {
                 const careMini = document.createElement('div');
                 careMini.className = 'conseil-care-mini';
-                careMini.innerHTML =
-                    '<div><i class="fa-solid fa-thermometer-half"></i><span>' + escapeHtml(conseil.careCards.temperature) + '</span></div>' +
-                    '<div><i class="fa-solid fa-droplet"></i><span>' + escapeHtml(conseil.careCards.arrosage) + '</span></div>' +
-                    '<div><i class="fa-solid fa-percent"></i><span>' + escapeHtml(conseil.careCards.hygrometrie) + '</span></div>' +
-                    '<div><i class="fa-solid fa-flask"></i><span>' + escapeHtml(conseil.careCards.engrais) + '</span></div>';
+                
+                function createCareMiniItem(iconClass, textValue) {
+                    const div = document.createElement('div');
+                    const icon = document.createElement('i');
+                    icon.className = 'fa-solid ' + iconClass;
+                    const span = document.createElement('span');
+                    span.textContent = textValue;
+                    div.appendChild(icon);
+                    div.appendChild(span);
+                    return div;
+                }
+
+                careMini.appendChild(createCareMiniItem('fa-thermometer-half', conseil.careCards.temperature));
+                careMini.appendChild(createCareMiniItem('fa-droplet', conseil.careCards.arrosage));
+                careMini.appendChild(createCareMiniItem('fa-percent', conseil.careCards.hygrometrie));
+                careMini.appendChild(createCareMiniItem('fa-flask', conseil.careCards.engrais));
+
                 container.appendChild(careMini);
             }
 
@@ -401,12 +473,23 @@
                 if (!field.value) continue;
                 const div = document.createElement('div');
                 div.className = 'collection-field';
-                div.innerHTML = '<label>' + escapeHtml(field.label) + '</label>'
-                    + '<span>' + escapeHtml(field.value) + '</span>';
+                
+                const label = document.createElement('label');
+                label.textContent = field.label;
+                
+                const span = document.createElement('span');
+                span.textContent = field.value;
+                
+                div.appendChild(label);
+                div.appendChild(span);
                 editModalFields.appendChild(div);
             }
 
             editLocation.value = item.location || '';
+            if (editTemp) editTemp.value = item.temp || '';
+            if (editHygro) editHygro.value = item.hygro || '';
+            if (editLight) editLight.value = item.light || '';
+            if (editVentilation) editVentilation.value = item.ventilation || '';
             editNotes.value = item.notes || '';
 
             editModal.classList.add('active');
@@ -426,10 +509,171 @@
             const item = editCollectionId ? getCollectionItem(editCollectionId) : null;
             if (!item) return;
             item.location = editLocation.value.trim();
+            if (editTemp) item.temp = editTemp.value.trim();
+            if (editHygro) item.hygro = editHygro.value.trim();
+            if (editLight) item.light = editLight.value.trim();
+            if (editVentilation) item.ventilation = editVentilation.value.trim();
             item.notes = editNotes.value.trim();
             saveCollection();
             closeEditModal();
             renderAll();
+        }
+
+        // ------------------------------------------------------------------
+        // Modale d'ajout et Autocomplétion
+        // ------------------------------------------------------------------
+
+        function openAddModal() {
+            addForm.reset();
+            selectedSuggestionId = null;
+            addSuggestions.style.display = 'none';
+            addProposeContainer.style.display = 'flex';
+            toggleTaxonomyFields(false);
+            
+            addModal.classList.add('active');
+            addModal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+            setTimeout(function () { addName.focus(); }, 0);
+        }
+
+        function closeAddModal() {
+            addModal.classList.remove('active');
+            addModal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+
+        function toggleTaxonomyFields(readOnly) {
+            addOrder.readOnly = readOnly;
+            addFamily.readOnly = readOnly;
+            addGenre.readOnly = readOnly;
+            addSpecies.readOnly = readOnly;
+            addBehavior.disabled = readOnly;
+            addOrigin.readOnly = readOnly;
+            
+            if(readOnly) {
+                addOrder.style.opacity = '0.7';
+                addFamily.style.opacity = '0.7';
+                addGenre.style.opacity = '0.7';
+                addSpecies.style.opacity = '0.7';
+                addBehavior.style.opacity = '0.7';
+                addOrigin.style.opacity = '0.7';
+            } else {
+                addOrder.style.opacity = '1';
+                addFamily.style.opacity = '1';
+                addGenre.style.opacity = '1';
+                addSpecies.style.opacity = '1';
+                addBehavior.style.opacity = '1';
+                addOrigin.style.opacity = '1';
+            }
+        }
+
+        if (addName) {
+            addName.addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase().trim();
+                addSuggestions.innerHTML = '';
+                selectedSuggestionId = null;
+                addProposeContainer.style.display = 'flex';
+                toggleTaxonomyFields(false);
+                
+                if (query.length < 2) {
+                    addSuggestions.style.display = 'none';
+                    return;
+                }
+
+                const matches = orchidsDatabase.filter(o => o.name.toLowerCase().includes(query) || (o.vernacular && o.vernacular.toLowerCase().includes(query)));
+                
+                if (matches.length > 0) {
+                    matches.forEach(match => {
+                        const div = document.createElement('div');
+                        div.className = 'suggestion-item';
+                        div.style.padding = '10px';
+                        div.style.cursor = 'pointer';
+                        div.style.borderBottom = '1px solid rgba(255,255,255,0.1)';
+                        div.textContent = match.name + (match.vernacular ? ' (' + match.vernacular + ')' : '');
+                        
+                        div.addEventListener('click', function() {
+                            addName.value = match.name;
+                            selectedSuggestionId = match.id;
+                            addSuggestions.style.display = 'none';
+                            addProposeContainer.style.display = 'none';
+                            
+                            // Auto-remplissage
+                            addBehavior.value = match.behavior || '';
+                            addOrigin.value = match.origin || '';
+                            addOrder.value = match.order || '';
+                            addFamily.value = match.family || '';
+                            addGenre.value = match.genre || '';
+                            addSpecies.value = match.species || '';
+                            
+                            toggleTaxonomyFields(true);
+                        });
+                        
+                        div.addEventListener('mouseenter', () => div.style.backgroundColor = 'rgba(0, 229, 255, 0.1)');
+                        div.addEventListener('mouseleave', () => div.style.backgroundColor = 'transparent');
+                        
+                        addSuggestions.appendChild(div);
+                    });
+                    addSuggestions.style.display = 'block';
+                    addSuggestions.style.position = 'absolute';
+                    addSuggestions.style.width = '100%';
+                    addSuggestions.style.zIndex = '100';
+                    addSuggestions.style.maxHeight = '200px';
+                    addSuggestions.style.overflowY = 'auto';
+                } else {
+                    addSuggestions.style.display = 'none';
+                }
+            });
+        }
+
+        if (addForm) {
+            addForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                let name = addName.value.trim();
+                let orchidObj = null;
+                let isProposition = false;
+                
+                if (selectedSuggestionId) {
+                    orchidObj = getOrchid(selectedSuggestionId);
+                } else {
+                    // C'est une plante non reconnue
+                    orchidObj = {
+                        id: 'custom-' + Date.now(),
+                        name: name,
+                        behavior: addBehavior.value,
+                        origin: addOrigin.value,
+                        order: addOrder.value,
+                        family: addFamily.value,
+                        genre: addGenre.value,
+                        species: addSpecies.value,
+                        img: './assets/images/site/logotransparent.png'
+                    };
+                    isProposition = addProposeCheckbox.checked;
+                }
+                
+                const newItem = buildCollectionItem(orchidObj, name, null);
+                userCollection.push(newItem);
+                saveCollection();
+                
+                if (isProposition) {
+                    // Générer une notification admin
+                    const notifications = JSON.parse(localStorage.getItem('mo_notifications')) || [];
+                    notifications.push({
+                        id: Date.now(),
+                        date: new Date().toLocaleDateString('fr-FR'),
+                        text: "Nouvelle proposition d'orchidée : " + name
+                    });
+                    localStorage.setItem('mo_notifications', JSON.stringify(notifications));
+                }
+                
+                closeAddModal();
+                selectedCollectionId = newItem.collectionId;
+                
+                if (window.AppToast) {
+                    window.AppToast.success(name + ' a été ajoutée à votre collection.');
+                }
+                renderAll();
+            });
         }
 
         // ------------------------------------------------------------------
@@ -474,7 +718,11 @@
             const item = id ? getCollectionItem(id) : null;
 
             if (!item || !item.careHistory || item.careHistory.length === 0) {
-                careModalHistory.innerHTML = '<p class="care-empty">Aucun soin enregistré pour le moment.</p>';
+                careModalHistory.innerHTML = '';
+                const p = document.createElement('p');
+                p.className = 'care-empty';
+                p.textContent = 'Aucun soin enregistré pour le moment.';
+                careModalHistory.appendChild(p);
                 return;
             }
 
@@ -485,8 +733,12 @@
 
             for (const care of item.careHistory.slice().reverse()) {
                 const tr = document.createElement('tr');
-                tr.innerHTML = '<td>' + escapeHtml(formatDate(care.date)) + '</td>'
-                    + '<td>' + escapeHtml((care.types || []).join(', ')) + '</td>';
+                const tdDate = document.createElement('td');
+                tdDate.textContent = formatDate(care.date);
+                const tdTypes = document.createElement('td');
+                tdTypes.textContent = (care.types || []).join(', ');
+                tr.appendChild(tdDate);
+                tr.appendChild(tdTypes);
                 tbody.appendChild(tr);
             }
 
@@ -564,6 +816,10 @@
 
             userCollection = userCollection.filter(function (i) { return i.collectionId !== id; });
             saveCollection();
+            
+            if (window.AppToast) {
+                window.AppToast.success(item.name + ' a été retirée de la collection.');
+            }
 
             if (selectedCollectionId === id) {
                 selectedCollectionId = userCollection.length ? userCollection[0].collectionId : null;
@@ -579,6 +835,7 @@
             if (event.key === 'Escape') {
                 if (editModal.classList.contains('active')) closeEditModal();
                 if (careModal.classList.contains('active')) closeCareModal();
+                if (addModal && addModal.classList.contains('active')) closeAddModal();
             }
         }
 
@@ -596,6 +853,14 @@
             editModal.addEventListener('click', function (event) {
                 if (event.target === editModal) closeEditModal();
             });
+
+            if (addModalClose) addModalClose.addEventListener('click', closeAddModal);
+            if (addModalCancel) addModalCancel.addEventListener('click', closeAddModal);
+            if (addModal) {
+                addModal.addEventListener('click', function (event) {
+                    if (event.target === addModal) closeAddModal();
+                });
+            }
 
             careModalClose.addEventListener('click', closeCareModal);
             careModalCancel.addEventListener('click', closeCareModal);

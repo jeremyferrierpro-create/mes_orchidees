@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <meta name="theme-color" content="#0e2018">
     <meta name="description" content="Encyclopédie des orchidées : recherchez et consultez les fiches détaillées de chaque espèce.">
     <link rel="manifest" href="manifest.json">
@@ -16,6 +17,7 @@
 </head>
 <body>
     <a class="skip-link" href="#main-content">Aller au contenu</a>
+    
 
     <nav id="main-sidebar" class="sidebar-container" aria-label="Menu principal">
         <div class="sidebar-brand">
@@ -39,7 +41,7 @@
 
     <header id="main-header">
         <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
-        <h2>Encyclopédie &amp; gestion de collections</h2>
+        <p class="header-tagline">Encyclopédie &amp; gestion de collections</p>
         <button type="button" class="menu-toggle" id="menu-toggle-btn" aria-label="Ouvrir ou fermer le menu" aria-controls="main-sidebar" aria-expanded="false">
             <span class="hamburger-bar"></span>
         </button>
@@ -50,6 +52,7 @@
             <h1 class="page-title">ENCYCLOPÉDIE</h1>
             <div class="search-container">
                 <form id="encyclopedia-search-form" action="encyclopedie.html" method="GET" class="search-box" role="search">
+                    <input type="hidden" name="csrf_token" id="csrf-token" value="">
                     <label for="search-input" class="sr-only">Rechercher une orchidée</label>
                     <input type="text" id="search-input" name="search" placeholder="Rechercher une orchidée..." autocomplete="off">
                     <button type="submit" class="search-btn">RECHERCHER</button>
@@ -90,16 +93,16 @@
                 </div>
 
                 <div class="modal-specs-grid">
-                    <div class="spec-item"><label>Ordre</label><div id="spec-ordre" class="spec-value">...</div></div>
-                    <div class="spec-item"><label>Espèce</label><div id="spec-espece" class="spec-value">...</div></div>
-                    <div class="spec-item"><label>Genre</label><div id="spec-genre" class="spec-value">...</div></div>
-                    <div class="spec-item"><label>Famille</label><div id="spec-famille" class="spec-value">...</div></div>
-                    <div class="spec-item"><label>Sous-Famille</label><div id="spec-subfamily" class="spec-value">...</div></div>
-                    <div class="spec-item"><label>Tribu</label><div id="spec-tribu" class="spec-value">...</div></div>
-                    <div class="spec-item"><label>Sous-Tribu</label><div id="spec-subtribu" class="spec-value">...</div></div>
-                    <div class="spec-item"><label>Comportement</label><div id="spec-behavior" class="spec-value">...</div></div>
-                    <div class="spec-item"><label>Découverte par</label><div id="spec-discovered" class="spec-value">...</div></div>
-                    <div class="spec-item" style="grid-column: span 3;"><label>Origines</label><div id="spec-origin" class="spec-value">...</div></div>
+                    <div class="spec-item"><span class="spec-label">Ordre</span><div id="spec-ordre" class="spec-value">...</div></div>
+                    <div class="spec-item"><span class="spec-label">Espèce</span><div id="spec-espece" class="spec-value">...</div></div>
+                    <div class="spec-item"><span class="spec-label">Genre</span><div id="spec-genre" class="spec-value">...</div></div>
+                    <div class="spec-item"><span class="spec-label">Famille</span><div id="spec-famille" class="spec-value">...</div></div>
+                    <div class="spec-item"><span class="spec-label">Sous-Famille</span><div id="spec-subfamily" class="spec-value">...</div></div>
+                    <div class="spec-item"><span class="spec-label">Tribu</span><div id="spec-tribu" class="spec-value">...</div></div>
+                    <div class="spec-item"><span class="spec-label">Sous-Tribu</span><div id="spec-subtribu" class="spec-value">...</div></div>
+                    <div class="spec-item"><span class="spec-label">Comportement</span><div id="spec-behavior" class="spec-value">...</div></div>
+                    <div class="spec-item"><span class="spec-label">Découverte par</span><div id="spec-discovered" class="spec-value">...</div></div>
+                    <div class="spec-item spec-item--full"><span class="spec-label">Origines</span><div id="spec-origin" class="spec-value">...</div></div>
                 </div>
 
                 <div class="modal-description-block">
@@ -114,6 +117,9 @@
         </div>
     </div>
 
+    <script src="./assets/js/utils.js" defer></script>
+    <script src="./assets/js/toast.js" defer></script>
+    <script src="./assets/js/loader.js" defer></script>
     <script src="./assets/js/orchids-data.js" defer></script>
     <script src="./assets/js/navigation.js" defer></script>
     <script src="./assets/js/search-modal.js" defer></script>

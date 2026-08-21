@@ -15,6 +15,7 @@
         if (!addButton) return;
 
         function isUserAuthenticated() {
+            if (window.AppUtils) return window.AppUtils.isAuthenticated();
             return localStorage.getItem('isAuthenticated') === 'true';
         }
 
@@ -74,7 +75,11 @@
 
             if (!orchid) {
                 console.warn('Orchidée non trouvée dans la base :', orchidName);
-                alert('Impossible d\'ajouter cette orchidée : elle n\'est pas référencée.');
+                if (window.AppToast) {
+                    window.AppToast.error('Impossible d\'ajouter cette orchidée : elle n\'est pas référencée.');
+                } else {
+                    alert('Impossible d\'ajouter cette orchidée : elle n\'est pas référencée.');
+                }
                 return;
             }
 
@@ -86,7 +91,11 @@
             });
 
             if (dejaPresente) {
-                alert('L\'orchidée "' + orchid.name + '" est déjà présente dans votre collection.');
+                if (window.AppToast) {
+                    window.AppToast.warning('L\'orchidée "' + orchid.name + '" est déjà présente dans votre collection.');
+                } else {
+                    alert('L\'orchidée "' + orchid.name + '" est déjà présente dans votre collection.');
+                }
                 return;
             }
 
@@ -100,7 +109,12 @@
             });
 
             localStorage.setItem('userCollection', JSON.stringify(maCollection));
-            alert('L\'orchidée "' + orchid.name + '" a été ajoutée à votre collection.');
+            
+            if (window.AppToast) {
+                window.AppToast.success('L\'orchidée "' + orchid.name + '" a été ajoutée à votre collection.');
+            } else {
+                alert('L\'orchidée "' + orchid.name + '" a été ajoutée à votre collection.');
+            }
         }
 
         addButton.addEventListener('click', function () {

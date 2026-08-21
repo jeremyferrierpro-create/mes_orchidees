@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <meta name="theme-color" content="#0e2018">
     <meta name="description" content="Mentions légales du projet Mes Orchidées.">
     <link rel="manifest" href="manifest.json">
@@ -16,6 +17,7 @@
 </head>
 <body>
     <a class="skip-link" href="#main-content">Aller au contenu</a>
+   
 
     <nav id="main-sidebar" class="sidebar-container" aria-label="Menu principal">
         <div class="sidebar-brand">
@@ -39,7 +41,7 @@
 
     <header id="main-header">
         <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
-        <h2>Encyclopédie &amp; gestion de collections</h2>
+        <p class="header-tagline">Encyclopédie &amp; gestion de collections</p>
         <button type="button" class="menu-toggle" id="menu-toggle-btn" aria-label="Ouvrir ou fermer le menu" aria-controls="main-sidebar" aria-expanded="false">
             <span class="hamburger-bar"></span>
         </button>
@@ -77,6 +79,9 @@
     </footer>
 
     <script src="./assets/js/navigation.js" defer></script>
+    <script src="./assets/js/utils.js" defer></script>
+    <script src="./assets/js/toast.js" defer></script>
+    <script src="./assets/js/loader.js" defer></script>
     <script src="./assets/js/app.js" defer></script>
 </body>
 </html>

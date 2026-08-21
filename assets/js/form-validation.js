@@ -1,67 +1,132 @@
-// form-validation.js — Validation du formulaire d'authentification
-// ================================================================
-// Ce fichier vérifie les champs du formulaire de connexion côté client.
-// Plus tard, les données seront envoyées à un script PHP via fetch().
+// form-validation.js — Validation du formulaire d'authentification et gestion DB locale
+// =====================================================================================
 
-// On attend que le DOM soit complètement chargé
 document.addEventListener('DOMContentLoaded', function () {
-
-    // On récupère le formulaire d'authentification
     const loginForm = document.getElementById('login-form');
+    const registerForm = document.getElementById('register-form');
+    const btnLogin = document.getElementById('btn-show-login');
+    const btnRegister = document.getElementById('btn-show-register');
+    const loginMessage = document.getElementById('login-message');
+    const registerMessage = document.getElementById('register-message');
 
-    // On récupère la zone où afficher les messages
-    const messageBox = document.getElementById('auth-message');
+    if (!loginForm || !registerForm) return;
 
-    // Si le formulaire n'existe pas, on arrête
-    if (!loginForm) {
-        return;
+    // --- Gestion du Toggle ---
+    function showForm(type) {
+        if (type === 'login') {
+            loginForm.hidden = false;
+            registerForm.hidden = true;
+            btnLogin.className = 'btn btn-primary';
+            btnLogin.setAttribute('aria-pressed', 'true');
+            btnRegister.className = 'btn btn-outline';
+            btnRegister.setAttribute('aria-pressed', 'false');
+        } else {
+            loginForm.hidden = true;
+            registerForm.hidden = false;
+            btnLogin.className = 'btn btn-outline';
+            btnLogin.setAttribute('aria-pressed', 'false');
+            btnRegister.className = 'btn btn-primary';
+            btnRegister.setAttribute('aria-pressed', 'true');
+        }
     }
 
-    // Quand l'utilisateur soumet le formulaire
-    loginForm.addEventListener('submit', function (event) {
-        // On empêche l'envoi réel du formulaire (pour le moment)
-        // Plus tard, cette ligne sera remplacée par un appel fetch()
+    if (btnLogin) btnLogin.addEventListener('click', function() { showForm('login'); });
+    if (btnRegister) btnRegister.addEventListener('click', function() { showForm('register'); });
+
+    // --- Helper DB locale ---
+    function getDb() {
+        return JSON.parse(localStorage.getItem('mo_users_db')) || [];
+    }
+
+    function saveDb(db) {
+        localStorage.setItem('mo_users_db', JSON.stringify(db));
+    }
+
+    function loginUser(email, role) {
+        localStorage.setItem('isAuthenticated', 'true');
+        localStorage.setItem('mo_user_email', email);
+        localStorage.setItem('mo_user_role', role || 'user');
+        
+        // Redirection avec historique (pour revenir d'où l'on vient)
+        const pending = localStorage.getItem('pendingOrchidToAdd');
+        if (pending) {
+            window.location.href = 'encyclopedie.html';
+        } else {
+            window.location.href = 'macollection.html';
+        }
+    }
+
+    // Création admin par défaut si vide
+    const db = getDb();
+    if (db.length === 0) {
+        db.push({ email: 'admin@mesorchidees.fr', password: 'password123', role: 'admin' });
+        saveDb(db);
+    }
+
+    // --- Formulaire d'inscription ---
+    registerForm.addEventListener('submit', function (event) {
         event.preventDefault();
 
-        // On récupère et on nettoie la valeur du champ email
-        const email = document.getElementById('email').value.trim();
-        // On récupère la valeur du champ mot de passe
-        const password = document.getElementById('password').value;
-
-        // On crée un tableau pour stocker les messages d'erreur
+        const email = document.getElementById('reg-email').value.trim();
+        const password = document.getElementById('reg-password').value;
+        const passwordConfirm = document.getElementById('reg-password-confirm').value;
         const errors = [];
 
-        // Vérification de l'email
-        if (!email) {
-            // Si l'email est vide
-            errors.push('Veuillez saisir votre adresse email.');
-        } else if (!email.includes('@')) {
-            // Si l'email ne contient pas le caractère @
-            errors.push('L\'adresse email semble invalide.');
+        if (!email || !email.includes('@')) errors.push('Email invalide.');
+        if (password.length < 8) errors.push('Le mot de passe doit contenir au moins 8 caractères.');
+        if (password !== passwordConfirm) errors.push('Les mots de passe ne correspondent pas.');
+
+        const currentDb = getDb();
+        if (currentDb.find(function(u) { return u.email === email; })) {
+            errors.push('Cette adresse email est déjà utilisée.');
         }
 
-        // Vérification du mot de passe
-        if (!password) {
-            // Si le mot de passe est vide
-            errors.push('Veuillez saisir votre mot de passe.');
-        } else if (password.length < 8) {
-            // Si le mot de passe est trop court
-            errors.push('Le mot de passe doit contenir au moins 8 caractères.');
+        if (errors.length > 0) {
+            const errorMsg = errors.join(' ');
+            if (registerMessage) registerMessage.textContent = errorMsg;
+            if (registerMessage) registerMessage.className = 'auth-message error';
+            if (window.AppToast) window.AppToast.error(errorMsg);
+        } else {
+            currentDb.push({ email: email, password: password, role: 'user' });
+            saveDb(currentDb);
+            const successMsg = 'Inscription réussie ! Connexion en cours...';
+            if (registerMessage) registerMessage.textContent = successMsg;
+            if (registerMessage) registerMessage.className = 'auth-message success';
+            if (window.AppToast) window.AppToast.success(successMsg);
+            
+            setTimeout(function() { loginUser(email, 'user'); }, 1500);
+        }
+    });
+
+    // --- Formulaire de connexion ---
+    loginForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+        const errors = [];
+
+        if (!email || !password) errors.push('Veuillez remplir tous les champs.');
+
+        const currentDb = getDb();
+        const user = currentDb.find(function(u) { return u.email === email && u.password === password; });
+
+        if (!user) {
+            errors.push('Identifiants incorrects.');
         }
 
-        // On affiche le résultat à l'utilisateur
-        if (messageBox) {
-            if (errors.length > 0) {
-                // S'il y a des erreurs, on les affiche
-                messageBox.textContent = errors.join(' ');
-                messageBox.className = 'auth-message error';
-            } else {
-                // Sinon, on affiche un message de validation
-                messageBox.textContent = 'Identifiants valides. Connexion à un Back-End PHP/Supabase à venir.';
-                messageBox.className = 'auth-message success';
-                // On simule une connexion en stockant l'état
-                localStorage.setItem('isAuthenticated', 'true');
-            }
+        if (errors.length > 0) {
+            const errorMsg = errors.join(' ');
+            if (loginMessage) loginMessage.textContent = errorMsg;
+            if (loginMessage) loginMessage.className = 'auth-message error';
+            if (window.AppToast) window.AppToast.error(errorMsg);
+        } else {
+            const successMsg = 'Connexion réussie !';
+            if (loginMessage) loginMessage.textContent = successMsg;
+            if (loginMessage) loginMessage.className = 'auth-message success';
+            if (window.AppToast) window.AppToast.success(successMsg);
+            
+            setTimeout(function() { loginUser(user.email, user.role); }, 1000);
         }
     });
 });

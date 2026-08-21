@@ -4,7 +4,7 @@
 // en mettant en cache les ressources principales.
 
 // Nom du cache : on l'incrémente à chaque mise à jour majeure
-const CACHE_NAME = 'mes-orchidees-v1';
+const CACHE_NAME = 'mes-orchidees-v2';
 
 // Liste des fichiers à mettre en cache pour le mode hors-ligne
 const CACHE_ASSETS = [
@@ -20,6 +20,9 @@ const CACHE_ASSETS = [
     './deconnexion.html',
     './manifest.json',
     './assets/css/style.css',
+    './assets/js/utils.js',
+    './assets/js/toast.js',
+    './assets/js/loader.js',
     './assets/js/orchids-data.js',
     './assets/js/navigation.js',
     './assets/js/animation-bg.js',
