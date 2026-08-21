@@ -574,6 +574,151 @@
 }
 
 // ------------------------------
+// PAGE : Conseils — CTA sur les cartes maquette
+// ------------------------------
+.conseil-card-cta {
+    display: inline-block;
+    margin-top: 18px;
+    padding: 8px 18px;
+    border: 1px solid $clr-gold;
+    border-radius: 20px;
+    color: $clr-gold;
+    font-family: $font-titles;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    pointer-events: none;
+}
+
+// ------------------------------
+// PAGE : Conseils — miniatures des résultats de recherche
+// ------------------------------
+.advice-result-thumb {
+    width: 100%;
+    max-width: 120px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-top: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+// ------------------------------
+// PAGE : Conseils — modale de fiche détaillée
+// ------------------------------
+.modal-container.conseil-modal {
+    max-width: 900px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 30px;
+
+    .conseil-modal-header {
+        display: flex;
+        gap: 25px;
+        align-items: flex-start;
+        margin-bottom: 25px;
+
+        .conseil-modal-img {
+            width: 140px;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 6px;
+            flex-shrink: 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .conseil-modal-titles {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+
+            .conseil-modal-suptitle {
+                font-family: $font-titles;
+                font-size: 28px;
+                color: $clr-gold;
+                margin: 0;
+                text-transform: uppercase;
+                letter-spacing: 2px;
+            }
+
+            .conseil-modal-title {
+                font-family: $font-titles;
+                font-size: 26px;
+                color: $clr-white;
+                margin: 0;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }
+
+            .conseil-modal-meta {
+                font-family: $font-body;
+                font-size: 14px;
+                color: $clr-gold;
+                margin: 0;
+                opacity: 0.9;
+            }
+        }
+    }
+
+    .conseil-modal-body {
+        background-color: rgba(255, 255, 255, 0.06);
+        padding: 25px;
+        border-radius: 12px;
+        margin-bottom: 25px;
+
+        .conseil-modal-text {
+            font-family: $font-body;
+            font-size: 14px;
+            line-height: 1.6;
+            color: $clr-white;
+            margin: 0;
+            white-space: pre-line;
+            text-align: left;
+        }
+    }
+
+    .conseil-care-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 15px;
+
+        .care-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 18px 10px;
+            background-color: rgba(14, 32, 24, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            text-align: center;
+
+            i {
+                font-size: 18px;
+                color: $clr-gold;
+            }
+
+            span {
+                font-family: $font-titles;
+                font-size: 10px;
+                color: $clr-gold;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+
+            strong {
+                font-family: $font-body;
+                font-size: 20px;
+                font-weight: 600;
+                color: $clr-white;
+                line-height: 1.2;
+            }
+        }
+    }
+}
+
+// ------------------------------
 // RESPONSIVE POUR LES PAGES DE CONTENU
 // ------------------------------
 @media (max-width: 600px) {

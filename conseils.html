@@ -50,11 +50,11 @@
             <h1 class="page-title">CONSEILS</h1>
         </section>
 
-        <section class="conseils-search" aria-label="Rechercher une orchidée dans l'encyclopédie">
-            <form class="search-box" action="encyclopedie.html" method="GET" role="search">
-                <label for="conseil-search-input" class="sr-only">Rechercher une orchidée</label>
-                <input type="text" id="conseil-search-input" name="search" placeholder="Rechercher une orchidée ..." autocomplete="off">
-                <button type="submit" class="search-btn">RECHERCHER</button>
+        <section class="conseils-search" aria-label="Rechercher une fiche de culture">
+            <form class="search-box" id="conseil-search-form" action="#" method="GET" role="search" novalidate>
+                <label for="conseil-search-input" class="sr-only">Saisir le nom d'une orchidée ou d'une rubrique</label>
+                <input type="text" id="conseil-search-input" name="search" placeholder="Saisir le nom d'une orchidée ..." autocomplete="off">
+                <button type="submit" class="search-btn" id="conseil-search-btn">RECHERCHER</button>
             </form>
         </section>
 
@@ -62,70 +62,99 @@
             <article class="conseil-card" data-category="Conseils de base" tabindex="0" role="button" aria-label="Consulter les conseils de base">
                 <h2>Conseils de base</h2>
                 <p>Débutez votre collection d'orchidées avec ces conseils de base. Selon vos affinités, vous évoluerez vers les épiphytes, terrestres ou hémi-épiphytes. Bonne culture !</p>
+                <span class="conseil-card-cta">Voir le conseil</span>
             </article>
 
             <article class="conseil-card" data-category="Pour les épiphytes" tabindex="0" role="button" aria-label="Consulter les conseils pour les épiphytes">
                 <h2>Pour les épiphytes</h2>
                 <p>Vous aimez les orchidées épiphytes. Cette rubrique est faîtes pour vous. Vous y trouverez tous les conseils de culture pour réussir vos épiphytes, comme un professionnel ! Bonne culture !</p>
+                <span class="conseil-card-cta">Voir le conseil</span>
             </article>
 
             <article class="conseil-card" data-category="Pour les terrestres" tabindex="0" role="button" aria-label="Consulter les conseils pour les terrestres">
                 <h2>Pour les terrestres</h2>
                 <p>Vous aimez les orchidées terrestres. Cette rubrique est faîtes pour vous. Vous y trouverez tous les conseils de culture pour réussir vos terrestres, comme un professionnel ! Bonne culture !</p>
+                <span class="conseil-card-cta">Voir le conseil</span>
             </article>
 
             <article class="conseil-card" data-category="Pour les hémi-épiphytes" tabindex="0" role="button" aria-label="Consulter les conseils pour les hémi-épiphytes">
                 <h2>Pour les hémi-épiphytes</h2>
                 <p>Vous aimez les orchidées hémi-épiphytes. Cette rubrique est faîtes pour vous. Vous y trouverez tous les conseils de culture pour réussir vos hémi-épiphytes, comme un professionnel ! Bonne culture !</p>
+                <span class="conseil-card-cta">Voir le conseil</span>
             </article>
 
             <article class="conseil-card" data-category="Sortie de flask" tabindex="0" role="button" aria-label="Consulter les conseils sur la sortie de flask">
                 <h2>Sortie de flask</h2>
                 <p>Vous êtes un amateur orchidophile. Vous souhaitez cultiver des orchidées sorties de flask ? Ici, vous trouverez tous nos conseils de pro pour réussir vos sorties de flask.</p>
+                <span class="conseil-card-cta">Voir le conseil</span>
             </article>
 
             <article class="conseil-card" data-category="Après achat" tabindex="0" role="button" aria-label="Consulter les conseils d'après achat">
                 <h2>Après achat</h2>
                 <p>Vous venez d'acheter vos premières orchidées ? Découvrez nos conseils d'après achat. Nous vous conseillons de consulter les conseils de base, par la suite, pour vous familiariser avec vos orchidées.</p>
+                <span class="conseil-card-cta">Voir le conseil</span>
             </article>
         </section>
 
-        <section class="advice-catalog" id="advice-catalog" aria-label="Catalogue de conseils détaillés">
-            <h2 class="section-title">Conseils détaillés</h2>
-
-            <form class="advice-filter-bar" id="advice-filter-form" action="#" method="GET" role="search" novalidate>
-                <div class="filter-group">
-                    <label for="advice-plant-type">Type d'orchidée</label>
-                    <select id="advice-plant-type" name="plantType">
-                        <option value="all">Tous les types</option>
-                        <option value="Phalaenopsis">Phalaenopsis</option>
-                        <option value="Cattleya">Cattleya</option>
-                        <option value="Dendrobium">Dendrobium</option>
-                        <option value="Miltonia">Miltonia</option>
-                        <option value="Vanda">Vanda</option>
-                        <option value="Paphiopedilum">Paphiopedilum</option>
-                    </select>
-                </div>
-
-                <div class="filter-group">
-                    <label for="advice-level">Niveau d'expertise</label>
-                    <select id="advice-level" name="level">
-                        <option value="all">Tous les niveaux</option>
-                        <option value="Débutant">Débutant</option>
-                        <option value="Intermédiaire">Intermédiaire</option>
-                        <option value="Expert">Expert</option>
-                    </select>
-                </div>
-
-                <div class="filter-group filter-search">
-                    <label for="advice-text-search">Mot-clé</label>
-                    <input type="text" id="advice-text-search" placeholder="Ex : arrosage, lumière..." autocomplete="off">
-                </div>
-            </form>
-
-            <div id="advice-results" class="advice-results" aria-live="polite" aria-label="Conseils filtrés"></div>
+        <section class="advice-catalog" id="advice-catalog" aria-label="Résultats de recherche">
+            <h2 class="section-title">Fiches trouvées</h2>
+            <div id="advice-results" class="advice-results" aria-live="polite" aria-label="Fiches de culture correspondantes"></div>
         </section>
     </main>
+
+    <section class="modal-overlay" id="conseil-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="conseil-modal-title">
+        <div class="modal-container conseil-modal" role="document">
+            <button type="button" class="modal-close" id="conseil-modal-close" aria-label="Fermer la fiche">
+                <span aria-hidden="true">&times;</span>
+            </button>
+
+            <div class="conseil-modal-header">
+                <img id="conseil-modal-img" src="" alt="" hidden>
+                <div class="conseil-modal-titles">
+                    <h2 class="conseil-modal-suptitle">FICHE CONSEILS</h2>
+                    <h3 id="conseil-modal-title" class="conseil-modal-title"></h3>
+                    <p id="conseil-modal-meta" class="conseil-modal-meta"></p>
+                </div>
+            </div>
+
+            <div class="conseil-modal-body">
+                <p id="conseil-modal-text" class="conseil-modal-text"></p>
+            </div>
+
+            <div class="conseil-care-grid" aria-label="Conseils de culture">
+                <div class="care-card">
+                    <i class="fa-solid fa-thermometer-half" aria-hidden="true"></i>
+                    <span>Températures</span>
+                    <strong id="care-temperature"></strong>
+                </div>
+                <div class="care-card">
+                    <i class="fa-solid fa-droplet" aria-hidden="true"></i>
+                    <span>Arrosage</span>
+                    <strong id="care-arrosage"></strong>
+                </div>
+                <div class="care-card">
+                    <i class="fa-solid fa-percent" aria-hidden="true"></i>
+                    <span>Hygrométrie</span>
+                    <strong id="care-hygrometrie"></strong>
+                </div>
+                <div class="care-card">
+                    <i class="fa-solid fa-seedling" aria-hidden="true"></i>
+                    <span>Rempotage</span>
+                    <strong id="care-rempotage"></strong>
+                </div>
+                <div class="care-card">
+                    <i class="fa-solid fa-flask" aria-hidden="true"></i>
+                    <span>Engrais</span>
+                    <strong id="care-engrais"></strong>
+                </div>
+                <div class="care-card">
+                    <i class="fa-solid fa-layer-group" aria-hidden="true"></i>
+                    <span>Substrats</span>
+                    <strong id="care-substrats"></strong>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <footer id="main-footer">
         <a href="mentions.html" class="footer-link">Mentions légales</a>
