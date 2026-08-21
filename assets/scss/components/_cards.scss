@@ -1,0 +1,22 @@
+// COMPOSANT : CARTES D'ORCHIDÉES
+
+.orchid-card {
+    border-radius: 12px;
+    padding: 20px;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    
+    @include glass-effect; // Toutes nos cartes ont l'effet de verre
+
+    &:hover {
+        transform: translateY(-5px); // La carte se soulève au survol
+        border-color: $clr-gold;      // La bordure devient dorée
+    }
+
+    // Image à l'intérieur de la carte
+    .card-img {
+        width: 100%;
+        height: 200px;
+        object-fit: contain; // Évite de déformer l'orchidée
+        margin-bottom: 15px;
+    }
+}

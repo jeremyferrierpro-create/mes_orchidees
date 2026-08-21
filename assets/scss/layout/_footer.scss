@@ -1,0 +1,54 @@
+// ==========================================================================
+// LAYOUT : FOOTER (BAS DE PAGE STYLE BARRE D'APP)
+// ==========================================================================
+
+#main-footer {
+    margin: 15px;
+    padding: 15px 30px;
+    
+    // Alignement magique : Pousse les éléments aux trois extrémités (gauche, centre, droite)
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    
+    position: fixed;                          
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 110;
+    border-radius: 12px;                      
+
+    @include glass-effect; // Notre effet de verre givré réutilisable
+
+    // --- MON BLOC CENTRAL (LOGO + COPYRIGHT) ---
+    .footer-center {
+        display: flex;
+        flex-direction: column; // Aligne le logo au-dessus du texte
+        align-items: center;    // Centre horizontalement le logo et le texte
+        gap: 6px;               // Petit espace entre le logo et le texte
+
+        img {
+            height: 30px; // Taille discrète et élégante pour le logo
+            width: auto;
+        }
+
+        p {
+            font-family: $font-body; // Inter
+            font-size: 13px;
+            color: $clr-white;
+            opacity: 0.7;
+        }
+    }
+
+    // --- MES LIENS DES EXTRÉMITÉS (GAUCHE ET DROITE) ---
+    .footer-link {
+        font-family: $font-body; // Inter
+        font-size: 14px;
+        color: $clr-gold;        // Ta couleur dorée
+        transition: opacity 0.3s ease;
+
+        &:hover {
+            opacity: 0.8; // Petit effet visuel au survol
+        }
+    }
+}

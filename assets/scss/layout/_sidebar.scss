@@ -1,0 +1,103 @@
+// ==========================================================================
+// LAYOUT : SIDEBAR (MENU LATÉRAL DROIT CONFIGURÉ SELON MOCKUP)
+// ==========================================================================
+
+aside {
+    position: fixed;        
+    top: 110px; // Aligné sous le header              
+    right: 15px;            
+    width: 320px;           
+    height: calc(100vh - 110px - 110px); // Hauteur fixe entre header et footer
+    z-index: 100;           
+    padding: 35px 25px;
+    border-radius: 20px;                      
+    
+    display: flex;
+    flex-direction: column; // Aligne verticalement Logo -> Menu Principal -> Menu Admin
+    gap: 30px; // Espace entre le bloc logo et le début du menu
+
+    @include glass-effect; // Ton effet cristal en glassmorphism
+
+    // SÉCURITÉ ASCENSEUR : On interdit strictement les barres de défilement
+    overflow: hidden; 
+
+    // CACHÉ PAR DÉFAUT (Logique d'ouverture JS)
+    transform: translateX(calc(100% + 20px));  
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
+
+    &.sidebar-open {
+        transform: translateX(0);
+    }
+}
+
+// --- BLOC LOGO + TITRE EN HAUT ---
+.sidebar-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); // Fine ligne de séparation sous le logo
+    padding-bottom: 20px;
+
+    img {
+        height: 60px; // Taille ajustée pour le haut du menu
+        width: auto;
+        margin-bottom: 10px;
+    }
+
+    h2 {
+        font-family: $font-titles; // Cinzel
+        font-size: 22px;
+        color: $clr-gold;
+        letter-spacing: 2px;
+    }
+}
+
+// --- STRUCTURE DES MENUS ---
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    height: 100%; // Prend toute la place restante
+
+    ul {
+        display: flex;
+        flex-direction: column;
+        gap: 18px; // Espace serré entre les liens d'un même groupe
+    }
+
+    // Premier bloc de liens
+    .menu-group-main {
+        margin-bottom: auto; // LA MAGIE : Pousse le groupe suivant tout en bas de la navigation !
+    }
+
+    // Second bloc de liens (Admin / Connexion)
+    .menu-group-user {
+        border-top: 1px solid rgba(255, 255, 255, 0.08); // Petite séparation visuelle discrète
+        padding-top: 20px;
+    }
+
+    // Le style de tes liens
+    a {
+        font-family: $font-titles; // Cinzel
+        font-size: 16px;
+        color: $clr-white;
+        display: flex;
+        align-items: center;          
+        gap: 15px;                    
+        transition: all 0.3s ease; 
+        padding: 4px 0;
+
+        i {
+            color: $clr-gold; // Tes icônes dorées               
+            font-size: 18px;
+            width: 24px;                  
+            text-align: center;
+        }
+
+        &:hover {
+            color: $clr-gold;               
+            transform: translateX(-5px); // Glissement interactif au survol
+        }
+    }
+}

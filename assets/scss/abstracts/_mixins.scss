@@ -1,0 +1,14 @@
+// MES MIXINS (MES FONCTIONS COMPOSANTS REUTILISABLES)
+
+// Mon effet effet verre givré (Glassmorphism)
+@mixin glass-effect {
+    background-color: rgba(14, 32, 24, 0.5); // Fond vert transparent
+    backdrop-filter: blur(20px);              // Le flou de l'image derrière
+    -webkit-backdrop-filter: blur(20px);      // Securité pour Safari
+    
+    // Mes bordures et reflets style cristal
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.6), 
+        inset 0 1px 0 rgba(255, 255, 255, 0.25); // Le petit trait brillant en haut
+}

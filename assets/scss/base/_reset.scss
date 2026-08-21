@@ -1,0 +1,28 @@
+// REMISE À ZÉRO GLOBAL (RESET)
+
+// On applique ça à tout le site
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; // Évite les bugs de calcul de taille avec les paddings
+}
+
+// Nettoyage des liens et des listes pour tout le site
+a {
+    text-decoration: none; // Enlève le soulignement moche par défaut
+    color: inherit;        // Prend la couleur du texte du parent
+}
+
+ul, li {
+    list-style: none; // Enlève les puces des listes (pour nos futurs menus)
+}
+
+img {
+    max-width: 100%;  // Empêche les images de dépasser de leur conteneur
+    height: auto;     // Garde les proportions de l'image
+    display: block;   // Supprime l'espace vide sous les images
+}
+
+button {
+    cursor: pointer;  // Met la petite main au survol sur tous les boutons
+}

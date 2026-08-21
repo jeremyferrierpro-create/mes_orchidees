@@ -1,0 +1,122 @@
+// ==========================================================================
+// COMPOSANT : FENÊTRES MODALES (7-1 PATTERN SASS)
+// ==========================================================================
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(6, 14, 10, 0.7); // Fond sombre de sécurité
+    backdrop-filter: blur(5px);
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    // Caché par défaut
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+
+    // Classe active pour ouvrir la modale
+    &.modal-active {
+        opacity: 1;
+        pointer-events: all;
+    }
+}
+
+.modal-container {
+    width: 90%;
+    max-width: 600px;
+    padding: 30px;
+    border-radius: 12px;
+    position: relative;
+    
+    @include glass-effect; // Ton mixin magique !
+    background-color: rgba(255, 255, 255, 0.05);
+
+    .modal-close {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        background: transparent;
+        border: none;
+        color: $clr-white;
+        font-size: 28px;
+        
+        &:hover {
+            color: $clr-gold;
+        }
+    }
+
+    .modal-title {
+        color: $clr-gold;
+        font-size: 24px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+}
+
+// Style des lignes de résultats dans la Modale 1
+.result-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-family: $font-body;
+
+    .btn-select {
+        background-color: $clr-gold;
+        color: $clr-bg;
+        border: none;
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-family: $font-titles;
+        font-size: 12px;
+        font-weight: bold;
+    }
+}
+
+// Style de la fiche de la Modale 2
+.orchid-card-view {
+    max-width: 500px;
+    text-align: center;
+
+    .orchid-species {
+        font-style: italic;
+        opacity: 0.6;
+        margin-top: -15px;
+        margin-bottom: 20px;
+    }
+
+    .orchid-detail-body {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        margin-bottom: 25px;
+        text-align: left;
+
+        img {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+        }
+    }
+
+    .btn-add-collection {
+        width: 100%;
+        background-color: transparent;
+        color: $clr-gold;
+        border: 1px solid $clr-gold;
+        padding: 12px;
+        border-radius: 50px;
+        font-family: $font-titles;
+        font-weight: bold;
+        transition: all 0.3s ease;
+
+        &:hover {
+            background-color: $clr-gold;
+            color: $clr-bg;
+        }
+    }
+}

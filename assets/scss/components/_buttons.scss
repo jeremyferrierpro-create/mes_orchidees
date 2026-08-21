@@ -1,0 +1,52 @@
+// COMPOSANT : BOUTONS
+
+// Le bouton Hamburger du Header
+.menu-toggle {
+    background: transparent; 
+    border: none;            
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    // La barre centrale du hamburger
+    .hamburger-bar {
+        display: block;
+        width: 25px;
+        height: 3px;
+        background-color: $clr-gold; // J'utilise ma variable dorée
+        position: relative;
+        transition: background-color 0.3s ease;
+
+        // Les barres du haut et du bas (créées en CSS)
+        &::before,
+        &::after {
+            content: "";
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: $clr-gold;
+            position: absolute;
+            transition: transform 0.3s ease;
+        }
+
+        &::before { top: -8px; } // Barre du haut
+        &::after { top: 8px; }   // Barre du bas
+    }
+}
+
+// Le bouton de validation de la recherche (Loupe ou texte)
+.search-btn {
+    background-color: $clr-gold;
+    color: $clr-bg; // Écrit en vert foncé sur fond doré
+    border: none;
+    padding: 10px 25px;
+    border-radius: 50px; // Bouton bien arrondi comme sur le mockup
+    font-family: $font-titles;
+    font-size: 14px;
+    transition: opacity 0.3s ease;
+
+    &:hover {
+        opacity: 0.9; // Petit effet visuel quand on passe dessus
+    }
+}
