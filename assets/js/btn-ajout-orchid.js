@@ -1,107 +1,115 @@
-// btn-ajout-orchid.js — Gestion du bouton "+ COLLECTION"
-// ========================================================
-// Ce fichier gère l'ajout d'une orchidée à la collection personnelle.
-// Aujourd'hui, il utilise le localStorage du navigateur.
-// Demain, il enverra les données à une API PHP / Supabase.
+// btn-ajout-orchid.js — Ajout d'une orchidée à la collection
+// =============================================================
+// Stocke désormais un objet référencé (orchidId) au lieu d'une simple
+// chaîne, afin d'alimenter le dashboard Ma Collection.
+// À terme, appel à l'API PHP / Supabase.
 
-// On attend que le DOM soit complètement chargé avant de manipuler les éléments
-document.addEventListener('DOMContentLoaded', function () {
+(function () {
+    'use strict';
 
-    // On récupère le titre de la modale pour connaître l'orchidée affichée
-    const modalTitle = document.getElementById('modal-orchid-title');
+    document.addEventListener('DOMContentLoaded', function () {
+        const modalTitle = document.getElementById('modal-orchid-title');
+        const modal = document.getElementById('orchid-modal');
+        const addButton = document.querySelector('.btn-add-collection');
 
-    // On récupère la modale elle-même
-    const modal = document.getElementById('orchid-modal');
+        if (!addButton) return;
 
-    // On récupère le bouton "+ COLLECTION" dans la modale
-    const addButton = document.querySelector('.btn-add-collection');
-
-    // Si le bouton n'existe pas, on arrête le script (autres pages)
-    if (!addButton) {
-        return;
-    }
-
-    // Fonction qui simule la vérification de l'état de connexion
-    function isUserAuthenticated() {
-        // On lit la valeur stockée dans le localStorage sous la clé 'isAuthenticated'
-        return localStorage.getItem('isAuthenticated') === 'true';
-    }
-
-    // Fonction qui met à jour la visibilité du bouton en fonction de la connexion
-    function updateCollectionButtonVisibility() {
-        // Si l'utilisateur est connecté, on affiche le bouton
-        // Sinon, on le masque : il ne faut pas pouvoir ajouter sans être connecté
-        addButton.hidden = !isUserAuthenticated();
-    }
-
-    // Dès l'ouverture de la modale, on ajuste le bouton
-    if (modal) {
-        modal.addEventListener('orchidModalOpened', updateCollectionButtonVisibility);
-    }
-
-    // On cache le bouton par précaution au chargement initial
-    updateCollectionButtonVisibility();
-
-    // Fonction qui ajoute une orchidée à la collection
-    function ajouterAMaCollection(orchidName) {
-        // On vérifie que le nom est valide (pas vide ni placeholder "...")
-        if (!orchidName || orchidName === '...') {
-            // On affiche un avertissement dans la console du navigateur
-            console.warn('Impossible de récupérer le nom de l\'orchidée cible.');
-            return;
+        function isUserAuthenticated() {
+            return localStorage.getItem('isAuthenticated') === 'true';
         }
 
-        // Si l'utilisateur est connecté
-        if (isUserAuthenticated()) {
-            // On récupère la collection actuelle, ou un tableau vide si elle n'existe pas
-            let maCollection = JSON.parse(localStorage.getItem('userCollection')) || [];
+        function updateCollectionButtonVisibility() {
+            addButton.hidden = !isUserAuthenticated();
+        }
 
-            // On vérifie si l'orchidée est déjà dans la collection
+        if (modal) {
+            modal.addEventListener('orchidModalOpened', updateCollectionButtonVisibility);
+        }
+        updateCollectionButtonVisibility();
+
+        /**
+         * Normalise un tableau de collection contenant encore
+         * d'anciennes chaînes de caractères.
+         */
+        function normalizeCollection(items) {
+            return items.map(function (item, index) {
+                if (typeof item === 'string') {
+                    const match = (window.orchidsDatabase || []).find(function (o) {
+                        return o.name.toLowerCase() === item.toLowerCase();
+                    });
+                    return {
+                        collectionId: 'legacy-' + index + '-' + Date.now(),
+                        orchidId: match ? match.id : item.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+                        addedAt: new Date().toISOString(),
+                        location: '',
+                        notes: '',
+                        careHistory: []
+                    };
+                }
+                return item;
+            });
+        }
+
+        function ajouterAMaCollection(orchidName) {
+            if (!orchidName || orchidName === '...') {
+                console.warn('Impossible de récupérer le nom de l\'orchidée cible.');
+                return;
+            }
+
+            if (!isUserAuthenticated()) {
+                const choix = confirm(
+                    'Vous devez être connecté pour ajouter une orchidée à votre collection.\n\n' +
+                    'Souhaitez-vous vous connecter ou créer un compte dès maintenant ?'
+                );
+                if (choix) {
+                    localStorage.setItem('pendingOrchidToAdd', orchidName);
+                    window.location.href = 'authentification.html';
+                }
+                return;
+            }
+
+            const orchid = (window.orchidsDatabase || []).find(function (o) {
+                return o.name.toLowerCase() === orchidName.toLowerCase();
+            });
+
+            if (!orchid) {
+                console.warn('Orchidée non trouvée dans la base :', orchidName);
+                alert('Impossible d\'ajouter cette orchidée : elle n\'est pas référencée.');
+                return;
+            }
+
+            let maCollection = JSON.parse(localStorage.getItem('userCollection')) || [];
+            maCollection = normalizeCollection(maCollection);
+
             const dejaPresente = maCollection.some(function (item) {
-                // On gère les cas où l'item est une chaîne ou un objet
-                const nom = typeof item === 'string' ? item : item.name;
-                // On compare en minuscule pour éviter les différences de casse
-                return nom.toLowerCase() === orchidName.toLowerCase();
+                return item.orchidId === orchid.id;
             });
 
             if (dejaPresente) {
-                // Message à l'utilisateur si l'orchidée est déjà présente
-                alert('L\'orchidée "' + orchidName + '" est déjà présente dans votre collection !');
+                alert('L\'orchidée "' + orchid.name + '" est déjà présente dans votre collection.');
+                return;
+            }
+
+            maCollection.push({
+                collectionId: 'col-' + Date.now(),
+                orchidId: orchid.id,
+                addedAt: new Date().toISOString(),
+                location: '',
+                notes: '',
+                careHistory: []
+            });
+
+            localStorage.setItem('userCollection', JSON.stringify(maCollection));
+            alert('L\'orchidée "' + orchid.name + '" a été ajoutée à votre collection.');
+        }
+
+        addButton.addEventListener('click', function () {
+            const orchidName = modalTitle ? modalTitle.textContent.trim() : null;
+            if (orchidName) {
+                ajouterAMaCollection(orchidName);
             } else {
-                // On ajoute le nom de l'orchidée au tableau
-                maCollection.push(orchidName);
-                // On enregistre la collection mise à jour dans le localStorage
-                localStorage.setItem('userCollection', JSON.stringify(maCollection));
-                // On confirme l'ajout à l'utilisateur
-                alert('L\'orchidée "' + orchidName + '" a été ajoutée avec succès à votre collection !');
+                console.warn('Aucun nom d\'orchidée trouvé dans la modale.');
             }
-        } else {
-            // Si l'utilisateur n'est pas connecté, on lui propose de le faire
-            const choix = confirm(
-                'Vous devez être connecté pour ajouter une orchidée à votre collection.\n\n' +
-                'Souhaitez-vous vous connecter ou créer un compte dès maintenant ?'
-            );
-
-            if (choix) {
-                // On mémorise l'orchidée choisie en attendant la connexion
-                localStorage.setItem('pendingOrchidToAdd', orchidName);
-                // On redirige vers la page d'authentification
-                window.location.href = 'authentification.html';
-            }
-        }
-    }
-
-    // Quand on clique sur le bouton "+ COLLECTION"
-    addButton.addEventListener('click', function () {
-        // On récupère le texte du titre de la modale et on enlève les espaces
-        const orchidName = modalTitle ? modalTitle.textContent.trim() : null;
-
-        // Si on a bien un nom, on lance l'ajout
-        if (orchidName) {
-            ajouterAMaCollection(orchidName);
-        } else {
-            // Sinon, on affiche un avertissement dans la console
-            console.warn('Aucun nom d\'orchidée trouvé dans la modale.');
-        }
+        });
     });
-});
+})();

@@ -719,6 +719,613 @@
 }
 
 // ------------------------------
+// PAGE : Ma Collection — dashboard redesign
+// ------------------------------
+
+.collection-app {
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 20px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.collection-guest-message {
+    text-align: center;
+    color: $clr-white;
+    font-family: $font-body;
+    font-size: 18px;
+    margin-top: 40px;
+
+    a {
+        color: $clr-gold;
+        text-decoration: underline;
+    }
+}
+
+.collection-dashboard {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    margin-bottom: 40px;
+
+    @media (max-width: 900px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.dash-card {
+    padding: 20px;
+    border-radius: 12px;
+    @include glass-effect;
+    background-color: rgba(14, 32, 24, 0.6);
+
+    h3 {
+        font-family: $font-titles;
+        font-size: 16px;
+        color: $clr-gold;
+        margin: 0 0 15px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+}
+
+#dash-plants-stats {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: $clr-white;
+        font-family: $font-body;
+        font-size: 14px;
+        margin-bottom: 8px;
+
+        strong {
+            color: $clr-gold;
+            font-size: 18px;
+        }
+    }
+}
+
+.dash-climate-values {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    text-align: center;
+}
+
+.climate-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    color: $clr-white;
+
+    i {
+        font-size: 20px;
+        color: $clr-gold;
+    }
+
+    strong {
+        font-size: 18px;
+    }
+}
+
+#dash-notifications {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: $clr-white;
+        font-family: $font-body;
+        font-size: 14px;
+        margin-bottom: 12px;
+
+        i {
+            color: $clr-gold;
+            width: 20px;
+        }
+    }
+}
+
+.notif-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.notif-orange {
+    background-color: #ff9f43;
+}
+
+.notif-green {
+    background-color: #50c878;
+}
+
+.collection-workspace {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 25px;
+    align-items: start;
+
+    @media (max-width: 900px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.collection-panel,
+.care-panel,
+.conseil-panel {
+    padding: 20px;
+    border-radius: 12px;
+    @include glass-effect;
+    background-color: rgba(14, 32, 24, 0.6);
+}
+
+.panel-title {
+    font-family: $font-titles;
+    font-size: 18px;
+    color: $clr-gold;
+    margin: 0 0 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.collection-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 15px;
+}
+
+.collection-thumb {
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+        transform: scale(1.03);
+    }
+
+    &.is-selected {
+        box-shadow: 0 0 0 2px $clr-gold;
+    }
+
+    img {
+        width: 100%;
+        height: 120px;
+        object-fit: cover;
+        display: block;
+    }
+
+    h3 {
+        font-family: $font-body;
+        font-size: 12px;
+        color: $clr-white;
+        margin: 8px 4px;
+    }
+}
+
+.collection-thumb-add {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 120px;
+    border: 2px dashed rgba(255, 255, 255, 0.2);
+    text-decoration: none;
+
+    .add-plus {
+        font-size: 40px;
+        color: $clr-gold;
+    }
+}
+
+.btn-remove-collection {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background-color: rgba(255, 42, 42, 0.85);
+    color: $clr-white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.side-panels {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.care-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+
+    .panel-title {
+        margin: 0;
+    }
+}
+
+.btn-new-care {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: $clr-gold;
+    color: $clr-bg;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.care-table-wrap {
+    overflow-x: auto;
+}
+
+.care-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: $clr-white;
+    font-family: $font-body;
+    font-size: 13px;
+
+    th {
+        text-align: left;
+        font-family: $font-titles;
+        font-size: 11px;
+        color: $clr-gold;
+        text-transform: uppercase;
+        padding: 8px 4px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    td {
+        padding: 8px 4px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+}
+
+.conseil-empty {
+    color: $clr-white;
+    opacity: 0.8;
+    font-family: $font-body;
+    font-size: 14px;
+    margin: 0;
+}
+
+.conseil-preview-card {
+    h3 {
+        font-family: $font-titles;
+        font-size: 16px;
+        color: $clr-gold;
+        margin: 0 0 10px;
+    }
+
+    .conseil-preview-text {
+        font-family: $font-body;
+        font-size: 13px;
+        line-height: 1.5;
+        color: $clr-white;
+        white-space: pre-line;
+        max-height: 180px;
+        overflow-y: auto;
+        margin: 0 0 15px;
+    }
+}
+
+.conseil-care-mini {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 15px;
+
+    div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        font-size: 11px;
+        color: $clr-gold;
+
+        i {
+            font-size: 16px;
+            color: $clr-gold;
+        }
+    }
+}
+
+// Modales spécifiques à la collection
+.modal-container.collection-modal,
+.modal-container.care-modal {
+    max-width: 900px;
+    max-height: 90vh;
+    overflow-y: auto;
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+
+        label,
+        legend {
+            font-family: $font-titles;
+            font-size: 11px;
+            color: $clr-gold;
+            text-transform: uppercase;
+        }
+    }
+}
+
+.collection-modal-header {
+    display: flex;
+    gap: 25px;
+    align-items: flex-start;
+    margin-bottom: 25px;
+
+    .collection-modal-img {
+        width: 140px;
+        height: 140px;
+        object-fit: cover;
+        border-radius: 6px;
+        flex-shrink: 0;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .collection-modal-titles {
+        flex: 1;
+
+        .collection-modal-title {
+            font-family: $font-titles;
+            font-size: 26px;
+            color: $clr-gold;
+            margin: 0 0 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .collection-modal-short {
+            font-family: $font-body;
+            font-size: 14px;
+            color: $clr-white;
+            opacity: 0.9;
+            margin: 0;
+        }
+    }
+}
+
+.collection-modal-fields {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 25px;
+
+    @media (max-width: 700px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.collection-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    label {
+        font-family: $font-titles;
+        font-size: 10px;
+        color: $clr-gold;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    span {
+        font-family: $font-body;
+        font-size: 13px;
+        color: $clr-white;
+        background-color: rgba(255, 255, 255, 0.08);
+        padding: 8px 12px;
+        border-radius: 20px;
+    }
+}
+
+.collection-modal-desc,
+.collection-modal-personal {
+    margin-bottom: 25px;
+
+    h4 {
+        font-family: $font-titles;
+        font-size: 13px;
+        color: $clr-gold;
+        margin: 0 0 12px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+}
+
+#edit-modal-long {
+    background-color: rgba(255, 255, 255, 0.06);
+    font-family: $font-body;
+    font-size: 13px;
+    line-height: 1.5;
+    color: $clr-white;
+    padding: 20px;
+    border-radius: 20px;
+    margin: 0;
+    white-space: pre-line;
+}
+
+.personal-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.edit-input,
+.edit-textarea,
+.edit-select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.08);
+    color: $clr-white;
+    font-family: $font-body;
+    font-size: 14px;
+    box-sizing: border-box;
+
+    &:focus {
+        outline: 2px solid $clr-gold;
+        outline-offset: 2px;
+    }
+}
+
+.edit-textarea {
+    resize: vertical;
+}
+
+.collection-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+}
+
+.btn-validate,
+.btn-cancel {
+    padding: 10px 25px;
+    border-radius: 50px;
+    border: none;
+    font-family: $font-titles;
+    font-size: 13px;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+        opacity: 0.9;
+    }
+}
+
+.btn-validate {
+    background-color: $clr-gold;
+    color: $clr-bg;
+}
+
+.btn-cancel {
+    background-color: transparent;
+    border: 1px solid $clr-gold;
+    color: $clr-gold;
+}
+
+.care-modal-title {
+    font-family: $font-titles;
+    font-size: 28px;
+    color: $clr-gold;
+    margin: 0 0 25px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+}
+
+.care-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+
+    @media (max-width: 600px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.care-form fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+
+    legend {
+        width: 100%;
+        margin-bottom: 8px;
+    }
+
+    label {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: $clr-white;
+        font-family: $font-body;
+        font-size: 13px;
+        text-transform: none !important;
+
+        input {
+            width: 16px;
+            height: 16px;
+            accent-color: $clr-gold;
+        }
+    }
+}
+
+.care-history-section {
+    margin: 25px 0;
+
+    h3 {
+        font-family: $font-titles;
+        font-size: 14px;
+        color: $clr-gold;
+        margin: 0 0 12px;
+        text-transform: uppercase;
+    }
+}
+
+.care-history-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: $clr-white;
+    font-family: $font-body;
+    font-size: 13px;
+
+    th,
+    td {
+        text-align: left;
+        padding: 8px 4px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    th {
+        font-family: $font-titles;
+        font-size: 11px;
+        color: $clr-gold;
+    }
+}
+
+.care-empty {
+    color: $clr-white;
+    opacity: 0.8;
+    font-family: $font-body;
+    font-size: 14px;
+}
+
+// ------------------------------
 // RESPONSIVE POUR LES PAGES DE CONTENU
 // ------------------------------
 @media (max-width: 600px) {

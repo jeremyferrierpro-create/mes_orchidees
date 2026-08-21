@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0e2018">
-    <meta name="description" content="Ma collection personnelle d'orchidées.">
+    <meta name="description" content="Gérez votre collection d'orchidées, les soins et les rappels.">
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="./assets/images/site/logotransparent.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -48,12 +48,77 @@
     <main class="main-content" id="main-content">
         <section class="collection-header" aria-label="Ma collection">
             <h1 class="page-title">MA COLLECTION</h1>
-            <p class="page-intro">Retrouvez ici les spécimens que vous avez ajoutés depuis l'encyclopédie.</p>
         </section>
 
-        <section class="collection-content" aria-live="polite" aria-label="Liste de mes orchidées">
-            <div id="collection-list" class="collection-list-container"></div>
-        </section>
+        <div id="collection-guest-message" class="collection-guest-message" hidden>
+            <p>Veuillez vous <a href="authentification.html">connecter</a> pour accéder à votre collection.</p>
+        </div>
+
+        <div id="collection-app" class="collection-app" hidden>
+            <section class="collection-dashboard" aria-label="Tableau de bord">
+                <article class="dash-card dash-plants" aria-label="Statistiques des plantes">
+                    <h3>PLANTES</h3>
+                    <ul id="dash-plants-stats">
+                        <li><span>Total</span><strong id="stat-total">0</strong></li>
+                        <li><span>Épiphytes</span><strong id="stat-epiphytes">0</strong></li>
+                        <li><span>Terrestres</span><strong id="stat-terrestres">0</strong></li>
+                        <li><span>Hémi-épiphytes</span><strong id="stat-hemi">0</strong></li>
+                    </ul>
+                </article>
+
+                <article class="dash-card dash-climate" aria-label="Climat moyen de la collection">
+                    <h3>CLIMAT</h3>
+                    <div class="dash-climate-values" id="dash-climate-values">
+                        <div class="climate-item"><i class="fa-solid fa-temperature-half" aria-hidden="true"></i><strong id="climate-temp">—</strong></div>
+                        <div class="climate-item"><i class="fa-solid fa-droplet" aria-hidden="true"></i><strong id="climate-humidity">—</strong></div>
+                        <div class="climate-item"><i class="fa-solid fa-sun" aria-hidden="true"></i><strong id="climate-light">—</strong></div>
+                    </div>
+                </article>
+
+                <article class="dash-card dash-notifications" aria-label="Notifications">
+                    <h3>NOTIFICATIONS</h3>
+                    <ul id="dash-notifications">
+                        <li><i class="fa-solid fa-bell" aria-hidden="true"></i><span class="notif-dot notif-orange" aria-hidden="true"></span><span>Soins à prévoir</span></li>
+                        <li><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i><span class="notif-dot notif-green" aria-hidden="true"></span><span>Alertes</span></li>
+                        <li><i class="fa-solid fa-clipboard-check" aria-hidden="true"></i><span class="notif-dot notif-green" aria-hidden="true"></span><span>Bilan santé</span></li>
+                    </ul>
+                </article>
+            </section>
+
+            <section class="collection-workspace" aria-label="Espace de gestion">
+                <div class="collection-panel">
+                    <h2 class="panel-title">COLLECTION</h2>
+                    <div id="collection-grid" class="collection-grid"></div>
+                </div>
+
+                <div class="side-panels">
+                    <div class="care-panel">
+                        <div class="care-panel-header">
+                            <h2 class="panel-title">SOINS</h2>
+                            <button type="button" class="btn-new-care" id="btn-new-care" aria-label="Ajouter un nouveau soin">+</button>
+                        </div>
+                        <div class="care-table-wrap">
+                            <table class="care-table" id="care-table" aria-label="Historique des soins">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Soin effectué</th>
+                                        <th>Rappel</th>
+                                        <th>Date rappel</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="care-table-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="conseil-panel">
+                        <h2 class="panel-title">CONSEILS</h2>
+                        <div id="conseil-preview" class="conseil-preview"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
     </main>
 
     <footer id="main-footer">
@@ -65,6 +130,103 @@
         <a href="confidentialite.html" class="footer-link">Confidentialités</a>
     </footer>
 
+    <section class="modal-overlay" id="edit-collection-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="edit-modal-title">
+        <div class="modal-container collection-modal" role="document">
+            <button type="button" class="modal-close" id="edit-modal-close" aria-label="Fermer la fiche">×</button>
+
+            <div class="collection-modal-header">
+                <img id="edit-modal-img" src="" alt="" class="collection-modal-img">
+                <div class="collection-modal-titles">
+                    <h2 id="edit-modal-title" class="collection-modal-title"></h2>
+                    <p id="edit-modal-short" class="collection-modal-short"></p>
+                </div>
+            </div>
+
+            <div class="collection-modal-fields" id="edit-modal-fields"></div>
+
+            <div class="collection-modal-desc">
+                <h4>DESCRIPTION &amp; CARACTÉRISTIQUES</h4>
+                <p id="edit-modal-long"></p>
+            </div>
+
+            <div class="collection-modal-personal">
+                <h4>INFORMATIONS PERSONNELLES</h4>
+                <div class="personal-fields">
+                    <div class="form-group">
+                        <label for="edit-location">Emplacement</label>
+                        <input type="text" id="edit-location" class="edit-input" placeholder="Ex : Salon, Véranda...">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-notes">Notes</label>
+                        <textarea id="edit-notes" class="edit-textarea" rows="3" placeholder="Notes de culture..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="collection-modal-actions">
+                <button type="button" class="btn-validate" id="edit-modal-save">VALIDER</button>
+                <button type="button" class="btn-cancel" id="edit-modal-cancel">ANNULER</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="modal-overlay" id="care-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="care-modal-title">
+        <div class="modal-container care-modal" role="document">
+            <button type="button" class="modal-close" id="care-modal-close" aria-label="Fermer le formulaire">×</button>
+            <h2 id="care-modal-title" class="care-modal-title">NOUVEAU SOIN</h2>
+
+            <form id="care-form" class="care-form">
+                <div class="care-form-grid">
+                    <div class="form-group">
+                        <label for="care-orchid">Orchidée</label>
+                        <select id="care-orchid" class="edit-select" required></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="care-date">Date</label>
+                        <input type="date" id="care-date" class="edit-input" required>
+                    </div>
+                    <fieldset class="form-group care-checks">
+                        <legend>Soins effectués</legend>
+                        <label><input type="checkbox" name="careType" value="arrosage"> Arrosage</label>
+                        <label><input type="checkbox" name="careType" value="rempotage"> Rempotage</label>
+                        <label><input type="checkbox" name="careType" value="traitement"> Traitement</label>
+                        <label><input type="checkbox" name="careType" value="nutrition"> Nutrition</label>
+                    </fieldset>
+                    <div class="form-group">
+                        <label for="care-engrais">Type d'engrais</label>
+                        <input type="text" id="care-engrais" class="edit-input" placeholder="Ex : 20-20-20">
+                    </div>
+                    <div class="form-group">
+                        <label for="care-substrat">Type de substrat</label>
+                        <input type="text" id="care-substrat" class="edit-input" placeholder="Ex : Écorces de pin">
+                    </div>
+                    <div class="form-group">
+                        <label for="care-ravageurs">Ravageurs</label>
+                        <input type="text" id="care-ravageurs" class="edit-input" placeholder="Aucun">
+                    </div>
+                    <fieldset class="form-group care-cycles">
+                        <legend>Cycle de la plante</legend>
+                        <label><input type="checkbox" name="careCycle" value="repos"> Repos</label>
+                        <label><input type="checkbox" name="careCycle" value="croissance"> Croissance</label>
+                        <label><input type="checkbox" name="careCycle" value="floraison"> Floraison</label>
+                    </fieldset>
+                </div>
+
+                <div class="care-history-section">
+                    <h3>HISTORIQUE DES SOINS</h3>
+                    <div id="care-modal-history" class="care-history-table"></div>
+                </div>
+
+                <div class="collection-modal-actions">
+                    <button type="submit" class="btn-validate">VALIDER</button>
+                    <button type="button" class="btn-cancel" id="care-modal-cancel">ANNULER</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <script src="./assets/js/orchids-data.js" defer></script>
+    <script src="./assets/js/conseils-data.js" defer></script>
     <script src="./assets/js/navigation.js" defer></script>
     <script src="./assets/js/collection.js" defer></script>
     <script src="./assets/js/app.js" defer></script>
