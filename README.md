@@ -1,318 +1,155 @@
-<div align="center">
+# Mes Orchidées — Encyclopédie & Gestion de Collection
 
-#  Mes Orchidées
+> *Le monde fascinant des orchidées, enfin centralisé.*
 
-**Encyclopédie & Gestion de Collections d'orchidées**
-
-*Le monde fascinant des orchidées*
-
-[![Statut](https://img.shields.io/badge/statut-en%20d%C3%A9veloppement-orange)]()
-[![MVP](https://img.shields.io/badge/MVP-F%C3%A9vrier%202027-blue)]()
 [![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)]()
-[![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)]()
+[![SCSS](https://img.shields.io/badge/SCSS-CC6699?logo=sass&logoColor=white)]()
 [![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)]()
-[![PHP](https://img.shields.io/badge/PHP-777BB4?logo=php&logoColor=white)]()
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white)]()
-[![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?logo=supabase&logoColor=white)]()
-[![Licence](https://img.shields.io/badge/licence-projet%20%C3%A9tudiant-lightgrey)]()
+[![DWWM](https://img.shields.io/badge/DWWM-Projet%20Fil%20Rouge%20--%202026%2F2027-blue)]()
 
-Projet fil rouge — Formation Développeur Web & Web Mobile (DWWM)
-Auteur : **Jeremy Ferrier** · `DEV_FAD_2026`
-
-[Signaler un bug](#annexes) · [Documentation](#annexes) · [Dépôt GitHub](https://github.com/jeremyferrierpro-create/mes_orchidees.git)
-
-</div>
-
----
-
-##  Table des matières
-
-1. [À propos du projet](#-à-propos-du-projet)
-   - [Who am I ?](#who-am-i-)
-   - [Contexte](#contexte)
-   - [Objectifs & périmètre](#objectifs--périmètre)
-2. [Stack technique](#-stack-technique)
-   - [Contraintes techniques](#contraintes-techniques)
-3. [Démarrage rapide](#-démarrage-rapide)
-   - [Prérequis](#prérequis)
-   - [Installation](#installation)
-   - [Utilisation](#utilisation)
-4. [Conception](#-conception)
-   - [Diagramme d'utilisation](#diagramme-dutilisation)
-   - [Maquettage — UX/UI](#maquettage--uxui)
-5. [Structure du projet](#-structure-du-projet)
-6. [Feuille de route](#-feuille-de-route)
-7. [Accessibilité](#-accessibilité)
-8. [Annexes](#-annexes)
-9. [Auteur & contact](#-auteur--contact)
-10. [Licence](#-licence)
-
----
-
-##  À propos du projet
-
-Aujourd'hui, 90 % des sites dédiés aux orchidées sont anciens, peu sécurisés et mal adaptés aux mobiles. L'information existe, mais elle est éparpillée sur de nombreux sites différents.
-
-**Mes Orchidées** centralise cette information dans une application web moderne, destinée aussi bien aux collectionneurs experts qu'aux débutants passionnés, autour de deux fonctionnalités majeures :
-
-1. Une **encyclopédie** avec moteur de recherche rapide.
-2. Un outil de **gestion de collection personnelle** avec système de rappels intelligents.
-
-| Pilier | Description |
-|---|---|
-| **Centraliser** | Une encyclopédie pour trouver facilement des informations fiables sur les orchidées. |
-| **Archiver** | Une collection personnelle pour enregistrer ses plantes et suivre leur évolution. |
-| **Accompagner** | Un système de rappels pour aider l'utilisateur à penser aux soins de ses plantes. |
-
-Une première version (**MVP**) se concentre sur la recherche et la gestion de collection ; les autres fonctionnalités seront ajoutées ultérieurement.
-
-### Who am I ?
-
-| | |
-|---|---|
-| **Nom** | Jeremy Ferrier |
-| **Âge** | 45 ans |
-| **Ville** | Pamiers |
-
-Passionné de voyage (Antibes, La Réunion, Madagascar, Lyon, Paris, Nîmes, Marrakech...), j'ai d'abord évolué dans le monde végétal — producteur floral, fleuriste, gérant de jardinerie, jardinier, chef d'entreprise — avant de me reconvertir en étudiant développeur web.
-
-Mon objectif : construire des solutions numériques solides et gagner en liberté professionnelle, financière et géographique.
-
+**Projet fil rouge DWWM — Jeremy Ferrier, 45 ans, Pamiers (09)**
+Ancien producteur floral, fleuriste et gérant de jardinerie. Aujourd'hui en reconversion développeur web.
 > *« If I want to, I can, I do ! »*
 
-### Contexte
-
-**Analyse du besoin**
-
-| | |
-|---|---|
-| **Cible** | Collectionneurs privés, passionnés & amateurs |
-| **Produit** | Site web responsive, utilisable sur tablette ou mobile |
-| **Planning** | Phase 1 (MVP) — Février 2027 |
-| **Ambition** | Esthétisme, justesse scientifique & facilité d'utilisation |
-
-**Analyse de la concurrence** — 12 sites concurrents analysés :
-
-| | Points positifs | Points négatifs |
-|---|---|---|
-| **Interne** | Forte autorité SEO, contenu scientifique riche | Sites abandonnés (2006), non sécurisés, non *mobile-friendly* |
-| **Externe** | Captation d'audience, partenariats e-commerce | Refonte des sites associatifs, montée des IA génériques |
-
-**Personas**
-
-<details>
-<summary><strong>Jean-Marc — l'expert collectionneur</strong> (58 ans, Paris, médecin à la retraite)</summary>
-
-> *« La précision scientifique au service d'un patrimoine vivant »*
-
-Collection de 150+ spécimens. Exige une rigueur taxonomique absolue et un archivage patrimonial fiable. Frustré par les IA génériques qui commettent des erreurs d'identification et par les interfaces trop « ludiques ».
-</details>
-
-<details>
-<summary><strong>Jessica — l'amatrice passionnée</strong> (35 ans, Lyon, architecte d'intérieur freelance)</summary>
-
-> *« Je veux comprendre mes plantes et leur offrir les conditions parfaites chez moi. »*
-
-~15 orchidées. Cherche des fiches de culture claires, des rappels d'entretien et un ton bienveillant, jamais culpabilisant.
-</details>
-
-### Objectifs & périmètre
-
-Objectifs fixés selon la méthode **S.M.A.R.T.** :
-
--  **Périmètre MVP :** 8 pages principales, moteur de recherche prédictif, espace utilisateur.
--  **CRUD complet :** Créer, Lire, Modifier, Supprimer les données.
--  **Qualité des données :** validation et enrichissement de l'encyclopédie via modération collaborative.
--  **Cible à 1 an :** 100 utilisateurs passionnés et modérateurs actifs.
-
-**Planning (diagramme de Gantt — 8 mois)**
-
-| Phase | M1 | M2 | M3 | M4 | M5 | M6 | M7 | M8 |
-|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| Spécifications & maquettes (CDC) | ■ | | | | | | | |
-| Développement Frontend (HTML/CSS/JS) | | ■ | ■ | | | | | |
-| Modélisation & BDD (SQL) | | | | ■ | | | | |
-| Logique Backend (PHP) | | | | | ■ | ■ | | |
-| Tests unitaires & recette | | | | | | | ■ | |
-| Corrections & préparation orale | | | | | | | | ■ |
-
-> Le suivi est complété par un tableau **Kanban sur GitHub Projects**, avec les *User Stories* priorisées du *Backlog* jusqu'à la mise en production.
+📂 Dépôt : `jeremyferrierpro-create/mes_orchidees` · Branches : `dev` (travail) → `main` (stable)
 
 ---
 
-## 🛠 Stack technique
+## Pourquoi ce projet ?
 
-| Couche | Technologies |
-|---|---|
-| **Frontend** | HTML5 · CSS3 · JavaScript (natif) |
-| **Backend** | PHP |
-| **Base de données** | PostgreSQL via Supabase |
-| **Sécurité** | bcrypt · protections CSRF/XSS · Row Level Security (RLS) |
-| **Hébergement cible** | Mutualisé type Ionos, LWS |
-| **Design** | Figma · Canva · Gloomap |
-| **Environnement de dev** | VS Code · XAMPP / Laragon · Git & GitHub |
+90% des sites sur les orchidées sont vieux, pas sécurisés et illisibles sur mobile. L'info existe mais elle est éparpillée.
 
-### Contraintes techniques
+**Mes Orchidées** fait simple :
 
-- **Performance :** chargement de l'interface en moins de 3 secondes.
-- **Responsive :** interface 100 % adaptative, du smartphone à l'ordinateur (usage possible en serre).
-- **Sécurité des accès :** mots de passe hachés avec **bcrypt**, sessions PHP maîtrisées, jetons anti-CSRF/XSS, politiques **RLS** Supabase.
-- **Traitement des données :** automatisation des fiches au format **WebP**, modération collaborative pour l'administrateur.
+1. **Centraliser** — une encyclopédie qui répond vite, avec les vrais noms (ordre, genre, origine...)
+2. **Archiver** — une collection perso où j'enregistre mes plantes et leurs soins
+3. **Accompagner** — des conseils clairs et des rappels pour ne pas oublier un arrosage
+
+> Pour l'instant tout tourne en **JavaScript vanilla + localStorage** (pas besoin de base de données). On passera en **PHP + Supabase** plus tard, quand j'aurai vu le SQL en formation. C'est assumé et expliqué au jury.
 
 ---
 
-##  Démarrage rapide
+## Ce qui marche aujourd'hui (MVP)
 
-### Prérequis
+- [x] **Accueil** — recherche instantanée + mots latins qui flottent (ambiance serre)
+- [x] **Encyclopédie** — 21 orchidées complètes, recherche à partir de 3 lettres, fiche modale détaillée + bouton `+ Collection`
+- [x] **Ma Collection** — dashboard (total / épiphytes / terrestres / hémi), climat moyen, grille de vignettes, historique des soins, conseils liés à la plante
+- [x] **Conseils** — 6 rubriques (base, épiphytes, terrestres...) + 21 fiches espèces, recherche et modale qui s'ouvre au clic
+- [x] **Authentification locale** — inscription / connexion sans PHP, juste `localStorage` (prêt pour bcrypt + Supabase ensuite)
+- [x] **Administration** — fidèle au mockup Figma : 3 cartes chiffrées, 2 tableaux en pilules, 3 gros boutons dont `Gérer les utilisateurs`
+- [x] **Responsive + Accessibilité** — RGAA/WCAG, clavier 100%, `focus-trap` dans les modales, `aria-*` partout
+- [x] **PWA** — `sw.js` + `manifest.json`, consultable hors-ligne
 
-- Un serveur local type **XAMPP** ou **Laragon** (Apache + PHP)
-- **PostgreSQL** ou un projet **Supabase**
-- **Git**
-- Un éditeur de code, par exemple **VS Code**
+---
 
-### Installation
+## Lancer le projet en 30 secondes
+
+Pas besoin de XAMPP pour l'instant. C'est du front pur.
 
 ```bash
-# 1. Cloner le dépôt
+# 1. Cloner
 git clone https://github.com/jeremyferrierpro-create/mes_orchidees.git
-
-# 2. Se placer dans le dossier du projet
 cd mes_orchidees
 
-# 3. Démarrer le serveur local (Laragon / XAMPP)
-
-# 4. Ouvrir le projet dans le navigateur
-http://localhost/mes_orchidees/index.html
+# 2. Lancer (au choix)
+# - double-clic sur index.html
+# - ou avec VS Code : clic droit -> Open with Live Server
+# - ou : npx serve .
 ```
 
-### Utilisation
+Ouvre `http://localhost:3000` ou `http://localhost:8765` selon l'outil.
 
-| Étape | Action |
+**Comptes de test (présents dans `assets/js/data/users-data.js`) :**
+- `jeremy.ferrierpro@gmail.com` / `demoadmin` (admin)
+- `admin@mesorchidees.fr` / `demouser` (user)
+
+> Les mots de passe sont en clair **uniquement** pour la démo locale. En prod ils seront hachés avec `bcrypt`.
+
+---
+
+## Stack — Honnête et assumée
+
+| Aujourd'hui (ce que je maîtrise) | Demain (quand je serai formé) |
 |---|---|
-| 1 | Depuis la page d'accueil, rechercher une orchidée par nom courant ou nom scientifique — une fenêtre modale affiche la fiche complète. |
-| 2 | Créer un compte ou se connecter pour accéder à l'espace **Ma Collection**. |
-| 3 | Ajouter ses orchidées, enregistrer des soins (arrosage, rempotage...) et consulter l'historique. |
-| 4 | Consulter la rubrique **Conseils** pour des fiches de culture générales. |
-| 5 | *(Administrateur)* Gérer l'encyclopédie et les conseils, modérer les propositions des utilisateurs depuis **Administration**. |
+| HTML5 sémantique | PHP 8 |
+| SCSS (7-1) → CSS compilé | PostgreSQL via Supabase + RLS |
+| JavaScript vanilla (modules ES) | `fetch()` vers `api/*.php` |
+| `localStorage` + `STORAGE_KEYS` centralisées | `bcrypt`, CSRF, sessions PHP |
+| Figma / Canva (maquettes) | Hébergement Ionos / LWS |
+
+**Choix expliqués à l'oral :**
+- `STORAGE_KEYS` = un seul endroit pour tous les noms de tiroirs (`mo_orchids`, `mo_conseils`...). Si je change un nom, je ne casse rien.
+- `core/modal.js` = une seule fonction `open/close` + `trapFocus` pour le clavier.
+- `services/*` = chaque service parle à `storage.js`, pas direct à `localStorage`. Plus tard je remplace par un `fetch`.
 
 ---
 
-##  Conception
-
-### Diagramme d'utilisation
-
-Trois acteurs interagissent avec l'application :
-
-- **Visiteur (non connecté)** — créer un compte, se connecter, rechercher une orchidée, consulter les conseils de culture et les fiches descriptives.
-- **Utilisateur connecté** — proposer une orchidée à l'encyclopédie, gérer sa collection, enregistrer un soin, consulter l'historique des soins.
-  *Relation `<extend>` : l'enregistrement d'un soin peut déclencher automatiquement l'émission d'un rappel d'entretien.*
-- **Administrateur (Back-Office)** — créer/éditer/supprimer des orchidées et des conseils, valider ou refuser une proposition.
-  *Relation `<include>` : toute décision de modération déclenche obligatoirement l'envoi d'une notification à l'utilisateur.*
-
-Diagrammes UML complets → [Annexe A](#-annexes).
-
-### Maquettage — UX/UI
-
-Méthode en trois étapes : **Zoning → Wireframe → Mockup**, précédée d'une arborescence et d'un Style Tile.
-
-**Style Tile**
-
-| Élément | Choix |
-|---|---|
-| Couleurs | Vert forêt `#0e2018` (fond) · doré/bronze `#c4a47c` (actions) · vert accent `#29825B` · blanc `#ffffff` |
-| Typographie titres | Cinzel |
-| Typographie texte | Inter |
-| Visuels | Photos naturelles d'orchidées, non retouchées |
-
-Maquettes complètes (zonings, wireframes, mockups des 7 pages) → [Annexe B](#-annexes).
-
----
-
-##  Structure du projet
+## Arborescence réelle
 
 ```
-C:.
-├───.vscode
-└───assets
-    ├───css
-    ├───images
-    │   ├───orchids
-    │   └───site
-    ├───js
-    └───scss
-        ├───abstracts
-        ├───base
-        ├───components
-        ├───layout
-        └───pages
+mes_orchidees/
+├── index.html / encyclopedie.html / macollection.html / conseils.html
+├── administration.html / authentification.html / mentions.html ...
+├── assets/
+│   ├── scss/  (abstracts, base, components, layout, pages)
+│   ├── css/   (style.css + style.min.css compilés)
+│   ├── js/
+│   │   ├── app.js + pwa.js
+│   │   ├── core/      (dom, modal, storage, router, notifications, focus, loader, security)
+│   │   ├── data/      (orchids-data.js 21 fiches, conseils-data.js 27 fiches, users-data.js)
+│   │   ├── services/  (orchid-service, conseil-service, collection-service, auth-service)
+│   │   └── features/  (navigation, search, collection, conseils, administration, authentication, background-animation, add-button)
+│   └── images/
+│       ├── orchids/ (21 png + vanilla_planifolia.jpg en minuscule pour Linux)
+│       └── site/    (hero, background.webp, icônes)
+├── sw.js + manifest.json
+└── docs/      (mes notes perso, hors GitHub)
 ```
 
-**Arborescence des pages (8 pages) :**
-
-```
-Accueil
-├── Encyclopédie
-├── Ma Collection
-├── Conseils
-├── Administration
-├── Authentification
-├── Confidentialité
-└── Mentions légales
-```
+> Chaque fichier `*.js` est commenté ligne par ligne en français débutant, pour que je puisse l'expliquer mot à mot devant le jury.
 
 ---
 
-## 🗺 Feuille de route
+## Feuille de route — Simple et lisible
 
-- [x] Spécifications fonctionnelles & maquettes
-- [x] Développement Frontend (HTML/CSS/JS)
-- [ ] Modélisation de la base de données (SQL)
-- [ ] Développement Backend (PHP)
-- [ ] Tests unitaires & recette
-- [ ] Mise en production (MVP — février 2027)
+- [x] Maquettes Figma + HTML/CSS/JS vanilla
+- [x] Audit + corrections (auth sans PHP, conseils fonctionnels, admin fidèle au mockup, STORAGE_KEYS)
+- [x] 100% des scripts commentés pour l'oral
+- [ ] SQL / Modélisation BDD (M4)
+- [ ] PHP + Supabase (M5-M6)
+- [ ] Tests + recette (M7) → **MVP février 2027**
 
----
-
-## ♿ Accessibilité
-
-L'application respecte les critères du **RGAA** et les normes **WCAG 2.1**.
-
-| Pilier | Mise en œuvre |
-|---|---|
-| **Contrastes** | Ratio ≥ 4.5:1 (texte courant), ≥ 3:1 (composants) |
-| **Indépendance à la couleur** | Palette testée pour le daltonisme |
-| **Navigation clavier & modale** | Site pilotable au clavier, *focus trap* dans les modales |
-| **Sémantique & ARIA** | `alt`, `aria-expanded`, `aria-hidden`, `role="dialog"`, `aria-modal="true"`, `.sr-only` |
-
-Outils de test : [Adobe Color](https://color.adobe.com/) · [RGAA Checker](https://rgaa-checker.com/) · [W3C Validator](https://validator.w3.org/nu)
+Branche `dev` = je bricole. Quand c'est propre, je fais `git checkout main && git merge dev && git push`.
 
 ---
 
-##  Annexes
+## Accessibilité
 
-| Annexe | Contenu |
-|---|---|
-| **A** | Spécifications fonctionnelles — diagramme UML *use case* complet, architecture |
-| **B** | Dossier de conception UX/UI & accessibilité — zonings, wireframes, mockups, rapports de tests |
-| **C** | Environnement technique & outillage (tooling) |
-| **D** | Qualité du code source — extraits HTML / CSS / JavaScript commentés |
+- Contrastes ≥ 4.5:1, palette testée daltonisme (Adobe Color)
+- Navigation clavier complète, `skip-link`, `focus-trap` dans les modales
+- Sémantique `role="dialog" aria-modal`, `aria-expanded`, `alt` descriptifs
+- Testé : RGAA Checker + W3C Validator
 
 ---
 
-##  Auteur & contact
+## Auteur
 
-**Jeremy Ferrier**
- Pamiers, France
- [GitHub — mes_orchidees](https://github.com/jeremyferrierpro-create/mes_orchidees.git)
+**Jeremy Ferrier — 45 ans — Pamiers**
+Parcours végétal → code. J'aime les plantes qui respirent et le code qui s'explique.
+
+- GitHub : [@jeremyferrierpro-create](https://github.com/jeremyferrierpro-create)
+- Formation : DWWM `DEV_FAD_2026` — Projet fil rouge 2026/2027
+
+> Ce README est écrit comme je parle : simple, direct, sans jargon inutile. Si un passage fait trop “IA”, dis-le et je le réécris.
 
 ---
 
-##  Licence
+## Licence
 
-Projet réalisé dans le cadre d'une formation Développeur Web & Web Mobile (DWWM). Usage pédagogique.
+Projet étudiant DWWM, usage pédagogique. Pas de licence commerciale pour l'instant.
 
 <div align="center">
 
- *Mes Orchidées — le monde fascinant des orchidées.*
+*Mes Orchidées — le monde fascinant des orchidées.*
 
 </div>
