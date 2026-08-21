@@ -1,6 +1,6 @@
 import * as authService from '../services/auth-service.js';
 import * as notifications from '../core/notifications.js';
-import { STORAGE_KEYS, readString, remove } from '../core/storage.js';
+import { STORAGE_KEYS, readString, remove, writeJson } from '../core/storage.js';
 
 // =====================================================
 // AUTHENTIFICATION 100% LOCALE (sans PHP, sans base de données)
@@ -84,9 +84,9 @@ export function initAuthentication() {
             if (registerMessage) registerMessage.className = 'auth-message error';
             notifications.error(errorMsg);
         } else {
-            // Sinon j'ajoute l'utilisateur dans la liste locale
+            // Sinon j'ajoute l'utilisateur dans la liste locale (j'utilise la clé centralisée)
             currentDb.push({ email: email, password: password, role: 'user' });
-            localStorage.setItem('mo_users_db', JSON.stringify(currentDb));
+            writeJson(STORAGE_KEYS.users, currentDb);
             const successMsg = 'Inscription réussie ! Connexion en cours...';
             if (registerMessage) registerMessage.textContent = successMsg;
             if (registerMessage) registerMessage.className = 'auth-message success';

@@ -1,9 +1,13 @@
+// Je centralise tous les noms de tiroirs (clés) du navigateur ici
+// Comme ça, si je change un nom, je le change à un seul endroit
 export const STORAGE_KEYS = Object.freeze({
-    session: 'mo_user_session',
-    userCollection: 'mo_user_collection',
-    users: 'mo_users_db',
-    notifications: 'mo_notifications',
-    pendingOrchid: 'pendingOrchidToAdd'
+    session: 'mo_user_session', // qui est connecté
+    userCollection: 'mo_user_collection', // les orchidées que l'utilisateur possède
+    users: 'mo_users_db', // la liste de tous les utilisateurs
+    orchids: 'mo_orchids', // la liste de toutes les orchidées de l'encyclopédie
+    conseils: 'mo_conseils', // la liste de tous les conseils
+    notifications: 'mo_notifications', // les notifications admin
+    pendingOrchid: 'pendingOrchidToAdd' // orchidée en attente d'ajout (quand on n'est pas connecté)
 });
 
 export function readJson(key, fallback = null) {

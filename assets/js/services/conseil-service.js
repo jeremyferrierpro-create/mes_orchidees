@@ -1,14 +1,16 @@
 // Je récupère la vraie base qui est dans conseils-data.js (c'est notre faux fichier de données)
 import { conseilsDatabase as seedConseils } from '../data/conseils-data.js';
+// J'importe les clés centralisées et les outils de stockage
+import { STORAGE_KEYS, readJson, writeJson } from '../core/storage.js';
 
 // Je récupère toutes les fiches (si elles sont déjà dans le navigateur, je les prends, sinon je prends la base de départ)
 export function getAllConseils() {
-    // Je regarde dans la mémoire du navigateur (localStorage)
-    let conseils = JSON.parse(localStorage.getItem('mo_conseils'));
+    // Je regarde dans le tiroir mo_conseils du navigateur
+    let conseils = readJson(STORAGE_KEYS.conseils, null);
     // Si rien n'est enregistré, je copie la base de départ
     if (!conseils) {
         conseils = seedConseils;
-        localStorage.setItem('mo_conseils', JSON.stringify(conseils));
+        writeJson(STORAGE_KEYS.conseils, conseils);
     }
     return conseils;
 }
@@ -28,14 +30,14 @@ export function saveConseil(conseil) {
         if (!conseil.id) conseil.id = Date.now();
         conseils.push(conseil);
     }
-    localStorage.setItem('mo_conseils', JSON.stringify(conseils));
+    writeJson(STORAGE_KEYS.conseils, conseils);
 }
 
 // Je supprime une fiche
 export function deleteConseil(id) {
     let conseils = getAllConseils();
     conseils = conseils.filter(c => c.id !== id);
-    localStorage.setItem('mo_conseils', JSON.stringify(conseils));
+    writeJson(STORAGE_KEYS.conseils, conseils);
 }
 
 // Je cherche des fiches avec un mot-clé (je cherche dans le nom, le contenu ET la catégorie)

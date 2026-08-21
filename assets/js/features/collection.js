@@ -5,6 +5,7 @@ import { getAllOrchids, getOrchidById } from '../services/orchid-service.js';
 import { getConseilById } from '../services/conseil-service.js';
 import * as modalManager from '../core/modal.js';
 import * as notifications from '../core/notifications.js';
+import { STORAGE_KEYS, readJson, writeJson } from '../core/storage.js';
 
 // collection.js — Dashboard de gestion de la collection
 // ======================================================
@@ -665,14 +666,14 @@ export function initCollection() {
             saveCollection();
 
             if (isProposition) {
-                // Générer une notification admin
-                const adminNotifs = JSON.parse(localStorage.getItem('mo_notifications')) || [];
+                // Je crée une notification pour l'admin (j'utilise la clé centralisée)
+                const adminNotifs = readJson(STORAGE_KEYS.notifications, []) || [];
                 adminNotifs.push({
                     id: Date.now(),
                     date: new Date().toLocaleDateString('fr-FR'),
-                    text: "Nouvelle proposition d'orchidée : " + name
+                    message: "Nouvelle proposition d'orchidée : " + name
                 });
-                localStorage.setItem('mo_notifications', JSON.stringify(adminNotifs));
+                writeJson(STORAGE_KEYS.notifications, adminNotifs);
             }
 
             closeAddModal();

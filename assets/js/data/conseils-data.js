@@ -408,7 +408,7 @@ export const conseilsDatabase = [
     "id": "fiche-vanilla_planifolia",
     "type": "species",
     "name": "VANILLA PLANIFOLIA",
-    "img": "./assets/images/orchids/Vanilla-planifolia.jpg",
+    "img": "./assets/images/orchids/vanilla_planifolia.jpg",
     "category": "Épiphyte",
     "content": "VANILLA PLANIFOLIA est une orchidée épiphyte originaire du Mexique et d'Amérique centrale. Elle est notamment cultivée pour ses gousses de vanille. Vanilla planifolia est une liane vigoureuse qui développe de longues tiges charnues et des racines aériennes. Elle apprécie une forte luminosité tamisée, une atmosphère chaude et humide ainsi qu'un substrat très drainant. Une période de repos légère peut favoriser la floraison, mais le dessèchement complet des racines doit être évité.",
     "careCards": {

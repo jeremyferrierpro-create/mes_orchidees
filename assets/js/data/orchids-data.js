@@ -108,7 +108,7 @@ export const orchidsDatabase = [
     },
 
     {
-        id: "vanilla_planifolia", name: "VANILLA PLANIFOLIA", vernacular: "VANILLE", order: "Asparagales", species: "Planifolia", genre: "Vanilla", family: "Orchidaceae", subfamily: "Vanilloideae", tribu: "Vanilleae", subtribu: "Vanillinae", behavior: "Hémiépiphyte / Grimpante", discovered: "J. W. Klotzsch (1841)", origin: "Mexique, Amérique Centrale", img: "./assets/images/orchids/Vanilla-planifolia.jpg",
+        id: "vanilla_planifolia", name: "VANILLA PLANIFOLIA", vernacular: "VANILLE", order: "Asparagales", species: "Planifolia", genre: "Vanilla", family: "Orchidaceae", subfamily: "Vanilloideae", tribu: "Vanilleae", subtribu: "Vanillinae", behavior: "Hémiépiphyte / Grimpante", discovered: "J. W. Klotzsch (1841)", origin: "Mexique, Amérique Centrale", img: "./assets/images/orchids/vanilla_planifolia.jpg",
         shortDesc: "Orchidée grimpante tropicale célèbre pour ses fruits dont est extraite la vanille.",
         longDesc: "Vanilla planifolia est une orchidée grimpante tropicale qui développe de longues tiges charnues capables de s'accrocher aux arbres. Elle apprécie une lumière vive mais filtrée, une forte humidité atmosphérique, des températures chaudes et un substrat riche, humide mais parfaitement drainé. Ses fleurs sont éphémères et doivent être pollinisées manuellement en culture pour obtenir les gousses de vanille."
     }
