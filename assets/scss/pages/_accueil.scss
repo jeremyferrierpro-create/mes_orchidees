@@ -76,14 +76,14 @@ body {
     text-align: center;
     
     .main-title {
-        font-size: clamp(35px, 6vw, 65px);
+        font-size: clamp(45px, 6vw, 65px);
         letter-spacing: 8px;
     }
 
     .sub-title {
-        font-size: 16px;
+        font-size: 30px;
         opacity: 0.8;
-        margin-top: 10px;
+        margin-top: 1px;
     }
 }
 
@@ -94,7 +94,7 @@ body {
     align-items: center;
     height: 100%;
     width: 100%;
-    padding: 20px 0;
+    padding: 5px 0;
 }
 
 .orchid-focus {
