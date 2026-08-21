@@ -122,6 +122,14 @@ function filterOrchids(query) {
     // On nettoie la requête : on enlève les espaces et on met en minuscule
     const cleanQuery = query.toLowerCase().trim();
 
+    // On n'affiche aucun résultat tant que l'utilisateur n'a pas saisi au moins 3 caractères
+    if (cleanQuery.length < 3) {
+        if (gridContainer) {
+            gridContainer.innerHTML = '';
+        }
+        return;
+    }
+
     // On filtre la base de données
     const filtered = orchidsDatabase.filter(function (orchid) {
         // On cherche dans le nom latin
@@ -403,9 +411,15 @@ document.addEventListener('DOMContentLoaded', function () {
     // On charge les données (local aujourd'hui, API demain)
     loadOrchids();
 
-    // Si on est sur la page encyclopédie, on affiche toutes les cartes au chargement
+    // Sur l'encyclopédie sans paramètre de recherche, on affiche toutes les cartes au chargement
+    // Sur l'accueil, la zone de résultats reste vide jusqu'à ce que l'utilisateur tape 3 caractères
     if (gridContainer) {
-        renderOrchidGrid(orchidsDatabase);
+        const urlParams = new URLSearchParams(window.location.search);
+        const hasSearch = urlParams.get('search');
+        const onEncyclopedie = window.location.pathname.toLowerCase().includes('encyclopedie');
+        if (onEncyclopedie && !hasSearch) {
+            renderOrchidGrid(orchidsDatabase);
+        }
     }
 
     // On active la recherche en temps réel

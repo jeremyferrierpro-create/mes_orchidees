@@ -105,6 +105,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Fonction principale de filtrage
     function filterConseils() {
+        // On lit le texte saisi
+        const typedText = textSearch ? textSearch.value.trim().toLowerCase() : '';
+
+        // On n'affiche aucun résultat tant que l'utilisateur n'a pas saisi au moins 3 caractères
+        if (typedText.length < 3) {
+            if (resultsContainer) {
+                resultsContainer.innerHTML = '';
+            }
+            return;
+        }
+
         // On filtre la base de données avec matchesFilters
         const filtered = conseilsDatabase.filter(matchesFilters);
         // On affiche le résultat
@@ -141,6 +152,5 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Affichage initial : on montre tous les conseils du catalogue
-    renderConseils(conseilsDatabase);
+    // La zone de conseils est vide au chargement ; elle se remplit quand l'utilisateur tape 3 caractères
 });
