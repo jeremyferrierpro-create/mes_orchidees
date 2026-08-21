@@ -16,6 +16,12 @@
 
         function isUserAuthenticated() {
             if (window.AppUtils) return window.AppUtils.isAuthenticated();
+            try {
+                const sessionStr = localStorage.getItem('mo_user_session');
+                if (sessionStr) {
+                    return JSON.parse(sessionStr).isAuthenticated === true;
+                }
+            } catch(e) {}
             return localStorage.getItem('isAuthenticated') === 'true';
         }
 

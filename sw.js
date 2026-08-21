@@ -4,7 +4,7 @@
 // en mettant en cache les ressources principales.
 
 // Nom du cache : on l'incrémente à chaque mise à jour majeure
-const CACHE_NAME = 'mes-orchidees-v2';
+const CACHE_NAME = 'mes-orchidees-v3';
 
 // Liste des fichiers à mettre en cache pour le mode hors-ligne
 const CACHE_ASSETS = [

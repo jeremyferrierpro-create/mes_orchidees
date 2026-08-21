@@ -43,9 +43,17 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function loginUser(email, role) {
-        localStorage.setItem('isAuthenticated', 'true');
-        localStorage.setItem('mo_user_email', email);
-        localStorage.setItem('mo_user_role', role || 'user');
+        const session = {
+            isAuthenticated: true,
+            email: email,
+            role: role || 'user'
+        };
+        localStorage.setItem('mo_user_session', JSON.stringify(session));
+        
+        // Nettoyage des anciennes clés pour éviter les conflits
+        localStorage.removeItem('isAuthenticated');
+        localStorage.removeItem('mo_user_email');
+        localStorage.removeItem('mo_user_role');
         
         // Redirection avec historique (pour revenir d'où l'on vient)
         const pending = localStorage.getItem('pendingOrchidToAdd');

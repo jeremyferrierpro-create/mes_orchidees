@@ -57,6 +57,16 @@
          * @returns {boolean} - true si connecté, false sinon.
          */
         isAuthenticated: function () {
+            try {
+                const sessionStr = localStorage.getItem('mo_user_session');
+                if (sessionStr) {
+                    const session = JSON.parse(sessionStr);
+                    return session && session.isAuthenticated === true;
+                }
+            } catch (e) {
+                console.error("Erreur de parsing mo_user_session", e);
+            }
+            // Fallback old keys
             return localStorage.getItem('isAuthenticated') === 'true';
         },
 
@@ -144,6 +154,7 @@
          * Déconnecte l'utilisateur et redirige vers la page de déconnexion.
          */
         logout: function () {
+            localStorage.removeItem('mo_user_session');
             localStorage.removeItem('isAuthenticated');
             localStorage.removeItem('mo_user_role');
             localStorage.removeItem('mo_user_email');
@@ -153,5 +164,60 @@
 
     // Rend l'escapeHtml disponible globalement pour la compatibilité avec l'existant
     window.escapeHtml = window.AppUtils.escapeHtml;
+
+    /**
+     * GESTIONNAIRE DE MODALES (Accessibilité & Focus Trap)
+     * Centralise l'ouverture, la fermeture, le piège du focus et la touche Échap.
+     */
+    window.ModalManager = {
+        activeModal: null,
+        lastFocusedElement: null,
+
+        handleKeyDown: function (e) {
+            if (!window.ModalManager.activeModal) return;
+            
+            if (e.key === 'Escape') {
+                window.ModalManager.close(window.ModalManager.activeModal);
+            } else if (e.key === 'Tab') {
+                window.AppUtils.trapFocus(window.ModalManager.activeModal, e);
+            }
+        },
+
+        open: function (modalElement, triggerElement = null) {
+            if (!modalElement) return;
+            this.lastFocusedElement = triggerElement || document.activeElement;
+            this.activeModal = modalElement;
+            
+            modalElement.classList.add('active');
+            modalElement.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+            
+            // Fix: remove before adding to prevent duplicates
+            document.removeEventListener('keydown', window.ModalManager.handleKeyDown);
+            document.addEventListener('keydown', window.ModalManager.handleKeyDown);
+            
+            // Placer le focus sur le premier élément focusable ou sur le bouton de fermeture
+            setTimeout(() => {
+                const closeBtn = modalElement.querySelector('.modal-close');
+                if (closeBtn) closeBtn.focus();
+                else modalElement.focus();
+            }, 50);
+        },
+
+        close: function (modalElement) {
+            if (!modalElement) return;
+            modalElement.classList.remove('active');
+            modalElement.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+            
+            document.removeEventListener('keydown', window.ModalManager.handleKeyDown);
+            this.activeModal = null;
+            
+            if (this.lastFocusedElement) {
+                this.lastFocusedElement.focus();
+                this.lastFocusedElement = null;
+            }
+        }
+    };
 
 })();

@@ -1,14 +1,14 @@
-// REMISE À ZÉRO GLOBAL (RESET)
+// REMISE Ã€ ZÃ‰RO GLOBAL (RESET)
 
-// On applique ça à tout le site
+// On applique Ã§a Ã  tout le site
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box; // Évite les bugs de calcul de taille avec les paddings
+    box-sizing: border-box; // Ã‰vite les bugs de calcul de taille avec les paddings
 }
 
 html, body {
-    overflow-x: hidden; // Empêche tout élément (comme les mots latins générés par JS) de créer une barre de défilement horizontale
+    overflow-x: hidden; // EmpÃªche tout Ã©lÃ©ment (comme les mots latins gÃ©nÃ©rÃ©s par JS) de crÃ©er une barre de dÃ©filement horizontale
     width: 100%;
 }
 
@@ -21,9 +21,9 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    position: relative; // Nécessaire pour le z-index du pseudo-élément
+    position: relative; // NÃ©cessaire pour le z-index du pseudo-Ã©lÃ©ment
     
-    // Le background en pseudo-élément : La seule méthode 100% fiable sur iOS Safari pour un fond fixe
+    // Le background en pseudo-Ã©lÃ©ment : La seule mÃ©thode 100% fiable sur iOS Safari pour un fond fixe
     &::before {
         content: "";
         position: fixed;
@@ -43,32 +43,32 @@ body {
     }
 }
 
-// Conteneur principal commun à TOUTES les pages
+// Conteneur principal commun Ã  TOUTES les pages
 .main-content {
     flex-grow: 1;
     min-height: calc(100vh - 180px); // Ajuste la hauteur en tenant compte du header et du footer
     display: flex;
     flex-direction: column;
-    align-items: center; // Centré horizontalement par défaut
-    justify-content: flex-start; // Le contenu s'empile depuis le haut (sera surchargé sur l'accueil si besoin)
+    align-items: center; // CentrÃ© horizontalement par dÃ©faut
+    justify-content: flex-start; // Le contenu s'empile depuis le haut (sera surchargÃ© sur l'accueil si besoin)
     width: 100%;
     position: relative;
-    padding-bottom: 90px; // EMPÊCHE LE CONTENU DE PASSER SOUS LE FOOTER (Fixe sur toutes les pages)
+    padding-bottom: 90px; // EMPÃŠCHE LE CONTENU DE PASSER SOUS LE FOOTER (Fixe sur toutes les pages)
     box-sizing: border-box;
 }
 
 // Nettoyage des liens et des listes pour tout le site
 a {
-    text-decoration: none; // Enlève le soulignement moche par défaut
+    text-decoration: none; // EnlÃ¨ve le soulignement moche par dÃ©faut
     color: inherit;        // Prend la couleur du texte du parent
 }
 
 ul, li {
-    list-style: none; // Enlève les puces des listes (pour nos futurs menus)
+    list-style: none; // EnlÃ¨ve les puces des listes (pour nos futurs menus)
 }
 
 img {
-    max-width: 100%;  // Empêche les images de dépasser de leur conteneur
+    max-width: 100%;  // EmpÃªche les images de dÃ©passer de leur conteneur
     height: auto;     // Garde les proportions de l'image
     display: block;   // Supprime l'espace vide sous les images
 }
@@ -77,9 +77,32 @@ button {
     cursor: pointer;  // Met la petite main au survol sur tous les boutons
 }
 
-// Accessibilité : Focus visible RGAA
+// AccessibilitÃ© : Focus visible RGAA
 *:focus-visible {
-    outline: 3px solid #c4a47c !important; /* Couleur or du thème */
+    outline: 3px solid #c4a47c !important; /* Couleur or du thÃ¨me */
     outline-offset: 3px !important;
     border-radius: 4px;
+}
+
+// RGAA : DÃ©sactivation des animations pour les utilisateurs sensibles
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+// Classe utilitaire pour cacher du contenu visuellement mais le garder pour les lecteurs d'ecran (RGAA)
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
 }

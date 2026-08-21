@@ -77,10 +77,13 @@
         font-family: $font-body; // Inter
         font-size: 14px;
         color: $clr-gold;        // Ta couleur dorée
-        transition: opacity 0.3s ease;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        transition: opacity 0.3s ease, text-decoration-color 0.3s ease;
 
-        &:hover {
+        &:hover, &:focus-visible {
             opacity: 0.8; // Petit effet visuel au survol
+            text-decoration-color: transparent;
         }
         
         @include respond-to('xs') {

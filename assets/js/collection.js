@@ -10,7 +10,18 @@
     document.addEventListener('DOMContentLoaded', function () {
         const orchidsDatabase = window.orchidsDatabase || [];
         const conseilsDatabase = window.conseilsDatabase || [];
-        const userIsAuth = localStorage.getItem('isAuthenticated') === 'true';
+        let userIsAuth = false;
+        if (window.AppUtils) {
+            userIsAuth = window.AppUtils.isAuthenticated();
+        } else {
+            try {
+                const sessionStr = localStorage.getItem('mo_user_session');
+                if (sessionStr) {
+                    userIsAuth = JSON.parse(sessionStr).isAuthenticated === true;
+                }
+            } catch(e) {}
+            if (!userIsAuth) userIsAuth = localStorage.getItem('isAuthenticated') === 'true';
+        }
 
         // Éléments du DOM
         const app = document.getElementById('collection-app');
@@ -492,16 +503,15 @@
             if (editVentilation) editVentilation.value = item.ventilation || '';
             editNotes.value = item.notes || '';
 
-            editModal.classList.add('active');
-            editModal.setAttribute('aria-hidden', 'false');
-            document.body.style.overflow = 'hidden';
-            setTimeout(function () { editModalClose.focus(); }, 0);
+            if (window.ModalManager) {
+                window.ModalManager.open(editModal);
+            }
         }
 
         function closeEditModal() {
-            editModal.classList.remove('active');
-            editModal.setAttribute('aria-hidden', 'true');
-            document.body.style.overflow = '';
+            if (window.ModalManager) {
+                window.ModalManager.close(editModal);
+            }
             editCollectionId = null;
         }
 
@@ -530,16 +540,15 @@
             addProposeContainer.style.display = 'flex';
             toggleTaxonomyFields(false);
             
-            addModal.classList.add('active');
-            addModal.setAttribute('aria-hidden', 'false');
-            document.body.style.overflow = 'hidden';
-            setTimeout(function () { addName.focus(); }, 0);
+            if (window.ModalManager) {
+                window.ModalManager.open(addModal);
+            }
         }
 
         function closeAddModal() {
-            addModal.classList.remove('active');
-            addModal.setAttribute('aria-hidden', 'true');
-            document.body.style.overflow = '';
+            if (window.ModalManager) {
+                window.ModalManager.close(addModal);
+            }
         }
 
         function toggleTaxonomyFields(readOnly) {
@@ -701,16 +710,15 @@
             for (const cb of checkboxes) cb.checked = false;
 
             renderCareModalHistory();
-            careModal.classList.add('active');
-            careModal.setAttribute('aria-hidden', 'false');
-            document.body.style.overflow = 'hidden';
-            setTimeout(function () { careModalClose.focus(); }, 0);
+            if (window.ModalManager) {
+                window.ModalManager.open(careModal);
+            }
         }
 
         function closeCareModal() {
-            careModal.classList.remove('active');
-            careModal.setAttribute('aria-hidden', 'true');
-            document.body.style.overflow = '';
+            if (window.ModalManager) {
+                window.ModalManager.close(careModal);
+            }
         }
 
         function renderCareModalHistory() {
@@ -831,13 +839,7 @@
         // Événements
         // ------------------------------------------------------------------
 
-        function closeActiveModal(event) {
-            if (event.key === 'Escape') {
-                if (editModal.classList.contains('active')) closeEditModal();
-                if (careModal.classList.contains('active')) closeCareModal();
-                if (addModal && addModal.classList.contains('active')) closeAddModal();
-            }
-        }
+        // Logique "Escape" gérée par ModalManager
 
         function bindEvents() {
             grid.addEventListener('click', removeCollectionItem);
@@ -871,8 +873,6 @@
             careModal.addEventListener('click', function (event) {
                 if (event.target === careModal) closeCareModal();
             });
-
-            document.addEventListener('keydown', closeActiveModal);
         }
 
         // ------------------------------------------------------------------

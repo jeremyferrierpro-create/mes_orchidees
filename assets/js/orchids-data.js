@@ -6,104 +6,110 @@
 // vers un endpoint (ex: api/orchids.php) qui retournera un JSON identique.
 
 window.orchidsDatabase = [
-    { 
+    {
         id: "acacalis_cyanea", name: "ACACALIS CYANEA", vernacular: "AGANISIA BLEUE", order: "Asparagales", species: "Cyanea", genre: "Acacalis", family: "Orchidaceae", subfamily: "Epidendroideae", tribu: "Cymbidieae", subtribu: "Zygopetalinae", behavior: "Épiphyte", discovered: "John Lindley (1839)", origin: "Amérique du Sud (Bassin de l'Amazone)", img: "./assets/images/orchids/acacalis_cyanea.png",
         shortDesc: "Rare orchidée épiphyte tropicale réputée pour ses teintes bleu-violacé uniques.",
-        longDesc: "Acacalis cyanea demande une forte humidité ambiante (80%+), des températures chaudes et une lumière tamisée de sous-bois. Se développant très bien montée sur plaque d'écorce ou de liège, elle déteste le soleil direct et demande un arrosage régulier à l'eau douce." 
+        longDesc: "Acacalis cyanea demande une forte humidité ambiante (80%+), des températures chaudes et une lumière tamisée de sous-bois. Se développant très bien montée sur plaque d'écorce ou de liège, elle déteste le soleil direct et demande un arrosage régulier à l'eau douce."
     },
-    { 
+    {
         id: "acineta_barkerii", name: "ACINETA BARKERII", vernacular: "ACINETA DE BARKER", order: "Asparagales", species: "Barkerii", genre: "Acineta", family: "Orchidaceae", subfamily: "Epidendroideae", tribu: "Cymbidieae", subtribu: "Stanhopeinae", behavior: "Épiphyte", discovered: "John Lindley (1843)", origin: "Mexique, Amérique Centrale", img: "./assets/images/orchids/acineta_barkerii.png",
         shortDesc: "Orchidée spectaculaire produisant de lourdes grappes pendantes de fleurs jaunes cireuses.",
-        longDesc: "Acineta barkerii se cultive impérativement en panier suspendu car ses hampes florales traversent le substrat vers le bas. Elle exige une lumière vive sans soleil brûlant, des arrosages abondants durant la croissance de ses gros pseudobulbes et un léger repos plus sec en hiver." 
+        longDesc: "Acineta barkerii se cultive impérativement en panier suspendu car ses hampes florales traversent le substrat vers le bas. Elle exige une lumière vive sans soleil brûlant, des arrosages abondants durant la croissance de ses gros pseudobulbes et un léger repos plus sec en hiver."
     },
-    { 
+    {
         id: "ada_aurantiaca", name: "ADA AURANTIACA", vernacular: "ADA ORANGÉE", order: "Asparagales", species: "Aurantiaca", genre: "Ada", family: "Orchidaceae", subfamily: "Epidendroideae", tribu: "Cymbidieae", subtribu: "Oncidiinae", behavior: "Épiphyte", discovered: "John Lindley (1854)", origin: "Andes (Colombie, Venezuela)", img: "./assets/images/orchids/ada_aurantiaca.png",
         shortDesc: "Orchidée d'altitude aux fleurs étoilées d'un orange vif et étincelant.",
-        longDesc: "Ada aurantiaca pousse naturally dans les forêts de nuages fraîches et humides des Andes. Elle demande des températures tempérées à fraîches, une lumière moyenne, une hygrométrie élevée et un substrat à base d'écorces fines maintenant une fraîcheur constante sans détremper." 
+        longDesc: "Ada aurantiaca pousse naturally dans les forêts de nuages fraîches et humides des Andes. Elle demande des températures tempérées à fraîches, une lumière moyenne, une hygrométrie élevée et un substrat à base d'écorces fines maintenant une fraîcheur constante sans détremper."
     },
-    { 
+    {
         id: "aerangis_articulata", name: "AERANGIS ARTICULATA", vernacular: "AERANGIS ARTICULÉ", order: "Asparagales", species: "Articulata", genre: "Aerangis", family: "Orchidaceae", subfamily: "Epidendroideae", tribu: "Vandeae", subtribu: "Aerangidinae", behavior: "Épiphyte", discovered: "Achille Richard (1841)", origin: "Madagascar, Comores", img: "./assets/images/orchids/aerangis_articulata.png",
         shortDesc: "Superbe orchidée monopodiale aux cascades de fleurs blanc de cire à long éperon.",
-        longDesc: "Aerangis articulata développe de magnifiques grappes pendantes très parfumées la nuit. Elle apprécie une lumière tamisée, une ambiance chaude et très humide. Idéale cultivée sur plaque ou en panier de bois aéré avec des arrosages et vaporisations très fréquents." 
+        longDesc: "Aerangis articulata développe de magnifiques grappes pendantes très parfumées la nuit. Elle apprécie une lumière tamisée, une ambiance chaude et très humide. Idéale cultivée sur plaque ou en panier de bois aéré avec des arrosages et vaporisations très fréquents."
     },
-    { 
+    {
         id: "aerangis_fastuosa", name: "AERANGIS FASTUOSA", vernacular: "AERANGIS FASTUEUX", order: "Asparagales", species: "Fastuosa", genre: "Aerangis", family: "Orchidaceae", subfamily: "Epidendroideae", tribu: "Vandeae", subtribu: "Aerangidinae", behavior: "Épiphyte", discovered: "Heinrich Gustav Reichenbach (1881)", origin: "Madagascar", img: "./assets/images/orchids/aerangis_fastuosa.png",
         shortDesc: "Miniature compacte produisant des fleurs géantes blanches extrêmement odorantes.",
-        longDesc: "Aerangis fastuosa est une petite plante spectaculaire dont la fleur est souvent aussi grosse que le feuillage. Elle exige des températures modérées, une bonne ventilation et une humidité constante. La culture sur plaque de liège garnie de sphaigne lui convient parfaitement." 
+        longDesc: "Aerangis fastuosa est une petite plante spectaculaire dont la fleur est souvent aussi grosse que le feuillage. Elle exige des températures modérées, une bonne ventilation et une humidité constante. La culture sur plaque de liège garnie de sphaigne lui convient parfaitement."
     },
-    { 
+    {
         id: "aerangis_kirkii", name: "AERANGIS KIRKII", vernacular: "AERANGIS DE KIRK", order: "Asparagales", species: "Kirkii", genre: "Aerangis", family: "Orchidaceae", subfamily: "Epidendroideae", tribu: "Vandeae", subtribu: "Aerangidinae", behavior: "Épiphyte", discovered: "Heinrich Gustav Reichenbach (1865)", origin: "Afrique de l'Est (Kenya, Tanzanie)", img: "./assets/images/orchids/aerangis_kirkii.png",
         shortDesc: "Miniature africaine aux feuilles pincées et aux fleurs blanches étoilées raffinées.",
-        longDesc: "Aerangis kirkii présente un feuillage très caractéristique aux extrémités bilobées. Ses fleurs blanches au long éperon apparaissent en grappes légères. Elle demande des températures chaudes, une ombre moyenne et une hygrométrie élevée toute l'année." 
+        longDesc: "Aerangis kirkii présente un feuillage très caractéristique aux extrémités bilobées. Ses fleurs blanches au long éperon apparaissent en grappes légères. Elle demande des températures chaudes, une ombre moyenne et une hygrométrie élevée toute l'année."
     },
-    { 
+    {
         id: "aerides_houlletiana", name: "AERIDES HOULLETIANA", vernacular: "AÉRIDES DE HOULLET", order: "Asparagales", species: "Houlletiana", genre: "Aerides", family: "Orchidaceae", subfamily: "Epidendroideae", tribu: "Vandeae", subtribu: "Aeridinae", behavior: "Épiphyte", discovered: "Henri Victor Regnault (1872)", origin: "Asie du Sud-Est (Thaïlande, Viêt Nam)", img: "./assets/images/orchids/aerides_houlletiana.png",
         shortDesc: "Orchidée monopodiale robuste aux grappes de fleurs odorantes piquetées de magenta.",
-        longDesc: "Aerides houlletiana produit d'épaisses racines aériennes et de denses grappes de fleurs jaunes/crème bordées de pourpre au parfum très doux. Proche des Vandas, elle demande une luminosité très forte, de la chaleur et des bassinages quotidiens." 
+        longDesc: "Aerides houlletiana produit d'épaisses racines aériennes et de denses grappes de fleurs jaunes/crème bordées de pourpre au parfum très doux. Proche des Vandas, elle demande une luminosité très forte, de la chaleur et des bassinages quotidiens."
     },
-    { 
+    {
         id: "aerides_odorata", name: "AERIDES ODORATA", vernacular: "AÉRIDES ODORANT", order: "Asparagales", species: "Odorata", genre: "Aerides", family: "Orchidaceae", subfamily: "Epidendroideae", tribu: "Vandeae", subtribu: "Aeridinae", behavior: "Épiphyte", discovered: "Lour. (1790)", origin: "Asie tropicale et subtropicale", img: "./assets/images/orchids/aerides_odorata.png",
         shortDesc: "Grande orchidée très populaire au parfum d'agrumes puissant et envoûtant.",
-        longDesc: "Aerides odorata est une plante vigoureuse produisant de nombreuses fleurs cireuses blanches et roses en grappes retombantes. Elle s'épanouit dans des conditions chaudes et très lumineuses. Se cultive idéalement racines nues en panier suspendu." 
+        longDesc: "Aerides odorata est une plante vigoureuse produisant de nombreuses fleurs cireuses blanches et roses en grappes retombantes. Elle s'épanouit dans des conditions chaudes et très lumineuses. Se cultive idéalement racines nues en panier suspendu."
     },
-    { 
+    {
         id: "angraecum_didierii", name: "ANGRAECUM DIDIERII", vernacular: "ANGRAECUM DE DIDIER", order: "Asparagales", species: "Didierii", genre: "Angraecum", family: "Orchidaceae", subfamily: "Epidendroideae", tribu: "Vandeae", subtribu: "Angraecinae", behavior: "Épiphyte", discovered: "Henri Jumelle & Henri Perrier (1915)", origin: "Madagascar", img: "./assets/images/orchids/angraecum_didierii.png",
         shortDesc: "Miniature malgache florifère aux fleurs étoilées blanches et parfumées la nuit.",
-        longDesc: "Angraecum didierii est une orchidée compacte très appréciée pour ses fleurs disproportionnées par rapport à la taille de la plante. Elle aime une lumière modérée à forte, des températures tempérées-chaudes et un substrat drainant qui sèche légèrement entre deux arrosages." 
+        longDesc: "Angraecum didierii est une orchidée compacte très appréciée pour ses fleurs disproportionnées par rapport à la taille de la plante. Elle aime une lumière modérée à forte, des températures tempérées-chaudes et un substrat drainant qui sèche légèrement entre deux arrosages."
     },
-    { 
+    {
         id: "angraecum_eburneum", name: "ANGRAECUM EBURNEUM", vernacular: "ANGRAECUM COULEUR D'IVOIRE", order: "Asparagales", species: "Eburneum", genre: "Angraecum", family: "Orchidaceae", subfamily: "Epidendroideae", tribu: "Vandeae", subtribu: "Angraecinae", behavior: "Épiphyte", discovered: "Louis-Marie Aubert du Petit-Thouars (1822)", origin: "Madagascar, Mascareignes", img: "./assets/images/orchids/angraecum_eburneum.png",
         shortDesc: "Orchidée majestueuse et imposante aux fleurs inversées blanc ivoire et vertes.",
-        longDesc: "Angraecum eburneum devient une grande plante aux feuilles coriaces en éventail. Ses fleurs cireuses ont un labelle blanc pur très visible orienté vers le haut. Elle nécessite de la chaleur, une très forte luminosité et de l'espace pour s'épanouir." 
+        longDesc: "Angraecum eburneum devient une grande plante aux feuilles coriaces en éventail. Ses fleurs cireuses ont un labelle blanc pur très visible orienté vers le haut. Elle nécessite de la chaleur, une très forte luminosité et de l'espace pour s'épanouir."
     },
-    { 
+    {
         id: "angraecum_sesquipedale", name: "ANGRAECUM SESQUIPEDALE", vernacular: "ÉTOILE DE MADAGASCAR", order: "Asparagales", species: "Sesquipedale", genre: "Angraecum", family: "Orchidaceae", subfamily: "Epidendroideae", tribu: "Vandeae", subtribu: "Angraecinae", behavior: "Épiphyte", discovered: "Louis-Marie Aubert du Petit-Thouars (1822)", origin: "Madagascar", img: "./assets/images/orchids/angraecum_sesquipedale.png",
         shortDesc: "Célèbre orchidée de Darwin possédant un éperon nectarifère spectaculaire de 30 cm.",
-        longDesc: "Angraecum sesquipedale produit de grandes fleurs nocturnes étoilées blanches. Étudiée par Charles Darwin qui a prédit l'existence de son papillon pollinisateur, elle demande une lumière vive sans soleil direct, une ambiance chaude et une forte hygrométrie." 
+        longDesc: "Angraecum sesquipedale produit de grandes fleurs nocturnes étoilées blanches. Étudiée par Charles Darwin qui a prédit l'existence de son papillon pollinisateur, elle demande une lumière vive sans soleil direct, une ambiance chaude et une forte hygrométrie."
     },
-    { 
+    {
         id: "anguloa_clowesii", name: "ANGULOA CLOWESII", vernacular: "ORCHIDÉE TULIPE JAUNE", order: "Asparagales", species: "Clowesii", genre: "Anguloa", family: "Orchidaceae", subfamily: "Epidendroideae", tribu: "Cymbidieae", subtribu: "Stanhopeinae", behavior: "Terrestre / Lithophyte", discovered: "John Lindley (1844)", origin: "Andes (Colombie, Venezuela)", img: "./assets/images/orchids/anguloa_clowesii.png",
         shortDesc: "Spectaculaire orchidée aux grandes fleurs globuleuses jaunes au parfum de eucalyptus.",
-        longDesc: "Anguloa clowesii forme d'imposants pseudobulbes et de grandes feuilles plissées. Ses fleurs en forme de tulipe abritent un labelle basculant. Elle exige des températures fraîches à tempérées, beaucoup d'eau en croissance et un repos bien marqué en hiver." 
+        longDesc: "Anguloa clowesii forme d'imposants pseudobulbes et de grandes feuilles plissées. Ses fleurs en forme de tulipe abritent un labelle basculant. Elle exige des températures fraîches à tempérées, beaucoup d'eau en croissance et un repos bien marqué en hiver."
     },
-    { 
+    {
         id: "anguloa_virginalis", name: "ANGULOA VIRGINALIS", vernacular: "ANGULOA VIRGINAL", order: "Asparagales", species: "Virginalis", genre: "Anguloa", family: "Orchidaceae", subfamily: "Epidendroideae", tribu: "Cymbidieae", subtribu: "Stanhopeinae", behavior: "Terrestre / Lithophyte", discovered: "John Lindley (1851)", origin: "Andes (Pérou, Colombie, Équateur)", img: "./assets/images/orchids/anguloa_virginalis.png",
         shortDesc: "Fleur tulipe d'un blanc virginal délicatement piquetée de rose à parfum de cannelle.",
-        longDesc: "Anguloa virginalis pousse dans les forêts montagneuses humides. Ses fleurs massives et parfumées s'épanouissent au printemps. Elle demande un compost riche et bien drainé, une humidité constante en période de végétation et une bonne ventilation." 
+        longDesc: "Anguloa virginalis pousse dans les forêts montagneuses humides. Ses fleurs massives et parfumées s'épanouissent au printemps. Elle demande un compost riche et bien drainé, une humidité constante en période de végétation et une bonne ventilation."
     },
-    { 
+    {
         id: "ansellia_africana", name: "ANSELLIA AFRICANA", vernacular: "ORCHIDÉE LÉOPARD", order: "Asparagales", species: "Africana", genre: "Ansellia", family: "Orchidaceae", subfamily: "Epidendroideae", tribu: "Cymbidieae", subtribu: "Cyrtopodiinae", behavior: "Épiphyte", discovered: "John Lindley (1844)", origin: "Afrique subsaharienne", img: "./assets/images/orchids/ansellia_africana.png",
         shortDesc: "Grande orchidée africaine aux fleurs jaunes abondamment tachetées de chocolat.",
-        longDesc: "Ansellia africana développe de longues cannes et un système racinaire en 'nid' pour capter les feuilles mortes. Très résistante, elle réclame un maximum de lumière (soleil léger accepté), de la chaleur et des arrosages abondants suivis d'un séchage complet." 
+        longDesc: "Ansellia africana développe de longues cannes et un système racinaire en 'nid' pour capter les feuilles mortes. Très résistante, elle réclame un maximum de lumière (soleil léger accepté), de la chaleur et des arrosages abondants suivis d'un séchage complet."
     },
-    { 
+    {
         id: "ascocentrum_spp", name: "ASCOCENTRUM SPP", vernacular: "ASCOCENTRUM", order: "Asparagales", species: "Spp", genre: "Ascocentrum", family: "Orchidaceae", subfamily: "Epidendroideae", tribu: "Vandeae", subtribu: "Aeridinae", behavior: "Épiphyte", discovered: "Carl Ludwig Blume (1825)", origin: "Asie du Sud-Est", img: "./assets/images/orchids/ascocentrum_spp.png",
         shortDesc: "Orchidée miniature aux denses épis floraux dressés aux couleurs orange ou rouge vifs.",
-        longDesc: "Le genre Ascocentrum (désormais souvent rattaché aux Vandas) regroupe des petites plantes compactes aux floraisons éclatantes. Elles demandent des conditions similaires aux Vandas : très forte luminosité, chaleur, forte humidité et culture à racines nues ou panier aéré." 
+        longDesc: "Le genre Ascocentrum (désormais souvent rattaché aux Vandas) regroupe des petites plantes compactes aux floraisons éclatantes. Elles demandent des conditions similaires aux Vandas : très forte luminosité, chaleur, forte humidité et culture à racines nues ou panier aéré."
     },
-    { 
+    {
         id: "aspasia_lunata", name: "ASPASIA LUNATA", vernacular: "ASPASIA EN CROISSANT", order: "Asparagales", species: "Lunata", genre: "Aspasia", family: "Orchidaceae", subfamily: "Epidendroideae", tribu: "Cymbidieae", subtribu: "Oncidiinae", behavior: "Épiphyte", discovered: "John Lindley (1836)", origin: "Brésil", img: "./assets/images/orchids/aspasia_lunata.png",
         shortDesc: "Orchidée compacte aux fleurs étoilées vertes tachetées de brun avec labelle violet.",
-        longDesc: "Aspasia lunata est originaire des forêts tropicales humides du littoral brésilien. Elle produit de charmantes fleurs parfumées et cireuses. Se cultive facilement en pot avec un mélange d'écorces moyennes, sous une ombre modérée et avec des températures tempérées-chaudes." 
+        longDesc: "Aspasia lunata est originaire des forêts tropicales humides du littoral brésilien. Elle produit de charmantes fleurs parfumées et cireuses. Se cultive facilement en pot avec un mélange d'écorces moyennes, sous une ombre modérée et avec des températures tempérées-chaudes."
     },
-    { 
+    {
         id: "aspasia_principissa", name: "ASPASIA PRINCIPISSA", vernacular: "ASPASIA PRINCESSE", order: "Asparagales", species: "Principissa", genre: "Aspasia", family: "Orchidaceae", subfamily: "Epidendroideae", tribu: "Cymbidieae", subtribu: "Oncidiinae", behavior: "Épiphyte", discovered: "Heinrich Gustav Reichenbach (1852)", origin: "Amérique Centrale (Panama, Costa Rica)", img: "./assets/images/orchids/aspasia_principissa.png",
         shortDesc: "Élégante espèce aux grandes fleurs rayées de vert et de brun au labelle blanc/rose.",
-        longDesc: "Aspasia principissa pousse dans les forêts tropicales de basse altitude. Ses fleurs sont plus grandes que la plupart des autres espèces d'Aspasia. Elle exige de la chaleur, une humidité constante tout au long de l'année et une luminosité moyenne sans soleil direct." 
+        longDesc: "Aspasia principissa pousse dans les forêts tropicales de basse altitude. Ses fleurs sont plus grandes que la plupart des autres espèces d'Aspasia. Elle exige de la chaleur, une humidité constante tout au long de l'année et une luminosité moyenne sans soleil direct."
     },
-    { 
+    {
         id: "barkeria_spectabilis", name: "BARKERIA SPECTABILIS", vernacular: "BARKERIA REMARQUABLE", order: "Asparagales", species: "Spectabilis", genre: "Barkeria", family: "Orchidaceae", subfamily: "Epidendroideae", tribu: "Epidendreae", subtribu: "Laeliinae", behavior: "Épiphyte", discovered: "John Lindley (1842)", origin: "Amérique Centrale (Guatemala, Mexique)", img: "./assets/images/orchids/barkeria_spectabilis.png",
         shortDesc: "Orchidée aux magnifiques grappes de fleurs rose/lilas délicatement veinées.",
-        longDesc: "Barkeria spectabilis pousse accrochée aux branches dans les forêts de montagne ouvertes. Elle perd souvent ses feuilles en période de repos. Elle exige d'être montée sur écorce avec des racines très aérées, beaucoup de lumière et un repos sec et frais en hiver." 
+        longDesc: "Barkeria spectabilis pousse accrochée aux branches dans les forêts de montagne ouvertes. Elle perd souvent ses feuilles en période de repos. Elle exige d'être montée sur écorce avec des racines très aérées, beaucoup de lumière et un repos sec et frais en hiver."
     },
-    { 
+    {
         id: "bifrenaria_inodora", name: "BIFRENARIA INODORA", vernacular: "BIFRENARIA SANS ODEUR", order: "Asparagales", species: "Inodora", genre: "Bifrenaria", family: "Orchidaceae", subfamily: "Epidendroideae", tribu: "Cymbidieae", subtribu: "Bifrenariinae", behavior: "Épiphyte / Lithophyte", discovered: "John Lindley (1843)", origin: "Brésil (Forêt Atlantique)", img: "./assets/images/orchids/bifrenaria_inodora.png",
         shortDesc: "Orchidée robuste aux fleurs cireuses vert-jaunâtre dotées d'un labelle violet intense.",
-        longDesc: "Bifrenaria inodora développe de tétragones pseudobulbes très durs. Malgré son nom 'inodora', certaines variétés émettent un parfum léger. Elle demande une forte luminosité pour fleurir, des températures tempérées et une période de repos marquée au sec après la croissance." 
+        longDesc: "Bifrenaria inodora développe de tétragones pseudobulbes très durs. Malgré son nom 'inodora', certaines variétés émettent un parfum léger. Elle demande une forte luminosité pour fleurir, des températures tempérées et une période de repos marquée au sec après la croissance."
     },
-    { 
+    {
         id: "bletilla_ochracea", name: "BLETILLA OCHRACEA", vernacular: "BLETILLA OCRE", order: "Asparagales", species: "Ochracea", genre: "Bletilla", family: "Orchidaceae", subfamily: "Epidendroideae", tribu: "Arethuseae", subtribu: "Coelogyninae", behavior: "Terrestre", discovered: "Miquel (1873)", origin: "Chine", img: "./assets/images/orchids/bletilla_ochracea.png",
         shortDesc: "Orchidée terrestre de jardin rustique aux délicates fleurs jaune ocre et labelle marbré.",
-        longDesc: "Bletilla ochracea est une espèce terrestre très élégante et moyennement rustique (-10°C). Elle se cultive en pleine terre dans un sol drainé, frais et humifère, à mi-ombre. Ses pseudo-bulbes entrent en dormance complète sous terre durant tout l'hiver." 
+        longDesc: "Bletilla ochracea est une espèce terrestre très élégante et moyennement rustique (-10°C). Elle se cultive en pleine terre dans un sol drainé, frais et humifère, à mi-ombre. Ses pseudo-bulbes entrent en dormance complète sous terre durant tout l'hiver."
+    },
+
+    {
+        id: "vanilla_planifolia", name: "VANILLA PLANIFOLIA", vernacular: "VANILLE", order: "Asparagales", species: "Planifolia", genre: "Vanilla", family: "Orchidaceae", subfamily: "Vanilloideae", tribu: "Vanilleae", subtribu: "Vanillinae", behavior: "Hémiépiphyte / Grimpante", discovered: "J. W. Klotzsch (1841)", origin: "Mexique, Amérique Centrale", img: "./assets/images/orchids/Vanilla-planifolia.jpg",
+        shortDesc: "Orchidée grimpante tropicale célèbre pour ses fruits dont est extraite la vanille.",
+        longDesc: "Vanilla planifolia est une orchidée grimpante tropicale qui développe de longues tiges charnues capables de s'accrocher aux arbres. Elle apprécie une lumière vive mais filtrée, une forte humidité atmosphérique, des températures chaudes et un substrat riche, humide mais parfaitement drainé. Ses fleurs sont éphémères et doivent être pollinisées manuellement en culture pour obtenir les gousses de vanille."
     }
 ];

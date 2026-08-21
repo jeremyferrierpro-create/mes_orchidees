@@ -267,72 +267,19 @@ function injectModalData(orchid) {
 // -----------------------------------------------------------
 
 function openModal() {
-    // Si la modale n'existe pas, on quitte
-    if (!modal) {
-        return;
-    }
-
-    // On mémorise l'élément qui avait le focus avant
-    previousActiveElement = document.activeElement;
-
-    // On ajoute la classe CSS qui affiche la modale
-    modal.classList.add('active');
-    // On indique aux lecteurs d'écran que la modale est visible
-    modal.setAttribute('aria-hidden', 'false');
-
-    // On notifie les autres modules que la modale a été ouverte (ex: bouton collection)
+    if (!modal) return;
+    
+    // On notifie les autres modules avant d'ouvrir la modale (ex: bouton collection)
     modal.dispatchEvent(new CustomEvent('orchidModalOpened'));
 
-    // On place le focus sur le bouton de fermeture pour l'accessibilité
-    if (closeModalBtn) {
-        // On attend un petit instant pour laisser l'affichage se faire
-        setTimeout(function () {
-            closeModalBtn.focus();
-        }, 100);
-    }
-
-    // On ajoute l'écouteur de clavier pour le piège du focus
-    modal.addEventListener('keydown', handleTrapFocus);
-    // On ajoute l'écouteur pour fermer avec la touche Échap
-    document.addEventListener('keydown', handleEscape);
-}
-
-function handleTrapFocus(event) {
-    if (window.AppUtils && window.AppUtils.trapFocus) {
-        window.AppUtils.trapFocus(modal, event);
+    if (window.ModalManager) {
+        window.ModalManager.open(modal);
     }
 }
 
 function closeModal() {
-    // Si la modale n'existe pas, on quitte
-    if (!modal) {
-        return;
-    }
-
-    // On cache la modale
-    modal.classList.remove('active');
-    // On indique qu'elle est cachée aux lecteurs d'écran
-    modal.setAttribute('aria-hidden', 'true');
-
-    // On supprime l'écouteur de piège de focus
-    modal.removeEventListener('keydown', handleTrapFocus);
-    // On supprime l'écouteur de la touche Échap
-    document.removeEventListener('keydown', handleEscape);
-
-    // On remet le focus sur l'élément qui l'avait avant l'ouverture
-    if (previousActiveElement) {
-        previousActiveElement.focus();
-    }
-}
-
-// La fonction trapFocus a été déplacée dans utils.js
-
-// Cette fonction ferme la modale avec la touche Échap
-function handleEscape(event) {
-    // Si la touche pressée est Échap
-    if (event.key === 'Escape') {
-        // On ferme la modale
-        closeModal();
+    if (window.ModalManager) {
+        window.ModalManager.close(modal);
     }
 }
 
@@ -393,6 +340,8 @@ function setupEvents() {
 
                 if (matchedOrchid) {
                     selectOrchidByName(matchedOrchid.name);
+                    searchInput.value = '';
+                    searchInput.blur();
                 } else {
                     if (window.AppToast) {
                         window.AppToast.warning("Aucune orchidée trouvée pour cette recherche.");

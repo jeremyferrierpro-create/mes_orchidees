@@ -293,27 +293,14 @@
     }
 
     function openModal(modal) {
-        modal.classList.add('active');
-        modal.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
-        
-        // Focus trap
-        modal.addEventListener('keydown', handleTrapFocus);
-        const focusable = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-        if(focusable.length) setTimeout(() => focusable[0].focus(), 0);
+        if (window.ModalManager) {
+            window.ModalManager.open(modal, lastFocusedElement);
+        }
     }
 
     function closeModal(modal) {
-        modal.classList.remove('active');
-        modal.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-        modal.removeEventListener('keydown', handleTrapFocus);
-        if (lastFocusedElement) setTimeout(() => lastFocusedElement.focus(), 0);
-    }
-
-    function handleTrapFocus(event) {
-        if (window.AppUtils && window.AppUtils.trapFocus) {
-            window.AppUtils.trapFocus(event.currentTarget, event);
+        if (window.ModalManager) {
+            window.ModalManager.close(modal);
         }
     }
 

@@ -34,15 +34,11 @@
             substrats: document.getElementById('care-substrats')
         };
 
-        let lastFocused = null;
-
         /**
          * Ouvre la modale de fiche pour un conseil (catégorie ou espèce)
          */
         function openConseilModal(conseil) {
             if (!modal || !conseil) return;
-
-            lastFocused = document.activeElement;
 
             // Image : visible seulement pour une fiche d'espèce
             if (conseil.img) {
@@ -51,46 +47,32 @@
                 modalImg.hidden = false;
             } else {
                 modalImg.hidden = true;
-                modalImg.src = '';
-                modalImg.alt = '';
+                modalImg.removeAttribute('src');
             }
 
-            // Titres et méta
             modalTitle.textContent = conseil.name.toUpperCase();
             modalMeta.textContent = conseil.type === 'species'
                 ? 'Type : ' + conseil.category
                 : 'Rubrique';
+            modalText.textContent = conseil.content || conseil.description || '';
 
-            // Contenu texte (newlines conservées par white-space: pre-line)
-            modalText.textContent = conseil.content;
-
-            // Cartes de culture
+            // Soins optionnels
             if (conseil.careCards) {
-                for (const key in careEls) {
-                    if (careEls[key]) {
-                        careEls[key].textContent = conseil.careCards[key] || '-';
-                    }
+                careEls.temperature.textContent = conseil.careCards.temperature || '-';
+                careEls.arrosage.textContent = conseil.careCards.arrosage || '-';
+                careEls.hygrometrie.textContent = conseil.careCards.hygrometrie || '-';
+                careEls.rempotage.textContent = conseil.careCards.rempotage || '-';
+                careEls.engrais.textContent = conseil.careCards.engrais || '-';
+                careEls.substrats.textContent = conseil.careCards.substrats || '-';
+            } else {
+                // Si aucune donnée de soin, on met des tirets
+                for (let key in careEls) {
+                    careEls[key].textContent = '-';
                 }
             }
 
-            // Affichage de la modale
-            modal.classList.add('active');
-            modal.setAttribute('aria-hidden', 'false');
-
-            // Empêche le scroll du body
-            document.body.style.overflow = 'hidden';
-
-            // Focus sur le bouton de fermeture pour l'accessibilité
-            if (closeBtn) {
-                setTimeout(function () { closeBtn.focus(); }, 0);
-            }
-
-            modal.addEventListener('keydown', handleTrapFocus);
-        }
-
-        function handleTrapFocus(event) {
-            if (window.AppUtils && window.AppUtils.trapFocus) {
-                window.AppUtils.trapFocus(modal, event);
+            if (window.ModalManager) {
+                window.ModalManager.open(modal, document.activeElement);
             }
         }
 
@@ -98,16 +80,8 @@
          * Ferme la modale et restaure le focus
          */
         function closeConseilModal() {
-            if (!modal) return;
-
-            modal.classList.remove('active');
-            modal.setAttribute('aria-hidden', 'true');
-            document.body.style.overflow = '';
-            
-            modal.removeEventListener('keydown', handleTrapFocus);
-
-            if (lastFocused) {
-                setTimeout(function () { lastFocused.focus(); }, 0);
+            if (window.ModalManager) {
+                window.ModalManager.close(modal);
             }
         }
 
