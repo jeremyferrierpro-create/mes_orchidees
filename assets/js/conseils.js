@@ -1,7 +1,8 @@
-// conseils.js — Filtre et affichage des conseils de culture
-// ==========================================================
-// Ce fichier gère les filtres (thème, type, niveau, recherche texte)
-// et affiche dynamiquement les fiches conseils sur la page.
+// conseils.js — Affichage et filtrage du catalogue de conseils détaillés
+// ======================================================================
+// Cette partie est complémentaire aux 6 rubriques de la page maquette.
+// Elle permet à l'utilisateur de consulter de vrais conseils professionnels
+// en filtrant par type d'orchidée, niveau d'expertise et mot-clé.
 
 // On attend que le DOM soit complètement chargé
 document.addEventListener('DOMContentLoaded', function () {
@@ -10,40 +11,39 @@ document.addEventListener('DOMContentLoaded', function () {
     const conseilsDatabase = window.conseilsDatabase || [];
 
     // On récupère les éléments de la page
-    const grid = document.getElementById('advice-grid');
-    const themeFilter = document.getElementById('filter-theme');
-    const plantTypeFilter = document.getElementById('filter-plant-type');
-    const levelFilter = document.getElementById('filter-level');
+    const resultsContainer = document.getElementById('advice-results');
+    const plantTypeFilter = document.getElementById('advice-plant-type');
+    const levelFilter = document.getElementById('advice-level');
     const textSearch = document.getElementById('advice-text-search');
+    const filterForm = document.getElementById('advice-filter-form');
 
-    // Si le conteneur de la grille n'existe pas, on arrête (autres pages)
-    if (!grid) {
+    // Si le conteneur de résultats n'existe pas, on arrête
+    if (!resultsContainer) {
         return;
     }
 
-    // Fonction qui crée le HTML d'une carte conseil
+    // Fonction qui crée le HTML d'une carte conseil détaillée
     function createAdviceCard(conseil) {
         // On crée un article sémantique
         const article = document.createElement('article');
-        // On applique la classe CSS
-        article.className = 'advice-card';
+        // On applique la classe CSS du résultat
+        article.className = 'advice-result-card';
 
-        // On crée le titre avec une icône Font Awesome
-        const title = document.createElement('h2');
-        title.innerHTML = '<i class="fa-solid ' + conseil.icon + '" aria-hidden="true"></i> ' + escapeHtml(conseil.title);
+        // On crée le titre du conseil
+        const title = document.createElement('h3');
+        title.textContent = conseil.title;
         article.appendChild(title);
 
         // On crée la ligne de métadonnées (thème, type, niveau)
-        const meta = document.createElement('p');
-        meta.className = 'advice-meta';
-        meta.innerHTML = '<span class="advice-tag">' + escapeHtml(conseil.theme) + '</span>'
-            + '<span class="advice-tag">' + escapeHtml(conseil.plantType) + '</span>'
-            + '<span class="advice-tag">' + escapeHtml(conseil.level) + '</span>';
+        const meta = document.createElement('div');
+        meta.className = 'advice-result-meta';
+        meta.innerHTML = '<span class="advice-result-tag">' + escapeHtml(conseil.theme) + '</span>'
+            + '<span class="advice-result-tag">' + escapeHtml(conseil.plantType) + '</span>'
+            + '<span class="advice-result-tag">' + escapeHtml(conseil.level) + '</span>';
         article.appendChild(meta);
 
         // On crée le paragraphe de contenu
         const content = document.createElement('p');
-        content.className = 'advice-text';
         content.textContent = conseil.content;
         article.appendChild(content);
 
@@ -51,40 +51,33 @@ document.addEventListener('DOMContentLoaded', function () {
         return article;
     }
 
-    // Fonction qui affiche les conseils filtrés
+    // Fonction qui affiche les conseils dans le catalogue
     function renderConseils(list) {
         // On vide le conteneur
-        grid.innerHTML = '';
+        resultsContainer.innerHTML = '';
 
         // Si aucun résultat
         if (list.length === 0) {
-            // On affiche un message
             const message = document.createElement('p');
-            message.className = 'no-results';
+            message.className = 'advice-no-results';
             message.textContent = 'Aucun conseil ne correspond aux critères sélectionnés.';
-            grid.appendChild(message);
+            resultsContainer.appendChild(message);
             return;
         }
 
         // On parcourt chaque conseil de la liste
         for (const conseil of list) {
             // On crée la carte et on l'ajoute au conteneur
-            grid.appendChild(createAdviceCard(conseil));
+            resultsContainer.appendChild(createAdviceCard(conseil));
         }
     }
 
-    // Fonction qui retourne true si le conseil correspond aux filtres
+    // Fonction qui vérifie si un conseil correspond aux filtres choisis
     function matchesFilters(conseil) {
-        // On lit les valeurs des trois listes déroulantes
-        const selectedTheme = themeFilter.value;
-        const selectedPlantType = plantTypeFilter.value;
-        const selectedLevel = levelFilter.value;
-        const searchText = textSearch.value.toLowerCase().trim();
-
-        // Vérification du thème
-        if (selectedTheme !== 'all' && conseil.theme !== selectedTheme) {
-            return false;
-        }
+        // On lit les valeurs des listes déroulantes
+        const selectedPlantType = plantTypeFilter ? plantTypeFilter.value : 'all';
+        const selectedLevel = levelFilter ? levelFilter.value : 'all';
+        const searchText = textSearch ? textSearch.value.toLowerCase().trim() : '';
 
         // Vérification du type de plante
         if (selectedPlantType !== 'all' && conseil.plantType !== selectedPlantType) {
@@ -96,9 +89,8 @@ document.addEventListener('DOMContentLoaded', function () {
             return false;
         }
 
-        // Vérification du texte libre
+        // Vérification du texte libre (recherche dans titre, thème et contenu)
         if (searchText) {
-            // On regarde dans le titre, le thème, le type et le contenu
             const haystack = (
                 conseil.title + ' ' + conseil.theme + ' ' + conseil.plantType + ' ' + conseil.content
             ).toLowerCase();
@@ -131,9 +123,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // On branche les écouteurs sur chaque filtre
-    if (themeFilter) {
-        themeFilter.addEventListener('change', filterConseils);
-    }
     if (plantTypeFilter) {
         plantTypeFilter.addEventListener('change', filterConseils);
     }
@@ -144,6 +133,14 @@ document.addEventListener('DOMContentLoaded', function () {
         textSearch.addEventListener('input', filterConseils);
     }
 
-    // Affichage initial : on montre tous les conseils
+    // On empêche le rechargement de la page si l'utilisateur clique sur Filtrer
+    if (filterForm) {
+        filterForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            filterConseils();
+        });
+    }
+
+    // Affichage initial : on montre tous les conseils du catalogue
     renderConseils(conseilsDatabase);
 });

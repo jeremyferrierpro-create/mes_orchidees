@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0e2018">
-    <meta name="description" content="Conseils de culture pour les orchidées.">
+    <meta name="description" content="Conseils de culture pour les orchidées filtrables par type de plante et niveau d'expertise.">
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="./assets/images/site/logotransparent.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -50,7 +50,7 @@
             <h1 class="page-title">CONSEILS</h1>
         </section>
 
-        <section class="conseils-search" aria-label="Rechercher un conseil ou une orchidée">
+        <section class="conseils-search" aria-label="Rechercher une orchidée dans l'encyclopédie">
             <form class="search-box" action="encyclopedie.html" method="GET" role="search">
                 <label for="conseil-search-input" class="sr-only">Rechercher une orchidée</label>
                 <input type="text" id="conseil-search-input" name="search" placeholder="Rechercher une orchidée ..." autocomplete="off">
@@ -89,6 +89,46 @@
                 <p>Vous venez d'acheter vos premières orchidées ? Découvrez nos conseils d'après achat. Nous vous conseillons de consulter les conseils de base, par la suite, pour vous familiariser avec vos orchidées.</p>
             </article>
         </section>
+
+        <section class="advice-catalog" aria-label="Catalogue de conseils détaillés">
+            <h2 class="section-title">Trouver un conseil adapté</h2>
+
+            <form class="advice-filter-bar" id="advice-filter-form" action="#" method="GET" role="search" novalidate>
+                <div class="filter-group">
+                    <label for="advice-plant-type">Type d'orchidée</label>
+                    <select id="advice-plant-type" name="plantType">
+                        <option value="all">Tous les types</option>
+                        <option value="Phalaenopsis">Phalaenopsis</option>
+                        <option value="Cattleya">Cattleya</option>
+                        <option value="Dendrobium">Dendrobium</option>
+                        <option value="Miltonia">Miltonia</option>
+                        <option value="Vanda">Vanda</option>
+                        <option value="Paphiopedilum">Paphiopedilum</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="advice-level">Niveau d'expertise</label>
+                    <select id="advice-level" name="level">
+                        <option value="all">Tous les niveaux</option>
+                        <option value="Débutant">Débutant</option>
+                        <option value="Intermédiaire">Intermédiaire</option>
+                        <option value="Expert">Expert</option>
+                    </select>
+                </div>
+
+                <div class="filter-group filter-search">
+                    <label for="advice-text-search">Mot-clé</label>
+                    <input type="text" id="advice-text-search" placeholder="Ex : arrosage, lumière, rempotage..." autocomplete="off">
+                </div>
+
+                <div class="filter-submit">
+                    <button type="submit" class="search-btn">Filtrer les conseils</button>
+                </div>
+            </form>
+
+            <div id="advice-results" class="advice-results" aria-live="polite" aria-label="Conseils filtrés"></div>
+        </section>
     </main>
 
     <footer id="main-footer">
@@ -100,6 +140,8 @@
         <a href="confidentialite.html" class="footer-link">Confidentialités</a>
     </footer>
 
+    <script src="./assets/js/conseils-data.js" defer></script>
+    <script src="./assets/js/conseils.js" defer></script>
     <script src="./assets/js/navigation.js" defer></script>
     <script src="./assets/js/app.js" defer></script>
 </body>
