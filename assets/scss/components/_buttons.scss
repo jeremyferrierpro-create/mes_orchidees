@@ -2,8 +2,8 @@
 
 // Le bouton Hamburger du Header
 .menu-toggle {
-    background: transparent; 
-    border: none;            
+    background: transparent;
+    border: none;
     padding: 10px;
     display: flex;
     align-items: center;
@@ -49,4 +49,34 @@
     &:hover {
         opacity: 0.9; // Petit effet visuel quand on passe dessus
     }
+}
+
+// Bouton générique (utilisé pour la connexion, la déconnexion, etc.)
+.btn {
+    display: inline-block;
+    padding: 12px 28px;
+    border: none;
+    border-radius: 50px;
+    font-family: $font-titles;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: opacity 0.3s ease, transform 0.2s ease;
+    text-align: center;
+
+    &:hover:not(:disabled) {
+        opacity: 0.9;
+        transform: scale(1.02);
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+}
+
+.btn-primary {
+    background-color: $clr-gold;
+    color: $clr-bg;
 }

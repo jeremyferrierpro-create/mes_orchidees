@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0e2018">
+    <meta name="description" content="Authentification à Mes Orchidées.">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="./assets/images/site/logotransparent.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <title>Authentification - Mes Orchidées</title>
+</head>
+<body>
+    <a class="skip-link" href="#main-content">Aller au contenu</a>
+
+    <nav id="main-sidebar" class="sidebar-container" aria-label="Menu principal">
+        <div class="sidebar-brand">
+            <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
+            <h2>Mes Orchidées</h2>
+        </div>
+        <div class="sidebar-menu">
+            <ul class="menu-group-main">
+                <li><a href="index.html"><i class="fa-solid fa-home" aria-hidden="true"></i> Accueil</a></li>
+                <li><a href="encyclopedie.html"><i class="fa-solid fa-book" aria-hidden="true"></i> Encyclopédie</a></li>
+                <li><a href="macollection.html"><i class="fa-solid fa-seedling" aria-hidden="true"></i> Ma collection</a></li>
+                <li><a href="conseils.html"><i class="fa-solid fa-heart" aria-hidden="true"></i> Conseils</a></li>
+            </ul>
+            <ul class="menu-group-user">
+                <li><a href="administration.html"><i class="fa-solid fa-gear" aria-hidden="true"></i> Administration</a></li>
+                <li><a href="authentification.html" aria-current="page"><i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i> Authentification</a></li>
+                <li><a href="deconnexion.html"><i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i> Déconnexion</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header id="main-header">
+        <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
+        <h2>Encyclopédie &amp; gestion de collections</h2>
+        <button type="button" class="menu-toggle" id="menu-toggle-btn" aria-label="Ouvrir ou fermer le menu" aria-controls="main-sidebar" aria-expanded="false">
+            <span class="hamburger-bar"></span>
+        </button>
+    </header>
+
+    <main class="main-content" id="main-content">
+        <section class="auth-header" aria-label="Authentification">
+            <h1 class="page-title">AUTHENTIFICATION</h1>
+            <p class="page-intro">Connectez-vous pour accéder à votre collection personnelle.</p>
+        </section>
+
+        <section class="auth-form-container" aria-label="Formulaire de connexion">
+            <!--
+                Formulaire prêt pour le futur Back-End PHP / Supabase.
+                L'attribut action pointe vers l'endpoint API prévu.
+                Le JavaScript empêche l'envoi réel tant que le Back-End n'est pas créé.
+            -->
+            <form id="login-form" action="api/auth/login.php" method="POST" class="auth-form" data-endpoint="api/auth/login.php">
+                <div class="form-group">
+                    <label for="email">Adresse email</label>
+                    <input type="email" id="email" name="email" required autocomplete="email" placeholder="exemple@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Mot de passe</label>
+                    <input type="password" id="password" name="password" required minlength="8" autocomplete="current-password" placeholder="Votre mot de passe">
+                </div>
+
+                <div class="form-group form-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="remember" value="1">
+                        Se souvenir de moi
+                    </label>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Se connecter</button>
+
+                <div id="auth-message" class="auth-message" role="status" aria-live="polite"></div>
+            </form>
+
+            <p class="auth-note">
+                Ce formulaire est actuellement en démonstration frontale.<br>
+                La vraie authentification avec Bcrypt et Supabase sera implémentée en Back-End.
+            </p>
+        </section>
+    </main>
+
+    <footer id="main-footer">
+        <a href="mentions.html" class="footer-link">Mentions légales</a>
+        <div class="footer-center">
+            <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
+            <p>&copy; 2026 Mes Orchidées</p>
+        </div>
+        <a href="confidentialite.html" class="footer-link">Confidentialités</a>
+    </footer>
+
+    <script src="./assets/js/navigation.js" defer></script>
+    <script src="./assets/js/form-validation.js" defer></script>
+    <script src="./assets/js/app.js" defer></script>
+</body>
+</html>

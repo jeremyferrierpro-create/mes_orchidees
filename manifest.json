@@ -1,0 +1,20 @@
+{
+    "name": "Mes Orchidées",
+    "short_name": "MesOrchidees",
+    "description": "Encyclopédie et gestion de collections d'orchidées.",
+    "start_url": "index.html",
+    "display": "standalone",
+    "background_color": "#0e2018",
+    "theme_color": "#0e2018",
+    "orientation": "portrait-primary",
+    "scope": ".",
+    "lang": "fr",
+    "icons": [
+        {
+            "src": "./assets/images/site/logotransparent.png",
+            "sizes": "any",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ]
+}

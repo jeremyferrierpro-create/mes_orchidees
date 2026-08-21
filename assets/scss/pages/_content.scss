@@ -1,0 +1,329 @@
+// ==========================================================================
+// PAGES : STYLES COMMUNS AUX PAGES DE CONTENU
+// ==========================================================================
+// Ce fichier centralise les styles partagés par collection, conseils,
+// administration, authentification, mentions, confidentialité et déconnexion.
+
+// Intro sous le titre de page
+.page-intro {
+    font-family: $font-body;
+    font-size: 16px;
+    color: $clr-white;
+    opacity: 0.9;
+    text-align: center;
+    margin: 10px 0 20px;
+    padding: 0 20px;
+    max-width: 700px;
+}
+
+// Conteneur de page avec espacement
+.page-section {
+    width: 100%;
+    max-width: 900px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+// ------------------------------
+// PAGE : Ma Collection
+// ------------------------------
+.collection-list-container {
+    width: 100%;
+    max-width: 800px;
+    padding: 0 20px;
+}
+
+.collection-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 20px;
+        border-radius: 12px;
+        background-color: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        font-family: $font-body;
+        color: $clr-white;
+    }
+
+    p {
+        margin: 0;
+    }
+}
+
+.btn-remove-collection {
+    background-color: #ff2a2a;
+    color: $clr-white;
+    border: none;
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-family: $font-titles;
+    font-size: 12px;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+        opacity: 0.9;
+    }
+}
+
+.empty-collection {
+    text-align: center;
+    font-family: $font-body;
+    font-size: 18px;
+    color: $clr-white;
+    opacity: 0.8;
+    margin-top: 40px;
+}
+
+// ------------------------------
+// PAGE : Conseils
+// ------------------------------
+.advice-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 25px;
+    width: 100%;
+    max-width: 1100px;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.advice-card {
+    padding: 20px;
+    border-radius: 12px;
+    @include glass-effect;
+    background-color: rgba(255, 255, 255, 0.03);
+
+    h2 {
+        font-family: $font-titles;
+        font-size: 18px;
+        color: $clr-gold;
+        margin: 0 0 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    p {
+        font-family: $font-body;
+        font-size: 14px;
+        line-height: 1.5;
+        color: $clr-white;
+        opacity: 0.9;
+        margin: 0;
+    }
+}
+
+// ------------------------------
+// PAGE : Administration
+// ------------------------------
+.admin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    width: 100%;
+    max-width: 1000px;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.admin-card {
+    padding: 25px;
+    border-radius: 12px;
+    @include glass-effect;
+    background-color: rgba(255, 255, 255, 0.03);
+    text-align: center;
+
+    h2 {
+        font-family: $font-titles;
+        font-size: 20px;
+        color: $clr-gold;
+        margin: 0 0 15px;
+    }
+
+    p {
+        font-family: $font-body;
+        font-size: 14px;
+        color: $clr-white;
+        opacity: 0.9;
+        margin: 0 0 20px;
+    }
+}
+
+// ------------------------------
+// PAGE : Authentification
+// ------------------------------
+.auth-form-container {
+    width: 100%;
+    max-width: 420px;
+    padding: 30px;
+    border-radius: 12px;
+    @include glass-effect;
+    background-color: rgba(255, 255, 255, 0.03);
+    box-sizing: border-box;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    label {
+        font-family: $font-titles;
+        font-size: 12px;
+        color: $clr-gold;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+
+    input[type="email"],
+    input[type="password"],
+    input[type="text"] {
+        padding: 12px 16px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 8px;
+        background-color: rgba(255, 255, 255, 0.08);
+        color: $clr-white;
+        font-family: $font-body;
+        font-size: 14px;
+
+        &::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        &:focus {
+            outline: 2px solid $clr-gold;
+            outline-offset: 2px;
+        }
+    }
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: $font-body;
+    font-size: 14px;
+    color: $clr-white;
+    cursor: pointer;
+
+    input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        accent-color: $clr-gold;
+        cursor: pointer;
+    }
+}
+
+.auth-message {
+    padding: 12px;
+    border-radius: 8px;
+    font-family: $font-body;
+    font-size: 14px;
+    text-align: center;
+    min-height: 1.2em;
+
+    &.error {
+        background-color: rgba(255, 42, 42, 0.2);
+        color: #ff2a2a;
+    }
+
+    &.success {
+        background-color: rgba(80, 200, 120, 0.2);
+        color: #50c878;
+    }
+}
+
+.auth-note {
+    margin-top: 20px;
+    font-family: $font-body;
+    font-size: 13px;
+    color: $clr-white;
+    opacity: 0.7;
+    text-align: center;
+    line-height: 1.4;
+}
+
+// ------------------------------
+// PAGES : Mentions légales & Confidentialité
+// ------------------------------
+.legal-page {
+    width: 100%;
+    max-width: 800px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.legal-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    border-radius: 12px;
+    @include glass-effect;
+    background-color: rgba(255, 255, 255, 0.03);
+
+    h2 {
+        font-family: $font-titles;
+        font-size: 18px;
+        color: $clr-gold;
+        margin: 0 0 12px;
+    }
+
+    p {
+        font-family: $font-body;
+        font-size: 14px;
+        line-height: 1.6;
+        color: $clr-white;
+        opacity: 0.9;
+        margin: 0 0 10px;
+    }
+}
+
+// ------------------------------
+// PAGE : Déconnexion
+// ------------------------------
+.logout-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+    padding: 20px;
+    max-width: 600px;
+
+    .logout-note {
+        font-family: $font-body;
+        font-size: 14px;
+        color: $clr-white;
+        opacity: 0.8;
+        line-height: 1.5;
+    }
+}
+
+// ------------------------------
+// RESPONSIVE POUR LES PAGES DE CONTENU
+// ------------------------------
+@media (max-width: 600px) {
+    .advice-grid,
+    .admin-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .auth-form-container {
+        padding: 20px;
+        margin: 0 15px;
+    }
+}

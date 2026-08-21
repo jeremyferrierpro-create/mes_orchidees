@@ -16,8 +16,8 @@ body {
     background-attachment: fixed;   
     background-color: #0a1711; 
     
-    overflow: hidden; 
-    height: 100vh; 
+    overflow-x: hidden; 
+    min-height: 100vh; 
     display: flex;
     flex-direction: column; 
 }

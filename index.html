@@ -1,60 +1,69 @@
 <!DOCTYPE html>
-<html lang="fr" style="scroll-behavior: smooth;">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0e2018">
+    <meta name="description" content="Mes Orchidées : encyclopédie et gestion de collections pour orchidophiles.">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="./assets/images/site/logotransparent.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="./assets/css/style.css">
     <title>Mes orchidées - Gestion de collections</title>
 </head>
 <body>
+    <a class="skip-link" href="#main-content">Aller au contenu</a>
 
     <header id="main-header">
         <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
-        <h1>Encyclopédie & gestion de collections</h1>
-        <button type="button" class="menu-toggle" id="menu-toggle-btn" aria-label="Ouvrir le menu de navigation" aria-controls="main-sidebar" aria-expanded="false" onclick="toggleSidebar()">
+        <h1>Encyclopédie &amp; gestion de collections</h1>
+        <button type="button" class="menu-toggle" id="menu-toggle-btn" aria-label="Ouvrir ou fermer le menu" aria-controls="main-sidebar" aria-expanded="false">
             <span class="hamburger-bar"></span>
         </button>
     </header>
 
-     <nav id="main-sidebar" class="sidebar-container" aria-label="Menu principal">        
+    <nav id="main-sidebar" class="sidebar-container" aria-label="Menu principal">
         <div class="sidebar-brand">
             <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
             <h2>Mes Orchidées</h2>
         </div>
         <div class="sidebar-menu">
             <ul class="menu-group-main">
-                <li><a href="index.html"><i class="icon-home" aria-hidden="true"></i> Accueil</a></li>
-                <li><a href="encyclopedie.html"><i class="icon-book" aria-hidden="true"></i> Encyclopédie</a></li>
-                <li><a href="macollection.html"><i class="icon-flower" aria-hidden="true"></i> Ma collection</a></li>
-                <li><a href="conseils.html"><i class="icon-heart" aria-hidden="true"></i> Conseils</a></li>
+                <li><a href="index.html" aria-current="page"><i class="fa-solid fa-home" aria-hidden="true"></i> Accueil</a></li>
+                <li><a href="encyclopedie.html"><i class="fa-solid fa-book" aria-hidden="true"></i> Encyclopédie</a></li>
+                <li><a href="macollection.html"><i class="fa-solid fa-seedling" aria-hidden="true"></i> Ma collection</a></li>
+                <li><a href="conseils.html"><i class="fa-solid fa-heart" aria-hidden="true"></i> Conseils</a></li>
             </ul>
             <ul class="menu-group-user">
-                <li><a href="administration.html"><i class="icon-settings" aria-hidden="true"></i> Administration</a></li>
-                <li><a href="authentification.html"><i class="icon-log-in" aria-hidden="true"></i> Authentification</a></li>
-                <li><a href="deconnexion.html"><i class="icon-log-out" aria-hidden="true"></i> Déconnexion</a></li>
+                <li><a href="administration.html"><i class="fa-solid fa-gear" aria-hidden="true"></i> Administration</a></li>
+                <li><a href="authentification.html"><i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i> Authentification</a></li>
+                <li><a href="deconnexion.html"><i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i> Déconnexion</a></li>
             </ul>
         </div>
     </nav>
-    
+
     <div class="loader" id="loader"></div>
-    
-    <div id="latin-bg-layer" class="latin-bg" aria-hidden="true"></div> 
-    
-    <main class="main-content">
-        <section class="hero">
+
+    <div id="latin-bg-layer" class="latin-bg" aria-hidden="true"></div>
+
+    <main class="main-content" id="main-content">
+        <section class="hero" aria-label="Présentation du projet">
             <div class="title-group">
                 <h2 class="main-title">MES ORCHIDÉES</h2>
                 <p class="sub-title">Le monde fascinant des orchidées</p>
             </div>
-            
+
             <div class="orchid-focus">
                 <img src="./assets/images/site/orchidee_hero.png" alt="Orchidée Phalaenopsis en gros plan" id="hero-orchid">
             </div>
 
             <div class="search-container">
-                <form id="landing-search-form" action="#" method="GET" class="search-box">
+                <form id="landing-search-form" action="encyclopedie.html" method="GET" class="search-box" role="search">
                     <label for="search-input" class="sr-only">Rechercher une espèce d'orchidée par son nom</label>
-                    <input type="text" id="search-input" name="search" placeholder="Ex : Acacalis Cynea..." autocomplete="on" required>
+                    <input type="text" id="search-input" name="search" placeholder="Ex : Acacalis Cyanea..." autocomplete="on" required>
                     <button type="submit" class="search-btn">Rechercher</button>
                 </form>
             </div>
@@ -72,12 +81,13 @@
 
     <div id="orchid-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-orchid-title" aria-hidden="true">
         <div class="modal-container">
-            <button type="button" class="modal-close" onclick="closeModal()" aria-label="Fermer la fenêtre de détails de l'orchidée">&times;</button>
-            
+            <button type="button" class="modal-close" aria-label="Fermer la fenêtre de détails de l'orchidée">
+                &times;
+            </button>
+
             <div class="orchid-modal-view">
-                
                 <div class="modal-header-block">
-                    <img id="modal-orchid-img" src="./assets/images/orchids/acacalis_cyanea.png" alt="Photo" class="modal-orchid-img">
+                    <img id="modal-orchid-img" src="./assets/images/orchids/acacalis_cyanea.png" alt="Photo de l'orchidée" class="modal-orchid-img">
                     <div class="modal-title-group">
                         <h2 id="modal-orchid-title">ACACALIS CYANEA</h2>
                         <p id="modal-orchid-scientific" class="modal-scientific">ACACALIS CYANEA</p>
@@ -101,245 +111,22 @@
                 </div>
 
                 <div class="modal-description-block">
-                    <h2>Description & Caractéristiques</h2>
+                    <h2>Description &amp; Caractéristiques</h2>
                     <p id="modal-orchid-long" class="modal-long-desc">...</p>
                 </div>
 
                 <div class="modal-footer-action">
                     <button type="button" class="btn-add-collection" aria-label="Ajouter cette espèce d'orchidée à ma collection personnelle">+ COLLECTION</button>
                 </div>
-
             </div>
         </div>
     </div>
 
-    <script>
-       // DISCLAIMER : Le Javascript n'a pas encore été appris et abordé en formation, j'ai copié des morceaux de codes pour la sidebar et je me suis fais aider par l'ia pour les parties inconnue et complexe, dans le but de présenter la page d'accueil à mon oral.
-        // 1. OUVERTURE DE LA SIDEBAR AVEC BASCULE ARIA-EXPANDED
-       
-        function toggleSidebar() {
-            const sidebar = document.getElementById('main-sidebar');
-            const toggleBtn = document.getElementById('menu-toggle-btn');
-            
-            sidebar.classList.toggle('sidebar-open');
-            
-            // CORRECTION : On vérifie la présence de la classe pour mettre à jour l'état ARIA
-            const isOpen = sidebar.classList.contains('sidebar-open');
-            if (toggleBtn) {
-                toggleBtn.setAttribute('aria-expanded', isOpen ? "true" : "false");
-            }
-        }
-
-    
-        // 2. LOGIQUE DES NOMS LATINS EN FOND
-      
-        const orchidNames = [
-            "Phalaenopsis amabilis", "Cattleya labiata", "Dendrobium nobile", 
-            "Vanda coerulea", "Oncidium flexuosum", "Paphiopedilum insigne", 
-            "Odontoglossum crispum", "Cymbidium eberhardtii", "Laelia purpurata", 
-            "Miltonia spectabilis", "Masdevallia coccinea", "Lycaste deppei", 
-            "Stanhopea tigrina", "Brassia verrucosa", "Acacalis cyanea", 
-            "Acineta superba", "Aerangis citrata", "Angraecum sesquipedale", 
-            "Barkeria spectabilis", "Bletilla striata"
-        ];
-
-        const container = document.getElementById('latin-bg-layer');
-
-        function createFloatingWord() {
-            const span = document.createElement('span');
-            span.classList.add('latin-word');
-            span.textContent = orchidNames[Math.floor(Math.random() * orchidNames.length)];
-
-            const randomX = Math.floor(Math.random() * 85); 
-            const randomY = Math.floor(Math.random() * 85);
-            span.style.left = randomX + '%';
-            span.style.top = randomY + '%';
-
-            container.appendChild(span);
-
-            setTimeout(() => { span.classList.add('word-visible'); }, 50);
-            setTimeout(() => {
-                span.classList.remove('word-visible');
-                setTimeout(() => { span.remove(); }, 2500);
-            }, 6000);
-        }
-
-        setInterval(createFloatingWord, 1500);
-        createFloatingWord();
-        setTimeout(createFloatingWord, 1000);
-        setTimeout(createFloatingWord, 1500);
-
-        
-        // 3. BASE DE DONNÉES SIMULÉE (MOCK DATA COMPLÈTE)
-       
-        const orchidsDatabase = [
-            { 
-                name: "ACACALIS CYANEA", vernacular: "AGANISIA", order: "Asparagales", species: "Orchidales", genre: "Aganisia", family: "Orchidaceae", subfamily: "Epidendroideae", tribu: "Cymbidieae", subtribu: "Sygopetalinae", behavior: "Epiphyte", discovered: "John Lindley (1839)", origin: "Amériques du sud", img: "./assets/images/orchids/acacalis_cyanea.png",
-                shortDesc: "Orchidée épiphyte d’Amérique du sud. Se développant sur plaque de liège, dans une ambiance chaude et humide.",
-                longDesc: "Acacalis Cyanea, demande une luminosité de sous bois, une humidité ambiante forte et des températures allant de 18 à 25°C. Etant une épiphyte dans son milieu naturel, elle aime croître sur des support d'écorce (liège, séquoia....) Acacalis Cyanea, déteste la lumière vive et les rayons directs du soleil." 
-            },
-            { 
-                name: "CATTLEYA LABIATA", vernacular: "CATTLEYA FARDÉ", order: "Asparagales", species: "Labiata", genre: "Cattleya", family: "Orchidaceae", subfamily: "Epidendroideae", tribu: "Epidendreae", subtribu: "Laeliinae", behavior: "Epiphyte", discovered: "William Swainson (1818)", origin: "Brésil", img: "./assets/images/orchids/cattleya_labiata.png",
-                shortDesc: "Grandes fleurs parfumées et colorées originaires des forêts tropicales du Brésil.",
-                longDesc: "Le Cattleya labiata demande une excellente luminosité sans soleil direct direct pour fleurir. Laissez sécher le substrat entre deux arrosages abondants et maintenez une forte humidité ambiante." 
-            },
-            { 
-                name: "VANDA COERULEA", vernacular: "VANDA BLEUE", order: "Asparagales", species: "Coerulea", genre: "Vanda", family: "Orchidaceae", subfamily: "Epidendroideae", tribu: "Vandeae", subtribu: "Aeridinae", behavior: "Epiphyte", discovered: "William Griffith (1847)", origin: "Inde / Chine", img: "./assets/images/orchids/vanda_coerulea.png",
-                shortDesc: "Superbe orchidée bleue se cultivant sans aucun terreau, racines totalement nues.",
-                longDesc: "La Vanda coerulea nécessite un bassinage quotidien de ses racines à l'eau tiède non calcaire. Donnez-lui un maximum de lumière et une forte ventilation pour éviter la pourriture." 
-            },
-            { 
-    name: "AERANGIS KIRKII", vernacular: "AERANGIS DE KIRK", order: "Asparagales", species: "Kirkii", genre: "Aerangis", family: "Orchidaceae", subfamily: "Epidendroideae", tribu: "Vandeae", subtribu: "Aeridinae", behavior: "Epiphyte", discovered: "Heinrich Gustav Reichenbach (1865)", origin: "Afrique de l'Est", img: "./assets/images/orchids/aerangis_kirkii.png",
-    shortDesc: "Petite orchidée miniature aux fleurs blanches étoilées et très parfumées.",
-    longDesc: "Aerangis kirkii apprécie une ambiance chaude à tempérée, une forte humidité de l'air et une lumière tamisée. Cultivée généralement sur plaque de liège ou dans un panier très drainant, elle demande des arrosages réguliers en période de croissance et un léger repos en hiver."
-},
-
-{ 
-    name: "PHALAENOPSIS AMABILIS", vernacular: "ORCHIDÉE PAPILLON", order: "Asparagales", species: "Amabilis", genre: "Phalaenopsis", family: "Orchidaceae", subfamily: "Epidendroideae", tribu: "Vandeae", subtribu: "Aeridinae", behavior: "Epiphyte", discovered: "Carl Ludwig Blume (1825)", origin: "Asie du Sud-Est", img: "./assets/images/orchids/phalaenopsis_amabilis.png",
-    shortDesc: "Espèce emblématique aux grandes fleurs blanches élégantes en forme de papillon.",
-    longDesc: "Phalaenopsis amabilis se cultive en intérieur avec une lumière vive sans soleil direct. Elle apprécie des températures comprises entre 18 et 28°C, une bonne hygrométrie et un substrat très aéré composé principalement d'écorces de pin."
-},
-
-{ 
-    name: "DRACULA SIMIA", vernacular: "ORCHIDÉE SINGE", order: "Asparagales", species: "Simia", genre: "Dracula", family: "Orchidaceae", subfamily: "Epidendroideae", tribu: "Epidendreae", subtribu: "Pleurothallidinae", behavior: "Epiphyte", discovered: "Carlyle August Luer (1978)", origin: "Équateur / Pérou", img: "./assets/images/orchids/dracula_simia.png",
-    shortDesc: "Orchidée étonnante dont la fleur évoque le visage d'un petit singe.",
-    longDesc: "Dracula simia demande des conditions fraîches, une forte humidité et une excellente circulation de l'air. Cette espèce de forêt de nuages supporte mal les températures élevées et apprécie une lumière faible à moyenne."
-},
-
-{ 
-    name: "MASDEVALLIA VEITCHIANA", vernacular: "MASDEVALLIA ROYALE", order: "Asparagales", species: "Veitchiana", genre: "Masdevallia", family: "Orchidaceae", subfamily: "Epidendroideae", tribu: "Epidendreae", subtribu: "Pleurothallidinae", behavior: "Epiphyte", discovered: "Heinrich Gustav Reichenbach (1867)", origin: "Pérou", img: "./assets/images/orchids/masdevallia_veitchiana.png",
-    shortDesc: "Espèce de montagne aux fleurs flamboyantes aux reflets orange et pourpres.",
-    longDesc: "Masdevallia veitchiana préfère des températures fraîches, une hygrométrie élevée et un substrat constamment légèrement humide. Une bonne ventilation est indispensable pour éviter les maladies cryptogamiques."
-},
-
-{ 
-    name: "DENDROBIUM NOBILE", vernacular: "DENDROBIUM NOBLE", order: "Asparagales", species: "Nobile", genre: "Dendrobium", family: "Orchidaceae", subfamily: "Epidendroideae", tribu: "Dendrobieae", subtribu: "Dendrobiinae", behavior: "Epiphyte", discovered: "John Lindley (1830)", origin: "Himalaya / Asie tropicale", img: "./assets/images/orchids/dendrobium_nobile.png",
-    shortDesc: "Orchidée à longues cannes produisant une floraison spectaculaire au printemps.",
-    longDesc: "Dendrobium nobile demande une forte luminosité, des arrosages abondants durant la croissance et une période de repos plus fraîche et sèche en hiver afin de stimuler la floraison."
-},
-
-{ 
-    name: "PAPIOPEDILUM INSIGNE", vernacular: "SABOT DE VÉNUS", order: "Asparagales", species: "Insigne", genre: "Paphiopedilum", family: "Orchidaceae", subfamily: "Cypripedioideae", tribu: "Cypripedieae", subtribu: "Cypripediinae", behavior: "Terrestre", discovered: "John Lindley (1840)", origin: "Inde / Népal", img: "./assets/images/orchids/paphiopedilum_insigne.png",
-    shortDesc: "Orchidée terrestre célèbre pour sa fleur en forme de sabot caractéristique.",
-    longDesc: "Paphiopedilum insigne apprécie une lumière douce, un substrat restant légèrement humide et des températures tempérées. Contrairement à beaucoup d'orchidées tropicales, il ne possède pas de pseudobulbes et ne doit pas sécher complètement."
-},
-
-{ 
-    name: "ANGRAECUM SESQUIPEDALE", vernacular: "ÉTOILE DE MADAGASCAR", order: "Asparagales", species: "Sesquipedale", genre: "Angraecum", family: "Orchidaceae", subfamily: "Epidendroideae", tribu: "Vandeae", subtribu: "Angraecinae", behavior: "Epiphyte", discovered: "Louis-Marie Aubert du Petit-Thouars (1822)", origin: "Madagascar", img: "./assets/images/orchids/angraecum_sesquipedale.png",
-    shortDesc: "Grande orchidée blanche nocturne célèbre pour son éperon exceptionnellement long.",
-    longDesc: "Angraecum sesquipedale demande une forte luminosité sans soleil brûlant, une atmosphère humide et chaude ainsi que des arrosages réguliers avec une eau peu minéralisée."
-},
-
-{ 
-    name: "ONCIDIUM SHARRY BABY", vernacular: "ORCHIDÉE CHOCOLAT", order: "Asparagales", species: "Sharry Baby", genre: "Oncidium", family: "Orchidaceae", subfamily: "Epidendroideae", tribu: "Cymbidieae", subtribu: "Oncidiinae", behavior: "Epiphyte", discovered: "Hybride horticole (1983)", origin: "Hybride de culture", img: "./assets/images/orchids/oncidium_sharry_baby.png",
-    shortDesc: "Hybride réputé pour son parfum rappelant le chocolat et la vanille.",
-    longDesc: "Oncidium Sharry Baby demande une bonne luminosité, des arrosages réguliers lorsque les pseudobulbes se développent et un substrat drainant qui sèche légèrement entre deux arrosages."
-}
-        ];
-
-     
-        // 4. MOTEUR DE RECHERCHE
-        
-        document.getElementById('landing-search-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const query = document.getElementById('search-input').value.toLowerCase().trim();
-            if(query === "") return;
-
-            const matchedOrchid = orchidsDatabase.find(orchid => orchid.name.toLowerCase().includes(query));
-
-            if (matchedOrchid) {
-                injectModalData(matchedOrchid);
-                openModal();
-            } else {
-                alert("Aucune orchidée ne correspond à votre recherche pour le moment. Essayez : Acacalis, Cattleya ou Vanda.");
-            }
-        });
-
-        function injectModalData(orchid) {
-            document.getElementById('modal-orchid-title').innerText = orchid.name;
-            document.getElementById('modal-orchid-scientific').innerText = orchid.name;
-            document.getElementById('modal-orchid-vernacular').innerText = orchid.vernacular;
-            document.getElementById('modal-orchid-short').innerText = orchid.shortDesc;
-            document.getElementById('modal-orchid-long').innerText = orchid.longDesc;
-            document.getElementById('modal-orchid-img').src = orchid.img;
-
-            document.getElementById('spec-ordre').innerText = orchid.order;
-            document.getElementById('spec-espece').innerText = orchid.species;
-            document.getElementById('spec-genre').innerText = orchid.genre;
-            document.getElementById('spec-famille').innerText = orchid.family;
-            document.getElementById('spec-subfamily').innerText = orchid.subfamily;
-            document.getElementById('spec-tribu').innerText = orchid.tribu;
-            document.getElementById('spec-subtribu').innerText = orchid.subtribu;
-            document.getElementById('spec-behavior').innerText = orchid.behavior;
-            document.getElementById('spec-discovered').innerText = orchid.discovered;
-            document.getElementById('spec-origin').innerText = orchid.origin;
-        }
-
-        
-        // 5. GESTION DES MODALES ACCESSIBLES ET PIÈGE DU FOCUS
-       
-        
-        // Stocker le dernier élément qui avait le focus avant l'ouverture de la modale
-        let previousActiveElement;
-
-        function openModal() {
-            const modal = document.getElementById('orchid-modal');
-            
-            // Sauvegarder l'élément actif actuel (le bouton Rechercher)
-            previousActiveElement = document.activeElement;
-            
-            modal.classList.add('active');
-            modal.setAttribute('aria-hidden', "false"); // ROLES ARIA : Devient visible pour l'A11y
-            
-            //  FOCUS TRAP : Forcer le clavier à se positionner directement sur la croix de fermeture
-            const closeBtn = modal.querySelector('.modal-close');
-            if (closeBtn) {
-                setTimeout(() => { closeBtn.focus(); }, 100);
-            }
-
-            // Écouter la touche Tabulation pour créer le piège à focus (Focus Trap)
-            modal.addEventListener('keydown', trapFocus);
-        }
-
-        function closeModal() {
-            const modal = document.getElementById('orchid-modal');
-            modal.classList.remove('active');
-            modal.setAttribute('aria-hidden', "true"); //  ROLES ARIA : Redevient invisible pour l'A11y
-            
-            modal.removeEventListener('keydown', trapFocus);
-
-            // FOCUS TRAP : Rendre le focus au bouton d'origine sur la page d'accueil
-            if (previousActiveElement) {
-                previousActiveElement.focus();
-            }
-        }
-
-        // Fonction technique du Piège à Focus (Standard Intégrateur Pro)
-        function trapFocus(e) {
-            if (e.key !== 'Tab') return;
-
-            const modal = document.getElementById('orchid-modal');
-            // Trouver tous les éléments focalisables à l'intérieur de notre composant uniforme
-            const focusableElements = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex="0"]');
-            const firstElement = focusableElements[0];
-            const lastElement = focusableElements[focusableElements.length - 1];
-
-            // Si l'utilisateur fait Maj + Tab et qu'il est sur le premier élément, on l'envoie sur le dernier
-            if (e.shiftKey) {
-                if (document.activeElement === firstElement) {
-                    lastElement.focus();
-                    e.preventDefault();
-                }
-            } 
-            // Si l'utilisateur fait Tab et qu'il est sur le dernier élément, on le renvoie sur le premier (la croix)
-            else {
-                if (document.activeElement === lastElement) {
-                    firstElement.focus();
-                    e.preventDefault();
-                }
-            }
-        }
-    </script>
-
+    <script src="./assets/js/orchids-data.js" defer></script>
+    <script src="./assets/js/navigation.js" defer></script>
+    <script src="./assets/js/animation-bg.js" defer></script>
+    <script src="./assets/js/search-modal.js" defer></script>
+    <script src="./assets/js/btn-ajout-orchid.js" defer></script>
+    <script src="./assets/js/app.js" defer></script>
 </body>
 </html>
