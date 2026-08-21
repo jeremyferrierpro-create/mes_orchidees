@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0e2018">
-    <meta name="description" content="Conseils de culture pour les orchidées filtrables par thème, type de plante et niveau d'expertise.">
+    <meta name="description" content="Conseils de culture pour les orchidées.">
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="./assets/images/site/logotransparent.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -47,54 +47,48 @@
 
     <main class="main-content" id="main-content">
         <section class="advice-header" aria-label="Conseils de culture">
-            <h1 class="page-title">CONSEILS DE CULTURE</h1>
-            <p class="page-intro">Affinez les conseils par thème, type d'orchidée et niveau d'expertise.</p>
+            <h1 class="page-title">CONSEILS</h1>
         </section>
 
-        <section class="advice-filters" aria-label="Filtres des conseils">
-            <div class="filter-group">
-                <label for="filter-theme" class="sr-only">Thème</label>
-                <select id="filter-theme" name="theme" aria-label="Thème du conseil">
-                    <option value="all">Tous les thèmes</option>
-                    <option value="Arrosage">Arrosage</option>
-                    <option value="Lumière">Lumière</option>
-                    <option value="Hygrométrie">Hygrométrie</option>
-                    <option value="Température">Température</option>
-                    <option value="Rempotage">Rempotage</option>
-                    <option value="Fertilisation">Fertilisation</option>
-                </select>
-            </div>
-
-            <div class="filter-group">
-                <label for="filter-plant-type" class="sr-only">Type de plante</label>
-                <select id="filter-plant-type" name="plantType" aria-label="Type d'orchidée">
-                    <option value="all">Tous les types</option>
-                    <option value="Phalaenopsis">Phalaenopsis</option>
-                    <option value="Cattleya">Cattleya</option>
-                    <option value="Dendrobium">Dendrobium</option>
-                    <option value="Miltonia">Miltonia</option>
-                    <option value="Vanda">Vanda</option>
-                    <option value="Paphiopedilum">Paphiopedilum</option>
-                </select>
-            </div>
-
-            <div class="filter-group">
-                <label for="filter-level" class="sr-only">Niveau d'expertise</label>
-                <select id="filter-level" name="level" aria-label="Niveau d'expertise">
-                    <option value="all">Tous les niveaux</option>
-                    <option value="Débutant">Débutant</option>
-                    <option value="Intermédiaire">Intermédiaire</option>
-                    <option value="Expert">Expert</option>
-                </select>
-            </div>
-
-            <div class="filter-group filter-search">
-                <label for="advice-text-search" class="sr-only">Rechercher un conseil</label>
-                <input type="text" id="advice-text-search" placeholder="Rechercher un conseil..." aria-label="Rechercher un conseil par mot-clé">
-            </div>
+        <section class="conseils-search" aria-label="Rechercher un conseil ou une orchidée">
+            <form class="search-box" action="encyclopedie.html" method="GET" role="search">
+                <label for="conseil-search-input" class="sr-only">Rechercher une orchidée</label>
+                <input type="text" id="conseil-search-input" name="search" placeholder="Rechercher une orchidée ..." autocomplete="off">
+                <button type="submit" class="search-btn">RECHERCHER</button>
+            </form>
         </section>
 
-        <section id="advice-grid" class="advice-grid" aria-live="polite" aria-label="Fiches conseils filtrées"></section>
+        <section class="conseils-grid" aria-label="Rubriques de conseils">
+            <article class="conseil-card">
+                <h2>Conseils de base</h2>
+                <p>Débutez votre collection d'orchidées avec ces conseils de base. Selon vos affinités, vous évoluerez vers les épiphytes, terrestres ou hémi-épiphytes. Bonne culture !</p>
+            </article>
+
+            <article class="conseil-card">
+                <h2>Pour les épiphytes</h2>
+                <p>Vous aimez les orchidées épiphytes. Cette rubrique est faîtes pour vous. Vous y trouverez tous les conseils de culture pour réussir vos épiphytes, comme un professionnel ! Bonne culture !</p>
+            </article>
+
+            <article class="conseil-card">
+                <h2>Pour les terrestres</h2>
+                <p>Vous aimez les orchidées terrestres. Cette rubrique est faîtes pour vous. Vous y trouverez tous les conseils de culture pour réussir vos terrestres, comme un professionnel ! Bonne culture !</p>
+            </article>
+
+            <article class="conseil-card">
+                <h2>Pour les hémi-épiphytes</h2>
+                <p>Vous aimez les orchidées hémi-épiphytes. Cette rubrique est faîtes pour vous. Vous y trouverez tous les conseils de culture pour réussir vos hémi-épiphytes, comme un professionnel ! Bonne culture !</p>
+            </article>
+
+            <article class="conseil-card">
+                <h2>Sortie de flask</h2>
+                <p>Vous êtes un amateur orchidophile. Vous souhaitez cultiver des orchidées sorties de flask ? Ici, vous trouverez tous nos conseils de pro pour réussir vos sorties de flask.</p>
+            </article>
+
+            <article class="conseil-card">
+                <h2>Après achat</h2>
+                <p>Vous venez d'acheter vos premières orchidées ? Découvrez nos conseils d'après achat. Nous vous conseillons de consulter les conseils de base, par la suite, pour vous familiariser avec vos orchidées.</p>
+            </article>
+        </section>
     </main>
 
     <footer id="main-footer">
@@ -106,8 +100,6 @@
         <a href="confidentialite.html" class="footer-link">Confidentialités</a>
     </footer>
 
-    <script src="./assets/js/conseils-data.js" defer></script>
-    <script src="./assets/js/conseils.js" defer></script>
     <script src="./assets/js/navigation.js" defer></script>
     <script src="./assets/js/app.js" defer></script>
 </body>
