@@ -1,26 +1,27 @@
-// FICHIER DE DONNÉES CONSEILS DE CULTURE
-// ==============================
-// Contient 6 fiches par rubriques + une fiche de culture par orchidée
-// provenant de orchids-data.js.
+// Ce fichier est ma fausse base de données de conseils (en attendant PHP + Supabase)
+// Il y a 2 types de fiches :
+//   - type "category" = les 6 grosses rubriques (base, épiphytes, terrestres, hémi, après achat, flask)
+//   - type "species" = une fiche par orchidée (21 fiches) avec ses careCards (température, arrosage...)
+// Plus tard je remplacerai par fetch('api/conseils.php')
 
-export const conseilsDatabase = [
-    {
-        "id": "conseils-base",
-        "type": "category",
-        "name": "Conseils de base",
-        "img": "./assets/images/site/base.jpg",
-        "category": "Conseils de base",
-        "content": "Le secret absolu : L'orchidée est une plante dite 'aérienne' dont les racines respirent. Le pire ennemi de votre nouvelle acquisition reste l'asphyxie racinaire due à un excès d'eau.\nLumière : Préférez une lumière vive tamisée, à moins d'un mètre d'une fenêtre, sans jamais de soleil direct brûlant.\nArrosage : Ne versez jamais 'un petit peu chaque jour'. Attendez que le substrat soit presque sec, puis trempez le pot 10 à 15 minutes.\nHygrométrie : Une ambiance humide (autour de 60 %) est favorable. Un bac de graviers humidifiés aide beaucoup.\nEnvironnement : Bannissez le terreau de jardin ordinaire. Utilisez un mélange d'écorces, de tourbe et de perlite bien drainant.",
-        "careCards": {
-            "temperature": "20 °C",
-            "arrosage": "régulier",
-            "hygrometrie": "65 %",
-            "rempotage": "2 ans",
-            "engrais": "1 arrosage sur 2",
-            "substrats": "selon type"
+export const conseilsDatabase = [ // je crée la liste de toutes les fiches
+    { // FICHE 1 : rubrique Conseils de base (pour débutants)
+        "id": "conseils-base", // code unique de la rubrique
+        "type": "category", // c'est une rubrique, pas une orchidée précise
+        "name": "Conseils de base", // nom affiché sur la carte
+        "img": "./assets/images/site/base.jpg", // photo de la rubrique
+        "category": "Conseils de base", // catégorie pour la recherche
+        "content": "Le secret absolu : L'orchidée est une plante dite 'aérienne' dont les racines respirent. Le pire ennemi de votre nouvelle acquisition reste l'asphyxie racinaire due à un excès d'eau.\nLumière : Préférez une lumière vive tamisée, à moins d'un mètre d'une fenêtre, sans jamais de soleil direct brûlant.\nArrosage : Ne versez jamais 'un petit peu chaque jour'. Attendez que le substrat soit presque sec, puis trempez le pot 10 à 15 minutes.\nHygrométrie : Une ambiance humide (autour de 60 %) est favorable. Un bac de graviers humidifiés aide beaucoup.\nEnvironnement : Bannissez le terreau de jardin ordinaire. Utilisez un mélange d'écorces, de tourbe et de perlite bien drainant.", // long texte affiché dans la modale
+        "careCards": { // les 6 petites cases en bas de la modale
+            "temperature": "20 °C", // température idéale
+            "arrosage": "régulier", // fréquence d'arrosage
+            "hygrometrie": "65 %", // humidité
+            "rempotage": "2 ans", // tous les combien rempoter
+            "engrais": "1 arrosage sur 2", // engrais
+            "substrats": "selon type" // substrat
         }
     },
-    {
+    { // FICHE 2 : rubrique Pour les épiphytes (celles qui poussent sur les arbres)
         "id": "conseils-epiphytes",
         "type": "category",
         "name": "Pour les épiphytes",
@@ -36,7 +37,7 @@ export const conseilsDatabase = [
             "substrats": "Plaque de liège"
         }
     },
-    {
+    { // FICHE 3 : rubrique Pour les terrestres (celles qui poussent dans la terre)
         "id": "conseils-terrestres",
         "type": "category",
         "name": "Pour les terrestres",
@@ -52,7 +53,7 @@ export const conseilsDatabase = [
             "substrats": "organique"
         }
     },
-    {
+    { // FICHE 4 : rubrique Pour les hémi-épiphytes (moitié arbre, moitié terre)
         "id": "conseils-hemi-epiphytes",
         "type": "category",
         "name": "Pour les hémi-épiphytes",
@@ -68,7 +69,7 @@ export const conseilsDatabase = [
             "substrats": "fibreux"
         }
     },
-    {
+    { // FICHE 5 : rubrique Après achat (que faire quand on vient d'acheter)
         "id": "conseils-apres-achat",
         "type": "category",
         "name": "Après achat",
@@ -84,7 +85,7 @@ export const conseilsDatabase = [
             "substrats": "selon type"
         }
     },
-    {
+    { // FICHE 6 : rubrique Sortie de flask (pour les pros qui sortent les bébés du flacon)
         "id": "conseils-flask",
         "type": "category",
         "name": "Sortie de flask",
@@ -100,12 +101,13 @@ export const conseilsDatabase = [
             "substrats": "ultra fin"
         }
     },
-    {
-        "id": "fiche-acacalis_cyanea",
-        "type": "species",
-        "name": "ACACALIS CYANEA",
-        "img": "./assets/images/orchids/acacalis_cyanea.png",
-        "category": "Épiphyte",
+    // À partir d'ici : 21 fiches "species" = une par orchidée, générées à partir de orchids-data.js
+    { // FICHE 7 : fiche espèce Acacalis (copie de l'orchidée + conseils adaptés)
+        "id": "fiche-acacalis_cyanea", // id de la fiche = "fiche-" + id orchidée
+        "type": "species", // c'est une fiche espèce
+        "name": "ACACALIS CYANEA", // même nom que l'orchidée
+        "img": "./assets/images/orchids/acacalis_cyanea.png", // même photo
+        "category": "Épiphyte", // son comportement
         "content": "ACACALIS CYANEA est une orchidée épiphyte originaire de Amérique du Sud (Bassin de l'Amazone). Découverte en John Lindley (1839).\nAcacalis cyanea demande une forte humidité ambiante (80%+), des températures chaudes et une lumière tamisée de sous-bois. Se développant très bien montée sur plaque d'écorce ou de liège, elle déteste le soleil direct et demande un arrosage régulier à l'eau douce.",
         "careCards": {
             "temperature": "20-25 °C",
@@ -116,7 +118,7 @@ export const conseilsDatabase = [
             "substrats": "Plaque de liège"
         }
     },
-    {
+    { // FICHE 8 : Acineta
         "id": "fiche-acineta_barkerii",
         "type": "species",
         "name": "ACINETA BARKERII",
@@ -132,7 +134,7 @@ export const conseilsDatabase = [
             "substrats": "Plaque de liège"
         }
     },
-    {
+    { // FICHE 9 : Ada
         "id": "fiche-ada_aurantiaca",
         "type": "species",
         "name": "ADA AURANTIACA",
@@ -148,7 +150,7 @@ export const conseilsDatabase = [
             "substrats": "Plaque de liège"
         }
     },
-    {
+    { // FICHE 10 : Aerangis articulata
         "id": "fiche-aerangis_articulata",
         "type": "species",
         "name": "AERANGIS ARTICULATA",
@@ -164,7 +166,7 @@ export const conseilsDatabase = [
             "substrats": "Plaque de liège"
         }
     },
-    {
+    { // FICHE 11 : Aerangis fastuosa
         "id": "fiche-aerangis_fastuosa",
         "type": "species",
         "name": "AERANGIS FASTUOSA",
@@ -180,7 +182,7 @@ export const conseilsDatabase = [
             "substrats": "Plaque de liège"
         }
     },
-    {
+    { // FICHE 12 : Aerangis kirkii
         "id": "fiche-aerangis_kirkii",
         "type": "species",
         "name": "AERANGIS KIRKII",
@@ -196,7 +198,7 @@ export const conseilsDatabase = [
             "substrats": "Plaque de liège"
         }
     },
-    {
+    { // FICHE 13 : Aerides houlletiana
         "id": "fiche-aerides_houlletiana",
         "type": "species",
         "name": "AERIDES HOULLETIANA",
@@ -212,7 +214,7 @@ export const conseilsDatabase = [
             "substrats": "Panier aéré"
         }
     },
-    {
+    { // FICHE 14 : Aerides odorata
         "id": "fiche-aerides_odorata",
         "type": "species",
         "name": "AERIDES ODORATA",
@@ -228,7 +230,7 @@ export const conseilsDatabase = [
             "substrats": "Panier aéré"
         }
     },
-    {
+    { // FICHE 15 : Angraecum didierii
         "id": "fiche-angraecum_didierii",
         "type": "species",
         "name": "ANGRAECUM DIDIERII",
@@ -244,7 +246,7 @@ export const conseilsDatabase = [
             "substrats": "Plaque de liège"
         }
     },
-    {
+    { // FICHE 16 : Angraecum eburneum
         "id": "fiche-angraecum_eburneum",
         "type": "species",
         "name": "ANGRAECUM EBURNEUM",
@@ -260,7 +262,7 @@ export const conseilsDatabase = [
             "substrats": "Plaque de liège"
         }
     },
-    {
+    { // FICHE 17 : Angraecum sesquipedale (l'étoile de Darwin)
         "id": "fiche-angraecum_sesquipedale",
         "type": "species",
         "name": "ANGRAECUM SESQUIPEDALE",
@@ -276,7 +278,7 @@ export const conseilsDatabase = [
             "substrats": "Plaque de liège"
         }
     },
-    {
+    { // FICHE 18 : Anguloa clowesii (terrestre)
         "id": "fiche-anguloa_clowesii",
         "type": "species",
         "name": "ANGULOA CLOWESII",
@@ -292,7 +294,7 @@ export const conseilsDatabase = [
             "substrats": "Substrat organique"
         }
     },
-    {
+    { // FICHE 19 : Anguloa virginalis
         "id": "fiche-anguloa_virginalis",
         "type": "species",
         "name": "ANGULOA VIRGINALIS",
@@ -308,7 +310,7 @@ export const conseilsDatabase = [
             "substrats": "Substrat organique"
         }
     },
-    {
+    { // FICHE 20 : Ansellia africana (léopard)
         "id": "fiche-ansellia_africana",
         "type": "species",
         "name": "ANSELLIA AFRICANA",
@@ -324,7 +326,7 @@ export const conseilsDatabase = [
             "substrats": "Plaque de liège"
         }
     },
-    {
+    { // FICHE 21 : Ascocentrum
         "id": "fiche-ascocentrum_spp",
         "type": "species",
         "name": "ASCOCENTRUM SPP",
@@ -340,7 +342,7 @@ export const conseilsDatabase = [
             "substrats": "Panier aéré"
         }
     },
-    {
+    { // FICHE 22 : Aspasia lunata
         "id": "fiche-aspasia_lunata",
         "type": "species",
         "name": "ASPASIA LUNATA",
@@ -356,7 +358,7 @@ export const conseilsDatabase = [
             "substrats": "Plaque de liège"
         }
     },
-    {
+    { // FICHE 23 : Aspasia principissa
         "id": "fiche-aspasia_principissa",
         "type": "species",
         "name": "ASPASIA PRINCIPISSA",
@@ -372,7 +374,7 @@ export const conseilsDatabase = [
             "substrats": "Plaque de liège"
         }
     },
-    {
+    { // FICHE 24 : Barkeria
         "id": "fiche-barkeria_spectabilis",
         "type": "species",
         "name": "BARKERIA SPECTABILIS",
@@ -388,7 +390,7 @@ export const conseilsDatabase = [
             "substrats": "Plaque de liège"
         }
     },
-    {
+    { // FICHE 25 : Bifrenaria
         "id": "fiche-bifrenaria_inodora",
         "type": "species",
         "name": "BIFRENARIA INODORA",
@@ -404,11 +406,11 @@ export const conseilsDatabase = [
             "substrats": "Plaque de liège"
         }
     },
-    {
+    { // FICHE 26 : Vanilla (cas spécial hémi-épiphyte)
     "id": "fiche-vanilla_planifolia",
     "type": "species",
     "name": "VANILLA PLANIFOLIA",
-    "img": "./assets/images/orchids/vanilla_planifolia.jpg",
+    "img": "./assets/images/orchids/vanilla_planifolia.jpg", // minuscule pour Linux
     "category": "Épiphyte",
     "content": "VANILLA PLANIFOLIA est une orchidée épiphyte originaire du Mexique et d'Amérique centrale. Elle est notamment cultivée pour ses gousses de vanille. Vanilla planifolia est une liane vigoureuse qui développe de longues tiges charnues et des racines aériennes. Elle apprécie une forte luminosité tamisée, une atmosphère chaude et humide ainsi qu'un substrat très drainant. Une période de repos légère peut favoriser la floraison, mais le dessèchement complet des racines doit être évité.",
     "careCards": {
@@ -420,7 +422,7 @@ export const conseilsDatabase = [
         "substrats": "Écorces de pin + sphaigne"
     }
 },
-    {
+    { // FICHE 27 : Bletilla (terrestre rustique)
         "id": "fiche-bletilla_ochracea",
         "type": "species",
         "name": "BLETILLA OCHRACEA",
@@ -437,6 +439,4 @@ export const conseilsDatabase = [
         }
     }
 ];
-
-// Alias temporaire pour la rétrocompatibilité
 

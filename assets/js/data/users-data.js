@@ -1,25 +1,25 @@
-// FICHIER DE DONNÉES UTILISATEURS (MOCK BDD)
-// ==========================================
-// Remplace provisoirement le backend PHP / Supabase.
+// Ce fichier est une fausse base de données d'utilisateurs (en attendant le PHP + Supabase)
+// Plus tard, ces 3 personnes viendront d'une vraie table SQL, pas d'un fichier JS
+// Chaque objet = une personne
 
 export const usersDatabase = [
     {
-        id: 1,
-        nom: "Dupont",
-        prenom: "Jean-Marc",
-        email: "admin@mesorchidees.fr",
-        password: "demouser", // Mot de passe fictif (ne jamais faire ça en prod)
-        role: "user",
-        created: "15/01/2026",
-        modified: "01/04/2026"
+        id: 1, // numéro unique
+        nom: "Dupont", // nom de famille
+        prenom: "Jean-Marc", // prénom
+        email: "admin@mesorchidees.fr", // adresse pour se connecter
+        password: "demouser", // mot de passe FAUX (en vrai on ne met jamais un mot de passe en clair)
+        role: "user", // rôle : simple utilisateur
+        created: "15/01/2026", // date de création
+        modified: "01/04/2026" // date de dernière modif
     },
     {
-        id: 2,
+        id: 2, // deuxième personne
         nom: "FERRIER",
         prenom: "Jeremy",
         email: "jeremy.ferrierpro@gmail.com",
-        password: "demoadmin", // Mot de passe fictif (ne jamais faire ça en prod)
-        role: "admin",
+        password: "demoadmin", // mot de passe FAUX
+        role: "admin", // rôle admin (peut aller sur la page Administration)
         created: "15/01/2026",
         modified: "01/04/2026"
     },

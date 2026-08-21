@@ -7,11 +7,15 @@ import * as modalManager from '../core/modal.js';
 import * as notifications from '../core/notifications.js';
 import { STORAGE_KEYS, readJson, writeJson } from '../core/storage.js';
 
-// collection.js — Dashboard de gestion de la collection
+// MA COLLECTION - Le tableau de bord de l'utilisateur (en français débutant)
 // ======================================================
-// Lit la collection dans localStorage, calcule les stats,
-// affiche les fiches, les soins et les conseils.
-// À terme : appels fetch() à une API PHP / Supabase.
+// Ce fichier fait TOUT pour la page macollection.html :
+// 1. Il lit la collection dans le navigateur (localStorage)
+// 2. Il calcule les chiffres du haut (Total, Épiphytes, Terrestres, Hémi - et Climat)
+// 3. Il affiche la grille de vignettes + le tableau des soins + l'aperçu conseil
+// 4. Il gère les 3 petites fenêtres : voir/éditer une plante, ajouter une plante, ajouter un soin
+// Chaque ligne est commentée pour que tu puisses l'expliquer à l'oral mot à mot
+// Plus tard, tous les readJson/writeJson seront remplacés par fetch() vers PHP/Supabase
 
 export function initCollection() {
     const orchidsDatabase = getAllOrchids();
