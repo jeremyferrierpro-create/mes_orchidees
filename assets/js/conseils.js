@@ -1,8 +1,8 @@
 // conseils.js — Affichage et filtrage du catalogue de conseils détaillés
 // ======================================================================
-// Cette partie est complémentaire aux 6 rubriques de la page maquette.
-// Elle permet à l'utilisateur de consulter de vrais conseils professionnels
-// en filtrant par type d'orchidée, niveau d'expertise et mot-clé.
+// Ce fichier gère les 6 rubriques cliquables du design Figma.
+// Il permet d'afficher les conseils d'une rubrique, ou de filtrer
+// par type d'orchidée, niveau d'expertise et mot-clé.
 
 // On attend que le DOM soit complètement chargé
 document.addEventListener('DOMContentLoaded', function () {
@@ -16,11 +16,16 @@ document.addEventListener('DOMContentLoaded', function () {
     const levelFilter = document.getElementById('advice-level');
     const textSearch = document.getElementById('advice-text-search');
     const filterForm = document.getElementById('advice-filter-form');
+    const conseilCards = document.querySelectorAll('.conseil-card');
+    const catalog = document.getElementById('advice-catalog');
 
     // Si le conteneur de résultats n'existe pas, on arrête
     if (!resultsContainer) {
         return;
     }
+
+    // On mémorise la rubrique actuellement sélectionnée par un clic sur une carte
+    let selectedCategory = null;
 
     // Fonction qui crée le HTML d'une carte conseil détaillée
     function createAdviceCard(conseil) {
@@ -34,10 +39,10 @@ document.addEventListener('DOMContentLoaded', function () {
         title.textContent = conseil.title;
         article.appendChild(title);
 
-        // On crée la ligne de métadonnées (thème, type, niveau)
+        // On crée la ligne de métadonnées (rubrique, type, niveau)
         const meta = document.createElement('div');
         meta.className = 'advice-result-meta';
-        meta.innerHTML = '<span class="advice-result-tag">' + escapeHtml(conseil.theme) + '</span>'
+        meta.innerHTML = '<span class="advice-result-tag">' + escapeHtml(conseil.category) + '</span>'
             + '<span class="advice-result-tag">' + escapeHtml(conseil.plantType) + '</span>'
             + '<span class="advice-result-tag">' + escapeHtml(conseil.level) + '</span>';
         article.appendChild(meta);
@@ -46,6 +51,12 @@ document.addEventListener('DOMContentLoaded', function () {
         const content = document.createElement('p');
         content.textContent = conseil.content;
         article.appendChild(content);
+
+        // On affiche la source scientifique / professionnelle
+        const source = document.createElement('p');
+        source.className = 'advice-source';
+        source.textContent = 'Source : ' + escapeHtml(conseil.source);
+        article.appendChild(source);
 
         // On retourne l'article
         return article;
@@ -72,15 +83,21 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Fonction qui vérifie si un conseil correspond aux filtres choisis
-    function matchesFilters(conseil) {
-        // On lit les valeurs des listes déroulantes
+    // Fonction qui retourne true si le conseil correspond aux critères actifs
+    function matchConseil(conseil) {
+        // On lit les valeurs des filtres
         const selectedPlantType = plantTypeFilter ? plantTypeFilter.value : 'all';
         const selectedLevel = levelFilter ? levelFilter.value : 'all';
-        const searchText = textSearch ? textSearch.value.toLowerCase().trim() : '';
+        const typedText = textSearch ? textSearch.value.trim().toLowerCase() : '';
+
+        // Vérification de la rubrique cliquée
+        if (selectedCategory && conseil.category !== selectedCategory) {
+            return false;
+        }
 
         // Vérification du type de plante
-        if (selectedPlantType !== 'all' && conseil.plantType !== selectedPlantType) {
+        // Si le conseil est générique (plantType = "Toutes"), il passe pour tout type
+        if (selectedPlantType !== 'all' && conseil.plantType !== 'Toutes' && conseil.plantType !== selectedPlantType) {
             return false;
         }
 
@@ -89,12 +106,12 @@ document.addEventListener('DOMContentLoaded', function () {
             return false;
         }
 
-        // Vérification du texte libre (recherche dans titre, thème et contenu)
-        if (searchText) {
+        // Vérification du texte libre
+        if (typedText.length > 0) {
             const haystack = (
                 conseil.title + ' ' + conseil.theme + ' ' + conseil.plantType + ' ' + conseil.content
             ).toLowerCase();
-            if (!haystack.includes(searchText)) {
+            if (!haystack.includes(typedText)) {
                 return false;
             }
         }
@@ -105,21 +122,64 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Fonction principale de filtrage
     function filterConseils() {
-        // On lit le texte saisi
         const typedText = textSearch ? textSearch.value.trim().toLowerCase() : '';
 
-        // On n'affiche aucun résultat tant que l'utilisateur n'a pas saisi au moins 3 caractères
-        if (typedText.length < 3) {
+        // On n'affiche aucun résultat tant que l'utilisateur n'a pas :
+        // - cliqué sur une rubrique, OU
+        // - saisi au moins 3 caractères dans la recherche
+        if (!selectedCategory && typedText.length < 3) {
             if (resultsContainer) {
                 resultsContainer.innerHTML = '';
             }
             return;
         }
 
-        // On filtre la base de données avec matchesFilters
-        const filtered = conseilsDatabase.filter(matchesFilters);
+        // On filtre la base de données avec matchConseil
+        const filtered = conseilsDatabase.filter(matchConseil);
         // On affiche le résultat
         renderConseils(filtered);
+    }
+
+    // Fonction appelée quand on clique sur une des 6 cartes maquette
+    function onConseilCardClick(event) {
+        // On empêche tout comportement par défaut
+        event.preventDefault();
+
+        // On récupère la catégorie stockée dans l'attribut data-category
+        const card = event.currentTarget;
+        const category = card.getAttribute('data-category');
+
+        // On met à jour la rubrique sélectionnée
+        selectedCategory = category;
+
+        // On lance le filtrage
+        filterConseils();
+
+        // On défile jusqu'au catalogue pour voir les résultats
+        if (catalog) {
+            catalog.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // On place le focus sur le titre du catalogue pour l'accessibilité
+        const sectionTitle = catalog ? catalog.querySelector('.section-title') : null;
+        if (sectionTitle) {
+            sectionTitle.setAttribute('tabindex', '-1');
+            sectionTitle.focus();
+        }
+    }
+
+    // On rend chaque carte cliquable et accessible au clavier
+    for (const card of conseilCards) {
+        card.addEventListener('click', onConseilCardClick);
+        card.addEventListener('keydown', function (event) {
+            // Si la touche pressée est Espace ou Entrée
+            if (event.key === ' ' || event.key === 'Enter') {
+                // On empêche le défilement de la page
+                event.preventDefault();
+                // On simule le clic
+                onConseilCardClick({ currentTarget: card, preventDefault: function () {} });
+            }
+        });
     }
 
     // Fonction utilitaire d'échappement HTML pour éviter les failles XSS
@@ -152,5 +212,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // La zone de conseils est vide au chargement ; elle se remplit quand l'utilisateur tape 3 caractères
+    // La zone de conseils est vide au chargement ; elle se remplit quand on clique sur une rubrique
+    // ou quand l'utilisateur tape au moins 3 caractères dans la recherche
 });

@@ -1125,6 +1125,16 @@ body {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.25);
   background-color: rgba(14, 32, 24, 0.6);
   text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.conseil-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+}
+.conseil-card:focus-visible {
+  outline: 2px solid #c4a47c;
+  outline-offset: 4px;
 }
 .conseil-card h2 {
   font-family: "Cinzel", serif;
@@ -1271,6 +1281,14 @@ body {
   font-family: "Cinzel", serif;
   font-size: 10px;
   text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.advice-result-card .advice-source {
+  font-family: "Cinzel", serif;
+  font-size: 11px;
+  color: #c4a47c;
+  opacity: 0.8;
+  margin: 15px 0 0;
   letter-spacing: 0.5px;
 }
 

@@ -358,6 +358,18 @@
     @include glass-effect;
     background-color: rgba(14, 32, 24, 0.6);
     text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+        transform: scale(1.02);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    &:focus-visible {
+        outline: 2px solid $clr-gold;
+        outline-offset: 4px;
+    }
 
     h2 {
         font-family: $font-titles;
@@ -516,6 +528,15 @@
         font-family: $font-titles;
         font-size: 10px;
         text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .advice-source {
+        font-family: $font-titles;
+        font-size: 11px;
+        color: $clr-gold;
+        opacity: 0.8;
+        margin: 15px 0 0;
         letter-spacing: 0.5px;
     }
 }

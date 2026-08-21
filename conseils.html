@@ -58,40 +58,40 @@
             </form>
         </section>
 
-        <section class="conseils-grid" aria-label="Rubriques de conseils">
-            <article class="conseil-card">
+        <section class="conseils-grid" aria-label="Rubriques de conseils, cliquez pour consulter">
+            <article class="conseil-card" data-category="Conseils de base" tabindex="0" role="button" aria-label="Consulter les conseils de base">
                 <h2>Conseils de base</h2>
                 <p>Débutez votre collection d'orchidées avec ces conseils de base. Selon vos affinités, vous évoluerez vers les épiphytes, terrestres ou hémi-épiphytes. Bonne culture !</p>
             </article>
 
-            <article class="conseil-card">
+            <article class="conseil-card" data-category="Pour les épiphytes" tabindex="0" role="button" aria-label="Consulter les conseils pour les épiphytes">
                 <h2>Pour les épiphytes</h2>
                 <p>Vous aimez les orchidées épiphytes. Cette rubrique est faîtes pour vous. Vous y trouverez tous les conseils de culture pour réussir vos épiphytes, comme un professionnel ! Bonne culture !</p>
             </article>
 
-            <article class="conseil-card">
+            <article class="conseil-card" data-category="Pour les terrestres" tabindex="0" role="button" aria-label="Consulter les conseils pour les terrestres">
                 <h2>Pour les terrestres</h2>
                 <p>Vous aimez les orchidées terrestres. Cette rubrique est faîtes pour vous. Vous y trouverez tous les conseils de culture pour réussir vos terrestres, comme un professionnel ! Bonne culture !</p>
             </article>
 
-            <article class="conseil-card">
+            <article class="conseil-card" data-category="Pour les hémi-épiphytes" tabindex="0" role="button" aria-label="Consulter les conseils pour les hémi-épiphytes">
                 <h2>Pour les hémi-épiphytes</h2>
                 <p>Vous aimez les orchidées hémi-épiphytes. Cette rubrique est faîtes pour vous. Vous y trouverez tous les conseils de culture pour réussir vos hémi-épiphytes, comme un professionnel ! Bonne culture !</p>
             </article>
 
-            <article class="conseil-card">
+            <article class="conseil-card" data-category="Sortie de flask" tabindex="0" role="button" aria-label="Consulter les conseils sur la sortie de flask">
                 <h2>Sortie de flask</h2>
                 <p>Vous êtes un amateur orchidophile. Vous souhaitez cultiver des orchidées sorties de flask ? Ici, vous trouverez tous nos conseils de pro pour réussir vos sorties de flask.</p>
             </article>
 
-            <article class="conseil-card">
+            <article class="conseil-card" data-category="Après achat" tabindex="0" role="button" aria-label="Consulter les conseils d'après achat">
                 <h2>Après achat</h2>
                 <p>Vous venez d'acheter vos premières orchidées ? Découvrez nos conseils d'après achat. Nous vous conseillons de consulter les conseils de base, par la suite, pour vous familiariser avec vos orchidées.</p>
             </article>
         </section>
 
-        <section class="advice-catalog" aria-label="Catalogue de conseils détaillés">
-            <h2 class="section-title">Trouver un conseil adapté</h2>
+        <section class="advice-catalog" id="advice-catalog" aria-label="Catalogue de conseils détaillés">
+            <h2 class="section-title">Conseils détaillés</h2>
 
             <form class="advice-filter-bar" id="advice-filter-form" action="#" method="GET" role="search" novalidate>
                 <div class="filter-group">
@@ -119,11 +119,7 @@
 
                 <div class="filter-group filter-search">
                     <label for="advice-text-search">Mot-clé</label>
-                    <input type="text" id="advice-text-search" placeholder="Ex : arrosage, lumière, rempotage..." autocomplete="off">
-                </div>
-
-                <div class="filter-submit">
-                    <button type="submit" class="search-btn">Filtrer les conseils</button>
+                    <input type="text" id="advice-text-search" placeholder="Ex : arrosage, lumière..." autocomplete="off">
                 </div>
             </form>
 
