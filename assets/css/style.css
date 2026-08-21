@@ -2516,7 +2516,12 @@ p {
   display: flex;
   justify-content: center;
   gap: 20px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap; /* Force them to be side-by-side */
+}
+@media (max-width: 900px) {
+  .admin-dash-cards {
+    flex-wrap: wrap; /* Sauf sur mobile où on les empile */
+  }
 }
 
 .admin-dash-card {

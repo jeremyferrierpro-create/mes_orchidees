@@ -3,7 +3,7 @@
 // Contient 6 fiches par rubriques + une fiche de culture par orchidée
 // provenant de orchids-data.js.
 
-window.conseilsDatabase = [
+export const conseilsDatabase = [
     {
         "id": "conseils-base",
         "type": "category",
@@ -437,3 +437,6 @@ window.conseilsDatabase = [
         }
     }
 ];
+
+// Alias temporaire pour la rétrocompatibilité
+

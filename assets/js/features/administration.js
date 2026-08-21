@@ -1,52 +1,38 @@
+import { getElement, createElement, replaceChildren } from '../core/dom.js';
+import * as authService from '../services/auth-service.js';
+import { getAllOrchids } from '../services/orchid-service.js';
+import { getAllConseils } from '../services/conseil-service.js';
+import * as modalManager from '../core/modal.js';
+import * as notifications from '../core/notifications.js';
+
 // admin.js — Gestion de la page Administration
 // ===========================================
 
-(function () {
-    'use strict';
-
-    document.addEventListener('DOMContentLoaded', function () {
-        // --- 1. INITIALISATION DES DONNÉES (MOCKS) ---
-        initMockData();
-
-        const orchids = window.orchidsDatabase || [];
-        const users = JSON.parse(localStorage.getItem('mo_users_list')) || [];
-        const notifications = JSON.parse(localStorage.getItem('mo_notifications')) || [];
-
-        // --- 2. PEUPLEMENT DU DASHBOARD ---
-        populateDashboard(users, orchids, notifications);
-
-        // --- 3. PEUPLEMENT DES TABLEAUX ---
-        populateEncyclopediaTable(orchids);
-        populateNotificationsTable(notifications);
-
-        // --- 4. GESTION DES MODALES ---
-        setupModals();
-    });
-
-    /**
-     * Initialise les données fictives pour le fonctionnement sans backend.
-     */
-    function initMockData() {
-        // Utilisateurs (Personas)
-        if (!localStorage.getItem('mo_users_list')) {
-            const mockUsers = [
-                { id: 1, nom: "Dupont", prenom: "Jean-Marc", email: "jeanmarc.expert@orchids.fr", role: "admin", created: "15/01/2026", modified: "01/04/2026" },
-                { id: 2, nom: "Martin", prenom: "Jessica", email: "jessica.amateur@gmail.com", role: "user", created: "03/02/2026", modified: "10/05/2026" }
-            ];
-            localStorage.setItem('mo_users_list', JSON.stringify(mockUsers));
-        }
-
-        // Notifications
-        if (!localStorage.getItem('mo_notifications')) {
-            const mockNotifs = [
-                { id: 1, date: "06/08/2026", text: "Nouvelle proposition d'orchidée : Vanilla planifolia" },
-                { id: 2, date: "07/08/2026", text: "Nouvel utilisateur inscrit (Jessica)" },
-                { id: 3, date: "07/08/2026", text: "Nouvelle proposition d'orchidée : Bletilla" },
-                { id: 4, date: "07/08/2026", text: "Nouvel utilisateur inscrit (Jean-Marc)" }
-            ];
-            localStorage.setItem('mo_notifications', JSON.stringify(mockNotifs));
-        }
+export function initAdministration() {
+    const orchids = getAllOrchids();
+    const users = authService.checkUsersDb();
+    
+    // Notifications simulées (à déplacer dans un service plus tard)
+    let notificationsDb = JSON.parse(localStorage.getItem('mo_notifications'));
+    if (!notificationsDb) {
+        notificationsDb = [
+            { id: 1, date: "01/04/2026", message: "Rappel arrosage Acacalis Cynea" },
+            { id: 2, date: "02/04/2026", message: "Inscription de J. Martin" },
+            { id: 3, date: "10/04/2026", message: "Nouvelle fiche proposée" }
+        ];
+        localStorage.setItem('mo_notifications', JSON.stringify(notificationsDb));
     }
+
+    // --- 2. PEUPLEMENT DU DASHBOARD ---
+    populateDashboard(users, orchids, notificationsDb);
+
+    // --- 3. PEUPLEMENT DES TABLEAUX ---
+    populateEncyclopediaTable(orchids);
+    populateNotificationsTable(notificationsDb);
+
+    // --- 4. GESTION DES MODALES ---
+    setupModals();
+}
 
     /**
      * Met à jour les compteurs du tableau de bord.
@@ -56,19 +42,19 @@
         document.getElementById('stat-users-total').textContent = users.length;
         document.getElementById('stat-users-monthly').textContent = "1";
         document.getElementById('stat-users-weekly').textContent = "0";
-        document.getElementById('stat-users-active').textContent = users.length;
+        document.getElementById('stat-users-active').textContent = "453";
 
         // Plantes
         document.getElementById('stat-plants-total').textContent = orchids.length;
         document.getElementById('stat-plants-phare').textContent = "ACACALIS";
-        document.getElementById('stat-plants-owned').textContent = "2";
+        document.getElementById('stat-plants-owned').textContent = "10";
         document.getElementById('stat-plants-rare').textContent = "BARLIA";
 
         // Activités
-        document.getElementById('stat-act-pending').textContent = "1";
-        document.getElementById('stat-act-advices').textContent = (window.conseilsDatabase ? window.conseilsDatabase.length : 0);
+        document.getElementById('stat-act-pending').textContent = "20";
+        document.getElementById('stat-act-advices').textContent = getAllConseils().length;
         document.getElementById('stat-act-approved').textContent = "15";
-        document.getElementById('stat-act-rejected').textContent = "2";
+        document.getElementById('stat-act-rejected').textContent = "5";
     }
 
     /**
@@ -78,30 +64,73 @@
         const container = document.getElementById('admin-encyclopedia-list');
         if (!container) return;
 
-        container.innerHTML = '';
+        replaceChildren(container);
 
         orchids.forEach(function (orchid) {
             const row = document.createElement('div');
             row.className = 'admin-table-row';
             
-            row.innerHTML = `
-                <div class="col-nom" title="${orchid.name}">${orchid.name}</div>
-                <div class="col-etat">${orchid.behavior || 'N/A'}</div>
-                <div class="col-origines" title="${orchid.origin}">${orchid.origin || 'N/A'}</div>
-                <div class="col-decouverte" title="${orchid.discovered}">${orchid.discovered || 'N/A'}</div>
-                <div class="col-actions">
-                    <button type="button" class="action-btn view-btn" aria-label="Voir ${orchid.name}" data-id="${orchid.id}"><i class="fa-solid fa-eye"></i></button>
-                    <button type="button" class="action-btn edit-btn" aria-label="Editer ${orchid.name}" data-id="${orchid.id}"><i class="fa-solid fa-pen-to-square"></i></button>
-                    <button type="button" class="action-btn delete-btn" aria-label="Supprimer ${orchid.name}"><i class="fa-solid fa-trash"></i></button>
-                </div>
-            `;
+            const colNom = document.createElement('div');
+            colNom.className = 'col-nom';
+            colNom.title = orchid.name;
+            colNom.textContent = orchid.name;
+
+            const colEtat = document.createElement('div');
+            colEtat.className = 'col-etat';
+            colEtat.textContent = orchid.behavior || 'N/A';
+
+            const colOrigines = document.createElement('div');
+            colOrigines.className = 'col-origines';
+            colOrigines.title = orchid.origin || '';
+            colOrigines.textContent = orchid.origin || 'N/A';
+
+            const colDecouverte = document.createElement('div');
+            colDecouverte.className = 'col-decouverte';
+            colDecouverte.title = orchid.discovered || '';
+            colDecouverte.textContent = orchid.discovered || 'N/A';
+
+            const colActions = document.createElement('div');
+            colActions.className = 'col-actions';
+
+            const viewBtn = document.createElement('button');
+            viewBtn.type = 'button';
+            viewBtn.className = 'action-btn view-btn';
+            viewBtn.setAttribute('aria-label', 'Voir ' + orchid.name);
+            viewBtn.setAttribute('data-id', orchid.id);
+            const viewIcon = document.createElement('i');
+            viewIcon.className = 'fa-solid fa-eye';
+            viewBtn.appendChild(viewIcon);
+
+            const editBtn = document.createElement('button');
+            editBtn.type = 'button';
+            editBtn.className = 'action-btn edit-btn';
+            editBtn.setAttribute('aria-label', 'Editer ' + orchid.name);
+            editBtn.setAttribute('data-id', orchid.id);
+            const editIcon = document.createElement('i');
+            editIcon.className = 'fa-solid fa-pen-to-square';
+            editBtn.appendChild(editIcon);
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.type = 'button';
+            deleteBtn.className = 'action-btn delete-btn';
+            deleteBtn.setAttribute('aria-label', 'Supprimer ' + orchid.name);
+            const deleteIcon = document.createElement('i');
+            deleteIcon.className = 'fa-solid fa-trash';
+            deleteBtn.appendChild(deleteIcon);
+
+            colActions.appendChild(viewBtn);
+            colActions.appendChild(editBtn);
+            colActions.appendChild(deleteBtn);
+
+            row.appendChild(colNom);
+            row.appendChild(colEtat);
+            row.appendChild(colOrigines);
+            row.appendChild(colDecouverte);
+            row.appendChild(colActions);
 
             container.appendChild(row);
 
             // Evénements d'actions
-            const viewBtn = row.querySelector('.view-btn');
-            const editBtn = row.querySelector('.edit-btn');
-            const deleteBtn = row.querySelector('.delete-btn');
 
             viewBtn.addEventListener('click', function() {
                 openModerateModal(orchid, 'view');
@@ -111,7 +140,7 @@
             });
             deleteBtn.addEventListener('click', function() {
                 if(confirm("Confirmez-vous la suppression de " + orchid.name + " ?")) {
-                    if(window.AppToast) window.AppToast.success("Orchidée supprimée avec succès.");
+                    notifications.success("Orchidée supprimée avec succès.");
                 }
             });
         });
@@ -124,25 +153,51 @@
         const container = document.getElementById('admin-notifications-list');
         if (!container) return;
 
-        container.innerHTML = '';
+        replaceChildren(container);
         
         notifications.forEach(function (notif) {
             const row = document.createElement('div');
             row.className = 'admin-table-row';
             
-            row.innerHTML = `
-                <div class="col-date">${notif.date}</div>
-                <div class="col-notif" title="${notif.text}">${notif.text}</div>
-                <div class="col-actions">
-                    <button type="button" class="action-btn view-btn" aria-label="Voir"><i class="fa-solid fa-eye"></i></button>
-                    <button type="button" class="action-btn delete-btn" aria-label="Supprimer"><i class="fa-solid fa-trash"></i></button>
-                </div>
-            `;
+            const colDate = document.createElement('div');
+            colDate.className = 'col-date';
+            colDate.textContent = notif.date;
+
+            const colNotif = document.createElement('div');
+            colNotif.className = 'col-notif';
+            colNotif.title = notif.text;
+            colNotif.textContent = notif.text;
+
+            const colActions = document.createElement('div');
+            colActions.className = 'col-actions';
+
+            const viewBtn = document.createElement('button');
+            viewBtn.type = 'button';
+            viewBtn.className = 'action-btn view-btn';
+            viewBtn.setAttribute('aria-label', 'Voir');
+            const viewIcon = document.createElement('i');
+            viewIcon.className = 'fa-solid fa-eye';
+            viewBtn.appendChild(viewIcon);
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.type = 'button';
+            deleteBtn.className = 'action-btn delete-btn';
+            deleteBtn.setAttribute('aria-label', 'Supprimer');
+            const deleteIcon = document.createElement('i');
+            deleteIcon.className = 'fa-solid fa-trash';
+            deleteBtn.appendChild(deleteIcon);
+
+            colActions.appendChild(viewBtn);
+            colActions.appendChild(deleteBtn);
+
+            row.appendChild(colDate);
+            row.appendChild(colNotif);
+            row.appendChild(colActions);
             container.appendChild(row);
 
-            row.querySelector('.delete-btn').addEventListener('click', function() {
+            deleteBtn.addEventListener('click', function() {
                 row.remove();
-                if(window.AppToast) window.AppToast.success("Notification supprimée.");
+                notifications.success("Notification supprimée.");
             });
         });
     }
@@ -172,7 +227,7 @@
             userForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 closeModal(modalUser);
-                if(window.AppToast) window.AppToast.success("Utilisateur mis à jour avec succès.");
+                if(window.AppToast) notifications.success("Utilisateur mis à jour avec succès.");
             });
         }
 
@@ -196,11 +251,11 @@
             modalMod.addEventListener('click', (e) => { if(e.target === modalMod) closeModal(modalMod); });
             document.getElementById('btn-approve-orchid').addEventListener('click', () => {
                 closeModal(modalMod);
-                if(window.AppToast) window.AppToast.success("Fiche approuvée !");
+                if(window.AppToast) notifications.success("Fiche approuvée !");
             });
             document.getElementById('btn-reject-orchid').addEventListener('click', () => {
                 closeModal(modalMod);
-                if(window.AppToast) window.AppToast.warning("Fiche rejetée.");
+                if(window.AppToast) notifications.warning("Fiche rejetée.");
             });
         }
 
@@ -221,7 +276,7 @@
                 e.preventDefault();
                 // Simulation d'ajout dans conseilsDatabase (ne sera persistant que si on stocke dans localStorage, ici on simule pour l'UI)
                 closeModal(modalAdvice);
-                if(window.AppToast) window.AppToast.success("Conseil ajouté à l'encyclopédie.");
+                if(window.AppToast) notifications.success("Conseil ajouté à l'encyclopédie.");
                 adviceForm.reset();
             });
         }
@@ -304,4 +359,3 @@
         }
     }
 
-})();

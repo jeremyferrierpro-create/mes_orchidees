@@ -4,7 +4,7 @@
 // en mettant en cache les ressources principales.
 
 // Nom du cache : on l'incrémente à chaque mise à jour majeure
-const CACHE_NAME = 'mes-orchidees-v3';
+const CACHE_NAME = 'mes-orchidees-v5';
 
 // Liste des fichiers à mettre en cache pour le mode hors-ligne
 const CACHE_ASSETS = [
@@ -20,17 +20,30 @@ const CACHE_ASSETS = [
     './deconnexion.html',
     './manifest.json',
     './assets/css/style.css',
-    './assets/js/utils.js',
-    './assets/js/toast.js',
-    './assets/js/loader.js',
-    './assets/js/orchids-data.js',
-    './assets/js/navigation.js',
-    './assets/js/animation-bg.js',
-    './assets/js/search-modal.js',
-    './assets/js/btn-ajout-orchid.js',
-    './assets/js/collection.js',
-    './assets/js/form-validation.js',
-    './assets/js/app.js'
+    './assets/js/pwa.js',
+    './assets/js/app.js',
+    './assets/js/core/storage.js',
+    './assets/js/core/security.js',
+    './assets/js/core/dom.js',
+    './assets/js/core/focus.js',
+    './assets/js/core/modal.js',
+    './assets/js/core/notifications.js',
+    './assets/js/core/router.js',
+    './assets/js/core/loader.js',
+    './assets/js/data/orchids-data.js',
+    './assets/js/data/conseils-data.js',
+    './assets/js/services/auth-service.js',
+    './assets/js/services/collection-service.js',
+    './assets/js/services/orchid-service.js',
+    './assets/js/services/conseil-service.js',
+    './assets/js/features/navigation.js',
+    './assets/js/features/background-animation.js',
+    './assets/js/features/search.js',
+    './assets/js/features/add-button.js',
+    './assets/js/features/collection.js',
+    './assets/js/features/administration.js',
+    './assets/js/features/conseils.js',
+    './assets/js/features/authentication.js'
 ];
 
 // Événement "install" : on met en cache les ressources

@@ -5,7 +5,7 @@
 // Lors de la migration vers PHP + Supabase, ce fichier sera remplacé par un appel fetch()
 // vers un endpoint (ex: api/orchids.php) qui retournera un JSON identique.
 
-window.orchidsDatabase = [
+export const orchidsDatabase = [
     {
         id: "acacalis_cyanea", name: "ACACALIS CYANEA", vernacular: "AGANISIA BLEUE", order: "Asparagales", species: "Cyanea", genre: "Acacalis", family: "Orchidaceae", subfamily: "Epidendroideae", tribu: "Cymbidieae", subtribu: "Zygopetalinae", behavior: "Épiphyte", discovered: "John Lindley (1839)", origin: "Amérique du Sud (Bassin de l'Amazone)", img: "./assets/images/orchids/acacalis_cyanea.png",
         shortDesc: "Rare orchidée épiphyte tropicale réputée pour ses teintes bleu-violacé uniques.",
@@ -113,3 +113,6 @@ window.orchidsDatabase = [
         longDesc: "Vanilla planifolia est une orchidée grimpante tropicale qui développe de longues tiges charnues capables de s'accrocher aux arbres. Elle apprécie une lumière vive mais filtrée, une forte humidité atmosphérique, des températures chaudes et un substrat riche, humide mais parfaitement drainé. Ses fleurs sont éphémères et doivent être pollinisées manuellement en culture pour obtenir les gousses de vanille."
     }
 ];
+
+// Alias temporaire pour la rétrocompatibilité (à supprimer à la fin de la migration)
+
