@@ -1,12 +1,21 @@
 // ==========================================================================
-// ADMIN DASHBOARD
+// PAGE ADMINISTRATION - fidèle au mockup, en français débutant
 // ==========================================================================
+// Le mockup veut : 3 cartes côte à côte, 2 tableaux en pilules grises, 2 gros boutons + 1 bouton user
 
+// Le gros titre ADMINISTRATION
 .admin-header {
     margin-top: 40px;
     margin-bottom: 40px;
+    // J'enlève le style en dur du HTML, je le mets ici proprement
+    .page-title {
+        font-size: 3rem;
+        margin-bottom: 2rem;
+        letter-spacing: 4px;
+    }
 }
 
+// Les 3 cartes du haut (UTILISATEURS / PLANTES / ACTIVITES)
 .admin-dashboard-section {
     max-width: 1200px;
     margin: 0 auto 40px;
@@ -16,35 +25,41 @@
     display: flex;
     justify-content: center;
     gap: 20px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap; // Je force les 3 cartes à rester côte à côte comme sur le mockup
+    @include respond-to('md') {
+        flex-wrap: wrap; // Sur tablette/mobile, elles passent à la ligne
+    }
 }
 
 .admin-dash-card {
     background: transparent;
     border: none;
     text-align: center;
-    width: 100%;
-    max-width: 300px; // Permet de rétrécir sur les écrans < 300px
+    flex: 1; // Chaque carte prend la même largeur
+    min-width: 280px;
+    max-width: 360px;
     h3 {
         font-family: $font-titles;
         color: $clr-gold;
-        font-size: 1.5rem;
+        font-size: 1.1rem;
         margin-bottom: 10px;
         text-transform: uppercase;
         letter-spacing: 2px;
     }
 }
 
+// La petite grille de 4 chiffres à l'intérieur de chaque carte (comme sur le mockup)
 .admin-dash-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr; // 2 colonnes
     gap: 2px;
-    @include glass-effect;
+    background: #1a2e24; // Fond vert sombre comme le mockup, pas verre transparent
+    border: 1px solid rgba(212, 175, 55, 0.3);
     border-radius: 8px;
     overflow: hidden;
 
     .dash-stat {
-        background: rgba(255, 255, 255, 0.1);
+        background: #2a3d34; // Gris-vert pilule du mockup
         padding: 15px 10px;
         display: flex;
         flex-direction: column;
@@ -62,28 +77,30 @@
 
         strong {
             font-family: $font-titles;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             color: $clr-white;
             font-weight: 600;
         }
     }
 }
 
-// GESTION ENCYCLOPEDIE
+// Titres des sections (GESTION DE L'ENCYCLOPEDIE / NOTIFICATIONS)
 .admin-section-title {
     font-family: $font-titles;
     color: $clr-gold;
-    font-size: 1.8rem;
+    font-size: 1.4rem;
     margin-bottom: 20px;
     text-align: left;
     text-transform: uppercase;
     letter-spacing: 2px;
 }
 
+// Les 2 gros tableaux (encyclopédie et notifications) - fond vert uni comme mockup
 .admin-encyclopedia-section, .admin-notifications-container {
     max-width: 1200px;
     margin: 0 auto 40px;
-    @include glass-effect;
+    background: #0f281e; // Vert uni du mockup
+    border: 1px solid rgba(212, 175, 55, 0.15);
     padding: 20px;
     border-radius: 10px;
 }
@@ -99,10 +116,11 @@
     justify-content: space-between;
     padding: 10px 20px;
     font-family: $font-titles;
+    font-size: 0.75rem;
     color: $clr-gold;
     border-bottom: 1px solid rgba(212, 175, 55, 0.2);
     margin-bottom: 10px;
-    min-width: 600px; // Assure que le tableau ne s'écrase pas sur lui-même
+    min-width: 600px;
 
     div {
         flex: 1;
@@ -115,11 +133,10 @@
 }
 
 .admin-table-body {
-    max-height: 320px; // Environ 5 lignes
+    max-height: 320px;
     overflow-y: auto;
     padding-right: 5px;
 
-    /* Personnalisation de la scrollbar pour Webkit */
     &::-webkit-scrollbar {
         width: 6px;
     }
@@ -136,26 +153,27 @@
     }
 }
 
+// Une ligne du tableau = pilule grise arrondie comme sur le mockup
 .admin-table-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
     margin-bottom: 8px;
-    background: rgba(255, 255, 255, 0.1);
+    background: #2a3d34; // Gris-vert pilule du mockup (avant: blanc transparent)
     border-radius: 20px;
     transition: background 0.3s ease;
-    min-width: 600px; // Assure que le tableau ne s'écrase pas sur lui-même
+    min-width: 600px;
 
     &:hover {
-        background: rgba(255, 255, 255, 0.15);
+        background: #334a40;
     }
 
     div {
         flex: 1;
         font-family: $font-body;
-        font-size: 0.9rem;
-        color: $clr-white;
+        font-size: 0.85rem;
+        color: #d4c5a8; // Beige clair comme mockup
         text-align: left;
         white-space: nowrap;
         overflow: hidden;
@@ -168,14 +186,14 @@
         text-align: right;
         display: flex;
         justify-content: flex-end;
-        gap: 15px;
+        gap: 12px;
 
         button {
             background: none;
             border: none;
-            color: $clr-white;
+            color: #d4c5a8;
             cursor: pointer;
-            font-size: 1.1rem;
+            font-size: 1rem;
             transition: color 0.3s ease;
 
             &:hover {
@@ -185,22 +203,22 @@
     }
 }
 
-// BOTTOM SECTION
+// En bas : à gauche les 3 gros boutons, à droite les notifications (comme mockup)
 .admin-bottom-section {
     max-width: 1200px;
-    margin: 0 auto 110px; // Augmenté pour ne pas être caché par le footer fixe
+    margin: 0 auto 110px;
     display: flex;
     gap: 40px;
 
     @include respond-to('md') {
-        flex-direction: column; // Empile les gros boutons et les notifications sur tablette/mobile
+        flex-direction: column;
         align-items: center;
         gap: 20px;
     }
 
     .admin-big-actions {
         flex: 0 0 350px;
-        max-width: 100%; // Empêche le dépassement
+        max-width: 100%;
         display: flex;
         flex-direction: column;
         gap: 20px;
@@ -208,18 +226,19 @@
 
     .admin-notifications-container {
         flex: 1;
-        width: 100%; // Prend toute la largeur disponible après empilement
+        width: 100%;
         margin: 0;
     }
 }
 
+// Les gros boutons carrés (comme sur le mockup)
 .admin-big-btn {
     width: 100%;
-    height: 100px; // Hauteur réduite pour l'esthétique
+    height: 140px; // Plus haut pour ressembler aux carrés du mockup (avant 100px)
     border: none;
-    border-radius: 8px; // Coins légèrement arrondis pour faire bouton
+    border-radius: 4px; // Carré comme mockup (avant 8px)
     font-family: $font-titles;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 700;
     color: $clr-white;
     cursor: pointer;
@@ -233,31 +252,33 @@
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 
     &:hover {
-        transform: translateY(-5px);
-        filter: brightness(1.2);
+        transform: translateY(-3px);
+        filter: brightness(1.1);
         box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
     }
 
     &.btn-tan {
-        background-color: $clr-gold;
-        color: $clr-bg;
-        border: 2px solid rgba(255,255,255,0.3);
+        background-color: #c4a47c; // Beige du mockup
+        color: #0e2018;
+        border: none;
     }
 
     &.btn-green {
-        background-color: $clr-success;
+        background-color: #1e7a4c; // Vert du mockup
         color: $clr-white;
-        border: 2px solid rgba(255,255,255,0.3);
+        border: none;
     }
     
     &.btn-outline {
-        background-color: rgba(212, 175, 55, 0.1);
+        background-color: transparent;
         border: 2px solid $clr-gold;
         color: $clr-gold;
-        border-radius: 8px;
+        height: 80px; // Plus petit car c'est le 3ème bouton ajouté
+        font-size: 0.95rem;
+        border-radius: 4px;
         
         &:hover {
-            background-color: rgba(212, 175, 55, 0.2);
+            background-color: rgba(212, 175, 55, 0.1);
         }
     }
     
@@ -266,7 +287,7 @@
     }
 }
 
-// MODALS FOR ADMIN
+// Les petites fenêtres (modales) de l'admin
 .admin-form-modal {
     @include glass-effect;
     max-width: 600px;
@@ -301,7 +322,7 @@
         }
 
         @include respond-to('xs') {
-            flex-direction: column; // Les labels passent au-dessus des inputs sur mobile
+            flex-direction: column;
             align-items: flex-start;
             gap: 5px;
         }

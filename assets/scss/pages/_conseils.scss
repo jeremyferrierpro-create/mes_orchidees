@@ -1,0 +1,30 @@
+// =====================================================
+// PAGE CONSEILS - en français débutant
+// =====================================================
+// Ce fichier vide causait le bug : la page conseils n'avait pas de style à elle
+
+// Le message d'aide sous la barre de recherche (ex: "Tape au moins 3 lettres")
+.conseil-search-help {
+    // Je centre le petit texte d'aide
+    text-align: center;
+    font-family: $font-body;
+    font-size: 0.9rem;
+    color: $clr-gold;
+    margin-top: 10px;
+    min-height: 1.2em;
+}
+
+// Le texte "0 résultat" ou "3 fiches trouvées"
+.advice-search-help {
+    text-align: center;
+    font-family: $font-body;
+    color: rgba(255,255,255,0.8);
+    padding: 20px;
+}
+
+.advice-no-results {
+    text-align: center;
+    color: rgba(255,255,255,0.9);
+    padding: 20px;
+    font-style: italic;
+}
