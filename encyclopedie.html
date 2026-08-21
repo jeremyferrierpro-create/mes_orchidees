@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <title>Encyclopédie - Mes Orchidées</title>
+</head>
+<body>
+
+    <aside id="main-sidebar">
+        <div class="sidebar-brand">
+            <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
+            <h2>Mes Orchidées</h2>
+        </div>
+        <nav class="sidebar-menu" aria-label="Menu principal">
+            <ul class="menu-group-main">
+                <li><a href="index.html"><i class="icon-home" aria-hidden="true"></i> Accueil</a></li>
+                <li><a href="encyclopedie.html"><i class="icon-book" aria-hidden="true"></i> Encyclopédie</a></li>
+                <li><a href="macollection.html"><i class="icon-flower" aria-hidden="true"></i> Ma collection</a></li>
+                <li><a href="conseils.html"><i class="icon-heart" aria-hidden="true"></i> Conseils</a></li>
+            </ul>
+            <ul class="menu-group-user">
+                <li><a href="administration.html"><i class="icon-settings" aria-hidden="true"></i> Administration</a></li>
+                <li><a href="authentification.html"><i class="icon-log-in" aria-hidden="true"></i> Authentification</a></li>
+                <li><a href="deconnexion.html"><i class="icon-log-out" aria-hidden="true"></i> Déconnexion</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <header id="main-header">
+        <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
+        <h2>Encyclopédie & gestion de collections</h2>
+        <button type="button" class="menu-toggle" onclick="toggleSidebar()">
+            <span class="hamburger-bar"></span>
+        </button>
+    </header>
+
+    <main class="main-content">
+        
+        <section class="encyclopedia-header">
+            <h1 class="page-title">ENCYCLOPÉDIE</h1>
+            <div class="search-container">
+                <form id="encyclopedia-search-form" action="#" method="GET" class="search-box">
+                    <input type="text" id="search-input" name="search" placeholder="Rechercher une orchidée ...">
+                    <button type="submit" class="search-btn">RECHERCHER</button>
+                </form>
+            </div>
+        </section>
+
+        <section class="encyclopedia-grid-container">
+            <div class="orchid-grid">
+                
+                <article class="orchid-card">
+                    <img src="./assets/images/orchids/acacalis_cyanea.png" alt="Acacalis Cyanea" class="card-img">
+                    <div class="card-info">
+                        <h3>ACACALIS CYANEA</h3>
+                        <p class="vernacular-name">AGANISIA</p>
+                        <p class="short-desc">Cette orchidée épiphyte possède un pseudobulbe d'environ 5 cm de diamètre d'où partent des feuilles de 20 cm de long pour 7 cm de large.</p>
+                        <button type="button" class="card-btn" onclick="openModal(this)"
+                                data-title="ACACALIS CYANEA" 
+                                data-vernacular="AGANISIA"
+                                data-img="./assets/images/orchids/acacalis_cyanea.png"
+                                data-desc="Cette orchidée épiphyte possède un pseudobulbe d'environ 5 cm de diamètre d'où partent des feuilles de 20 cm de long pour 7 cm de large. Les fleurs, parfumées, sont portées par une inflorescence regroupant 2 à 7 fleurs d'environ 4 cm. Découverte par John Lindley. Ses fleurs sont rose, blanc et parme en dégradé.">
+                            SELECTIONNER
+                        </button>
+                    </div>
+                </article>
+
+                <article class="orchid-card">
+                    <img src="./assets/images/orchids/acineta_barkerii.png" alt="Acineta Barkerii" class="card-img">
+                    <div class="card-info">
+                        <h3>ACINETA BARKERII</h3>
+                        <p class="vernacular-name">ACINETA</p>
+                        <p class="short-desc">Acineta barkeri est une espèce de plantes à fleurs originaire du Mexique et du Guatemala rencontrée en forêts d'altitude.</p>
+                        <button type="button" class="card-btn" onclick="openModal(this)"
+                                data-title="ACINETA BARKERII" 
+                                data-vernacular="ACINETA"
+                                data-img="./assets/images/orchids/acineta_barkerii.png"
+                                data-desc="Acineta barkeri est une espèce de plantes à fleurs de la famille des Orchidaceae. C'est une orchidée épiphyte originaire du Mexique et du Guatemala. Forêts d'altitude, entre 1 000 et 2 000 m dans les états de Chiapas et d'Oaxaca au Mexique et au Guatemala. Découverte par John Lindley en 1843.">
+                            SELECTIONNER
+                        </button>
+                    </div>
+                </article>
+
+                <article class="orchid-card">
+                    <img src="./assets/images/orchids/acineta_superba.png" alt="Acineta Superba" class="card-img">
+                    <div class="card-info">
+                        <h3>ACINETA SUPERBA</h3>
+                        <p class="vernacular-name">ACINETA</p>
+                        <p class="short-desc">Espèce appartenant à la tribu Cymbidieae, sous-tribu Stanhopeinae. L'une des plus répandues du règne végétal tropical.</p>
+                        <button type="button" class="card-btn" onclick="openModal(this)"
+                                data-title="ACINETA SUPERBA" 
+                                data-vernacular="ACINETA"
+                                data-img="./assets/images/orchids/acineta_superba.png"
+                                data-desc="Acineta superba (Kunth) Rchb.f. (1863) est une espèce appartenant à la tribu Cymbidieae, sous-tribu Stanhopeinae de la famille Orchidaceae, l'une des plus répandues et des plus riches du règne végétal avec plus de 28 000 espèces réparties en quelques 763 genres.">
+                            SELECTIONNER
+                        </button>
+                    </div>
+                </article>
+
+                <article class="orchid-card">
+                    <img src="./assets/images/orchids/ada_aurantiaca.png" alt="Ada Aurantiaca" class="card-img">
+                    <div class="card-info">
+                        <h3>ADA AURANTIACA</h3>
+                        <p class="vernacular-name">ONCIDIINAE</p>
+                        <p class="short-desc">Originaire d'Amérique tropicale. Ce genre comprend 17 espèces épiphytes et de très nombreux hybrides colorés.</p>
+                        <button type="button" class="card-btn" onclick="openModal(this)"
+                                data-title="ADA AURANTIACA" 
+                                data-vernacular="ONCIDIINAE"
+                                data-img="./assets/images/orchids/ada_aurantiaca.png"
+                                data-desc="Originaire d'Amérique tropicale (du Nicaragua, du sud du Venezuela, de Colombie, au Pérou et de Bolivie). Ce genre comprend 17 espèces épiphytes et de nombreux hybrides, mais de nombreux auteurs placent dorénavant ces espèces dans le genre Brassia (voir le paragraphe « liens externes »). Le coloris vif de l'Ada a été utilisé pour obtenir des hybrides aussi colorés que leur parent sinon plus.">
+                            SELECTIONNER
+                        </button>
+                    </div>
+                </article>
+
+                <article class="orchid-card">
+                    <img src="./assets/images/orchids/aerangis_articulata.png" alt="Aerangis Articulata" class="card-img">
+                    <div class="card-info">
+                        <h3>AERANGIS ARTICULATA</h3>
+                        <p class="vernacular-name">AERANGIS</p>
+                        <p class="short-desc">Espèce de plantes à fleurs de la famille des orchidées. C'est une orchidée épiphyte de Madagascar et des Comores.</p>
+                        <button type="button" class="card-btn" onclick="openModal(this)"
+                                data-title="AERANGIS ARTICULATA" 
+                                data-vernacular="AERANGIS"
+                                data-img="./assets/images/orchids/aerangis_articulata.png"
+                                data-desc="Aerangis articulata est une espèce de plantes à fleurs de la famille des orchidées. C'est une orchidée épiphyte originaire de Madagascar et des Comores. Découverte par Friedrich Richard Rudolf Schlechte en 1872.">
+                            SELECTIONNER
+                        </button>
+                    </div>
+                </article>
+
+                <article class="orchid-card">
+                    <img src="./assets/images/orchids/aerangis_citrata.png" alt="Aerangis Citrata" class="card-img">
+                    <div class="card-info">
+                        <h3>AERANGIS CITRATA</h3>
+                        <p class="vernacular-name">AERANGIS</p>
+                        <p class="short-desc">Petite orchidée épiphyte originaire des forêts ombragées et humides de Madagascar, découverte en 1872.</p>
+                        <button type="button" class="card-btn" onclick="openModal(this)"
+                                data-title="AERANGIS CITRATA" 
+                                data-vernacular="AERANGIS"
+                                data-img="./assets/images/orchids/aerangis_citrata.png"
+                                data-desc="Aerangis citrata est une espèce de plantes à fleurs de la famille des Orchidaceae. C'est une orchidée épiphyte originaire de Madagascar. Découverte par Friedrich Richard Rudolf Schlechte en 1872.">
+                            SELECTIONNER
+                        </button>
+                    </div>
+                </article>
+
+                <article class="orchid-card">
+                    <img src="./assets/images/orchids/aerides_falcata.png" alt="Aerides Falcata" class="card-img">
+                    <div class="card-info">
+                        <h3>AERIDES FALCATA</h3>
+                        <p class="vernacular-name">AERIDES</p>
+                        <p class="short-desc">Orchidée épiphyte d'Asie du Sud-Est se développant avec de magnifiques grappes de fleurs pendantes.</p>
+                        <button type="button" class="card-btn" onclick="openModal(this)"
+                                data-title="AERIDES FALCATA" 
+                                data-vernacular="AERIDES"
+                                data-img="./assets/images/orchids/aerides_falcata.png"
+                                data-desc="Aerides falcata est une espèce de plantes à fleurs de la famille des Orchidaceae. C'est une orchidée épiphyte d'Asie du Sud-Est. Découverte par John Lindley et Joseph Paxton en 1851.">
+                            SELECTIONNER
+                        </button>
+                    </div>
+                </article>
+
+                <article class="orchid-card">
+                    <img src="./assets/images/orchids/anguloa_clowesii.png" alt="Anguloa Clowesii" class="card-img">
+                    <div class="card-info">
+                        <h3>ANGULOA CLOWESII</h3>
+                        <p class="vernacular-name">ANGULOA</p>
+                        <p class="short-desc">Aussi appelée orchidée berceau, cette espèce terrestre spectaculaire est originaire d'Amérique du Sud.</p>
+                        <button type="button" class="card-btn" onclick="openModal(this)"
+                                data-title="ANGULOA CLOWESII" 
+                                data-vernacular="ANGULOA"
+                                data-img="./assets/images/orchids/anguloa_clowesii.png"
+                                data-desc="Anguloa clowesii est une espèce d'orchidées du genre Anguloa originaire d'Amérique du Sud. Découverte par John Lindley en 1844.">
+                            SELECTIONNER
+                        </button>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer id="main-footer">
+        <a href="mentions.html" class="footer-link">Mentions légales</a>
+        <div class="footer-center">
+            <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
+            <p>&copy; 2026 Mes Orchidées</p>
+        </div>
+        <a href="confidentialite.html" class="footer-link">Confidentialités</a>
+    </footer>
+
+<div id="orchid-modal" class="modal-overlay">
+        <div class="modal-container">
+            <button type="button" class="modal-close" onclick="closeModal()">&times;</button>
+            
+            <div class="orchid-modal-view">
+                
+                <div class="modal-header-block">
+                    <img src="./assets/images/orchids/acacalis_cyanea.png" alt="Acacalis Cyanea" class="modal-orchid-img">
+                    <div class="modal-title-group">
+                        <h2>ACACALIS CYANEA</h2>
+                        <p class="modal-scientific">ACACALIS CYANEA</p>
+                        <h4 class="modal-label-desc">DESCRIPTION COURTE :</h4>
+                        <p class="modal-short-text">Orchidée épiphyte d’Amérique du sud. Se développant sur plaque de liège, dans une ambiance chaude et humide.</p>
+                    </div>
+                </div>
+
+                <div class="modal-specs-grid">
+                    <div class="spec-item">
+                        <label>Ordre</label>
+                        <div class="spec-value">Asparagales</div>
+                    </div>
+                    <div class="spec-item">
+                        <label>Espèce</label>
+                        <div class="spec-value">Orchidales</div>
+                    </div>
+                    <div class="spec-item">
+                        <label>Genre</label>
+                        <div class="spec-value">Aganisia</div>
+                    </div>
+                    <div class="spec-item">
+                        <label>Famille</label>
+                        <div class="spec-value">Orchidaceae</div>
+                    </div>
+                    <div class="spec-item">
+                        <label>Sous-Famille</label>
+                        <div class="spec-value">Epidendroideae</div>
+                    </div>
+                    <div class="spec-item">
+                        <label>Tribu</label>
+                        <div class="spec-value">Cymbidieae</div>
+                    </div>
+                    <div class="spec-item">
+                        <label>Sous-Tribu</label>
+                        <div class="spec-value">Sygopetalinae</div>
+                    </div>
+                    <div class="spec-item">
+                        <label>Comportement</label>
+                        <div class="spec-value">Epiphyte</div>
+                    </div>
+                    <div class="spec-item">
+                        <label>Découverte par</label>
+                        <div class="spec-value">John Lindley (1839)</div>
+                    </div>
+                    <div class="spec-item" style="grid-column: span 3;">
+                        <label>Origines</label>
+                        <div class="spec-value">Amériques du sud</div>
+                    </div>
+                </div>
+
+                <div class="modal-description-block">
+                    <h4>Description & Caractéristiques</h4>
+                    <p class="modal-long-desc">
+                        Acacalis Cyanea, demande une luminosité de sous bois, une humidité ambiante forte et des températures allant de 18 à 25°C. Etant une épiphyte dans son milieu naturel, elle aime croître sur des support d'écorce (liège, séquoia....) Acacalis Cyanea, déteste la lumière vive et les rayons directs du soleil.
+                    </p>
+                </div>
+
+                <div class="modal-footer-action">
+                    <button type="button" class="btn-add-collection">+ COLLECTION</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+   <script>
+        // 1. Gestion de l'ouverture/fermeture de la sidebar
+        function toggleSidebar() {
+            const sidebar = document.getElementById('main-sidebar');
+            sidebar.classList.toggle('sidebar-open');
+        }
+
+        // 2. CORRECTION COUPLAGE CSS : On utilise la classe ".active" du composant
+        function openModal() {
+            const modal = document.getElementById('orchid-modal');
+            modal.classList.add('active'); // Ajoute ".active" pour lancer le fondu CSS
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('orchid-modal');
+            modal.classList.remove('active'); // Retire ".active" pour cacher la modale
+        }
+    </script>
+</body>
+</html>
