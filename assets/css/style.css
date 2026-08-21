@@ -1084,6 +1084,93 @@ body {
   line-height: 1.5;
 }
 
+.advice-filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin: 0 0 30px;
+  padding: 0 20px;
+  width: 100%;
+  max-width: 900px;
+  box-sizing: border-box;
+}
+.advice-filters .filter-group {
+  flex: 1 1 200px;
+  min-width: 180px;
+  max-width: 280px;
+}
+.advice-filters .filter-group select,
+.advice-filters .filter-group input[type=text] {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+}
+.advice-filters .filter-group select option,
+.advice-filters .filter-group input[type=text] option {
+  background-color: #0e2018;
+  color: #ffffff;
+}
+.advice-filters .filter-group select:focus,
+.advice-filters .filter-group input[type=text]:focus {
+  outline: 2px solid #c4a47c;
+  outline-offset: 2px;
+}
+.advice-filters .filter-group select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23c4a47c' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  padding-right: 40px;
+}
+.advice-filters .filter-search input {
+  cursor: text;
+}
+
+.advice-card .advice-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 12px;
+}
+.advice-card .advice-tag {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background-color: rgba(196, 164, 124, 0.2);
+  color: #c4a47c;
+  font-family: "Cinzel", serif;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.advice-card .advice-text {
+  margin: 0;
+}
+
+.landing-results {
+  width: 100%;
+  max-width: 1100px;
+  padding: 0 20px 40px;
+  box-sizing: border-box;
+}
+.landing-results .orchid-grid {
+  margin-top: 20px;
+}
+.landing-results .no-results {
+  color: #ffffff;
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+  text-align: center;
+  padding: 30px 0;
+}
+
 @media (max-width: 600px) {
   .advice-grid,
   .admin-grid {

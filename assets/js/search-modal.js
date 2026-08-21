@@ -242,6 +242,9 @@ function openModal() {
     // On indique aux lecteurs d'écran que la modale est visible
     modal.setAttribute('aria-hidden', 'false');
 
+    // On notifie les autres modules que la modale a été ouverte (ex: bouton collection)
+    modal.dispatchEvent(new CustomEvent('orchidModalOpened'));
+
     // On place le focus sur le bouton de fermeture pour l'accessibilité
     if (closeModalBtn) {
         // On attend un petit instant pour laisser l'affichage se faire

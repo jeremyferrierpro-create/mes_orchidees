@@ -10,6 +10,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // On récupère le titre de la modale pour connaître l'orchidée affichée
     const modalTitle = document.getElementById('modal-orchid-title');
 
+    // On récupère la modale elle-même
+    const modal = document.getElementById('orchid-modal');
+
     // On récupère le bouton "+ COLLECTION" dans la modale
     const addButton = document.querySelector('.btn-add-collection');
 
@@ -23,6 +26,21 @@ document.addEventListener('DOMContentLoaded', function () {
         // On lit la valeur stockée dans le localStorage sous la clé 'isAuthenticated'
         return localStorage.getItem('isAuthenticated') === 'true';
     }
+
+    // Fonction qui met à jour la visibilité du bouton en fonction de la connexion
+    function updateCollectionButtonVisibility() {
+        // Si l'utilisateur est connecté, on affiche le bouton
+        // Sinon, on le masque : il ne faut pas pouvoir ajouter sans être connecté
+        addButton.hidden = !isUserAuthenticated();
+    }
+
+    // Dès l'ouverture de la modale, on ajuste le bouton
+    if (modal) {
+        modal.addEventListener('orchidModalOpened', updateCollectionButtonVisibility);
+    }
+
+    // On cache le bouton par précaution au chargement initial
+    updateCollectionButtonVisibility();
 
     // Fonction qui ajoute une orchidée à la collection
     function ajouterAMaCollection(orchidName) {

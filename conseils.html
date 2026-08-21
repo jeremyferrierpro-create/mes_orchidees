@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0e2018">
-    <meta name="description" content="Conseils de culture pour les orchidées.">
+    <meta name="description" content="Conseils de culture pour les orchidées filtrables par thème, type de plante et niveau d'expertise.">
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="./assets/images/site/logotransparent.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -48,40 +48,53 @@
     <main class="main-content" id="main-content">
         <section class="advice-header" aria-label="Conseils de culture">
             <h1 class="page-title">CONSEILS DE CULTURE</h1>
-            <p class="page-intro">Quelques bonnes pratiques pour entretenir vos orchidées au quotidien.</p>
+            <p class="page-intro">Affinez les conseils par thème, type d'orchidée et niveau d'expertise.</p>
         </section>
 
-        <section class="advice-grid" aria-label="Fiches conseils">
-            <article class="advice-card">
-                <h2><i class="fa-solid fa-droplet" aria-hidden="true"></i> L'arrosage</h2>
-                <p>La plupart des orchidées préfèrent un arrosage par trempage plutôt qu'un arrosage fréquent à la surface. Laissez sécher le substrat entre deux arrosages.</p>
-            </article>
+        <section class="advice-filters" aria-label="Filtres des conseils">
+            <div class="filter-group">
+                <label for="filter-theme" class="sr-only">Thème</label>
+                <select id="filter-theme" name="theme" aria-label="Thème du conseil">
+                    <option value="all">Tous les thèmes</option>
+                    <option value="Arrosage">Arrosage</option>
+                    <option value="Lumière">Lumière</option>
+                    <option value="Hygrométrie">Hygrométrie</option>
+                    <option value="Température">Température</option>
+                    <option value="Rempotage">Rempotage</option>
+                    <option value="Fertilisation">Fertilisation</option>
+                </select>
+            </div>
 
-            <article class="advice-card">
-                <h2><i class="fa-solid fa-sun" aria-hidden="true"></i> La lumière</h2>
-                <p>Une lumière vive mais tamisée est idéale. Évitez le soleil direct en après-midi qui peut brûler les feuilles.</p>
-            </article>
+            <div class="filter-group">
+                <label for="filter-plant-type" class="sr-only">Type de plante</label>
+                <select id="filter-plant-type" name="plantType" aria-label="Type d'orchidée">
+                    <option value="all">Tous les types</option>
+                    <option value="Phalaenopsis">Phalaenopsis</option>
+                    <option value="Cattleya">Cattleya</option>
+                    <option value="Dendrobium">Dendrobium</option>
+                    <option value="Miltonia">Miltonia</option>
+                    <option value="Vanda">Vanda</option>
+                    <option value="Paphiopedilum">Paphiopedilum</option>
+                </select>
+            </div>
 
-            <article class="advice-card">
-                <h2><i class="fa-solid fa-wind" aria-hidden="true"></i> L'hygrométrie</h2>
-                <p>Une hygrométrie entre 50 % et 80 % est recommandée pour les espèces tropicales. Utilisez un humidificateur ou un bac de graviers si nécessaire.</p>
-            </article>
+            <div class="filter-group">
+                <label for="filter-level" class="sr-only">Niveau d'expertise</label>
+                <select id="filter-level" name="level" aria-label="Niveau d'expertise">
+                    <option value="all">Tous les niveaux</option>
+                    <option value="Débutant">Débutant</option>
+                    <option value="Intermédiaire">Intermédiaire</option>
+                    <option value="Expert">Expert</option>
+                </select>
+            </div>
 
-            <article class="advice-card">
-                <h2><i class="fa-solid fa-temperature-half" aria-hidden="true"></i> La température</h2>
-                <p>Respectez le gradient thermique selon les genres : tempérées (15-20 °C), chaudes (18-25 °C) ou fraîches (10-15 °C).</p>
-            </article>
-
-            <article class="advice-card">
-                <h2><i class="fa-solid fa-seedling" aria-hidden="true"></i> Le rempotage</h2>
-                <p>Rempotez tous les 2 à 3 ans dans un substrat drainant à base d'écorces. Ne rempotez jamais une orchidée en pleine floraison.</p>
-            </article>
-
-            <article class="advice-card">
-                <h2><i class="fa-solid fa-leaf" aria-hidden="true"></i> La fertilisation</h2>
-                <p>Utilisez un engrais pour orchidées dilué à la moitié de la dose recommandée, environ une fois par mois en période de végétation.</p>
-            </article>
+            <div class="filter-group filter-search">
+                <label for="advice-text-search" class="sr-only">Rechercher un conseil</label>
+                <input type="text" id="advice-text-search" placeholder="Rechercher un conseil..." aria-label="Rechercher un conseil par mot-clé">
+            </div>
         </section>
+
+        <section id="advice-grid" class="advice-grid" aria-live="polite" aria-label="Fiches conseils filtrées"></section>
     </main>
 
     <footer id="main-footer">
@@ -93,6 +106,8 @@
         <a href="confidentialite.html" class="footer-link">Confidentialités</a>
     </footer>
 
+    <script src="./assets/js/conseils-data.js" defer></script>
+    <script src="./assets/js/conseils.js" defer></script>
     <script src="./assets/js/navigation.js" defer></script>
     <script src="./assets/js/app.js" defer></script>
 </body>

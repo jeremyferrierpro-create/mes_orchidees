@@ -5,7 +5,7 @@
 // Lors de la migration vers PHP + Supabase, ce fichier sera remplacé par un appel fetch()
 // vers un endpoint (ex: api/orchids.php) qui retournera un JSON identique.
 
-const orchidsDatabase = [
+window.orchidsDatabase = [
     { 
         id: "acacalis_cyanea", name: "ACACALIS CYANEA", vernacular: "AGANISIA BLEUE", order: "Asparagales", species: "Cyanea", genre: "Acacalis", family: "Orchidaceae", subfamily: "Epidendroideae", tribu: "Cymbidieae", subtribu: "Zygopetalinae", behavior: "Épiphyte", discovered: "John Lindley (1839)", origin: "Amérique du Sud (Bassin de l'Amazone)", img: "./assets/images/orchids/acacalis_cyanea.png",
         shortDesc: "Rare orchidée épiphyte tropicale réputée pour ses teintes bleu-violacé uniques.",
