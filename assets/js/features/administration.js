@@ -38,6 +38,20 @@ export function initAdministration() {
         return; // j'arrête tout, je ne charge PAS le tableau de bord
     }
 
+    // --- BADGE ADMIN DANS L'EN-TÊTE ---
+    // On récupère qui est connecté
+    const session = authService.getCurrentUser();
+    // On cherche ses vraies infos dans users.json (comme Supabase : SELECT * FROM users WHERE email = ...)
+    const res = db.from('users').select().eq('email', session.email).single();
+    const user = (!res.error && res.data) ? res.data : session;
+    // On crée le badge dans le header
+    const badgeEl = document.getElementById('admin-badge');
+    if (badgeEl) {
+        badgeEl.textContent = `Bonjour ${user.prenom} ${user.nom}, vous êtes connecté en tant qu'admin`;
+        badgeEl.style.color = '#c4a47c';
+        badgeEl.style.fontWeight = '600';
+    }
+
     // Si on arrive ici, c'est que c'est bien un admin : je continue normalement
     // Je récupère les vraies listes : orchidées, utilisateurs, conseils
     const orchids = getAllOrchids();
