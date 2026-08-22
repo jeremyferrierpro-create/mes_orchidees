@@ -40,6 +40,17 @@ export function initCollection() {
 
     const dashNotifications = document.getElementById('dash-notifications');
 
+    // Carte d'identité du propriétaire (pour prouver que la collection appartient bien à la personne connectée)
+    const userCard = document.getElementById('user-identity-card');
+    const userFullnameEl = document.getElementById('user-fullname');
+    const userEmailEl = document.getElementById('user-email');
+    const userRoleEl = document.getElementById('user-role-detail');
+    const userRoleBadgeEl = document.getElementById('user-identity-badge');
+    const userIdEl = document.getElementById('user-id');
+    const userCreatedEl = document.getElementById('user-created');
+    const userModifiedEl = document.getElementById('user-modified');
+    const userPlantCountEl = document.getElementById('user-plant-count');
+
     const editModal = document.getElementById('edit-collection-modal');
     const editModalClose = document.getElementById('edit-modal-close');
     const editModalImg = document.getElementById('edit-modal-img');
@@ -167,7 +178,40 @@ export function initCollection() {
     // Rendu global
     // ------------------------------------------------------------------
 
+    // Elle remplit la carte d'identité du propriétaire (pour prouver que c'est bien sa collection)
+    function renderUserIdentity() {
+        // Si la carte n'existe pas (on est en mode invité), j'arrête
+        if (!userCard) return;
+        // Je récupère qui est connecté (session)
+        const session = authService.getCurrentUser();
+        if (!session || !session.email) return;
+        // Je vais chercher la vraie fiche dans la table users via db (comme Supabase : SELECT * FROM users WHERE email = ...)
+        const res = db.from('users').select().eq('email', session.email).single();
+        // Si pas trouvé (ancien compte), je prends la session elle-même
+        const user = (!res.error && res.data) ? res.data : session;
+        // Je remplis chaque champ, avec des vérifications si l'élément existe
+        if (userFullnameEl) userFullnameEl.textContent = (user.prenom && user.nom) ? user.prenom + ' ' + user.nom : (user.prenom || user.nom || user.email);
+        if (userEmailEl) userEmailEl.textContent = user.email || '-';
+        if (userRoleEl) userRoleEl.textContent = user.role || 'user';
+        if (userRoleBadgeEl) userRoleBadgeEl.textContent = (user.role || 'user').toUpperCase();
+        if (userIdEl) userIdEl.textContent = 'ID: ' + (user.id || '-');
+        if (userCreatedEl) userCreatedEl.textContent = 'Créé le : ' + (user.created || '-');
+        if (userModifiedEl) userModifiedEl.textContent = 'Modifié le : ' + (user.modified || '-');
+        if (userPlantCountEl) userPlantCountEl.textContent = userCollection.length + ' plante(s)';
+        // Je colorie le badge selon le rôle (or pour admin, vert pour user)
+        if (userRoleBadgeEl) {
+            if ((user.role || '').toLowerCase() === 'admin') {
+                userRoleBadgeEl.style.background = '#c4a47c';
+                userRoleBadgeEl.style.color = '#0e2018';
+            } else {
+                userRoleBadgeEl.style.background = '#2a7a4b';
+                userRoleBadgeEl.style.color = '#ffffff';
+            }
+        }
+    }
+
     function renderAll() {
+        renderUserIdentity(); // je mets d'abord la carte du propriétaire
         renderStats();
         renderClimate();
         renderNotifications();

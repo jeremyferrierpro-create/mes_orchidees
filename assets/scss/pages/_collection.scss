@@ -1,0 +1,139 @@
+// Carte d'identité du propriétaire de la collection
+// Elle prouve que la collection appartient bien à la personne connectée
+// Données lues dans assets/js/data/users.json via db.js
+
+.user-identity-card {
+  // Je veux une carte comme les autres du dashboard, mais qui prend toute la largeur
+  max-width: 1200px;
+  margin: 0 auto 25px;
+  padding: 20px 25px;
+  border-radius: 12px;
+  background-color: rgba(14, 32, 24, 0.6); // vert sombre comme les autres cartes
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(196, 164, 124, 0.3); // bordure dorée légère
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+
+  // L'en-tête avec l'icône et le badge rôle
+  .user-identity-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+    border-bottom: 1px solid rgba(196, 164, 124, 0.2);
+    padding-bottom: 12px;
+
+    i {
+      color: #c4a47c; // doré
+      font-size: 20px;
+    }
+
+    h3 {
+      margin: 0;
+      font-family: "Cinzel", serif;
+      font-size: 16px;
+      color: #c4a47c;
+      letter-spacing: 1px;
+      flex: 1; // prend tout l'espace restant
+    }
+
+    .user-role-badge {
+      background: #c4a47c;
+      color: #0e2018;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-family: "Cinzel", serif;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+  }
+
+  // Le corps : avatar à gauche, infos à droite
+  .user-identity-body {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+
+    @media (max-width: 600px) {
+      flex-direction: column; // sur mobile, avatar au-dessus
+      align-items: center;
+      text-align: center;
+    }
+  }
+
+  .user-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%; // rond
+    border: 2px solid #c4a47c;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .user-identity-infos {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    p {
+      margin: 0;
+      font-family: "Inter", sans-serif;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.9);
+      line-height: 1.4;
+    }
+
+    .user-fullname {
+      font-family: "Cinzel", serif;
+      font-size: 18px;
+      color: #ffffff;
+      strong {
+        color: #c4a47c;
+      }
+    }
+
+    .user-email {
+      color: #c4a47c;
+      i { margin-right: 6px; }
+    }
+
+    .user-meta {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.7);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .user-plant-count {
+      margin-top: 8px;
+      padding: 6px 12px;
+      background: rgba(196, 164, 124, 0.15);
+      border-radius: 20px;
+      display: inline-block;
+      font-weight: 600;
+      color: #c4a47c;
+      i { margin-right: 6px; }
+    }
+  }
+
+  // Petite phrase en bas qui explique d'où viennent les données (pour le jury)
+  .user-identity-proof {
+    margin: 15px 0 0;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-family: "Inter", sans-serif;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+    font-style: italic;
+    code {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 10px;
+      color: #c4a47c;
+    }
+  }
+}

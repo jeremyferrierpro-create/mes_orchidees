@@ -58,6 +58,27 @@
         </div>
 
         <div id="collection-app" class="collection-app" hidden>
+            <!-- Carte d'identité du propriétaire : prouve que la collection appartient bien à la personne connectée -->
+            <!-- Elle affiche les vraies données de la table users dans /assets/js/data/users.json via db.js -->
+            <section id="user-identity-card" class="user-identity-card" aria-label="Carte d'identité du propriétaire">
+                <div class="user-identity-header">
+                    <i class="fa-solid fa-id-card" aria-hidden="true"></i>
+                    <h3>PROPRIÉTAIRE DE LA COLLECTION</h3>
+                    <span id="user-identity-badge" class="user-role-badge">-</span>
+                </div>
+                <div class="user-identity-body">
+                    <img id="user-avatar" src="./assets/images/site/logotransparent.png" alt="Avatar du propriétaire" class="user-avatar">
+                    <div class="user-identity-infos">
+                        <p class="user-fullname"><strong id="user-fullname">-</strong></p>
+                        <p class="user-email"><i class="fa-solid fa-envelope" aria-hidden="true"></i> <span id="user-email">-</span></p>
+                        <p class="user-meta"><span id="user-role-detail">-</span> • <span id="user-id">ID: -</span></p>
+                        <p class="user-dates"><i class="fa-solid fa-calendar" aria-hidden="true"></i> <span id="user-created">Créé le : -</span> • <span id="user-modified">Modifié le : -</span></p>
+                        <p class="user-plant-count"><i class="fa-solid fa-seedling" aria-hidden="true"></i> <span id="user-plant-count">0 plante(s)</span> dans la collection</p>
+                    </div>
+                </div>
+                <p class="user-identity-proof">Données lues dans <code>assets/js/data/users.json</code> via <code>db.from('users')</code> — comme le futur Supabase</p>
+            </section>
+
             <section class="collection-dashboard" aria-label="Tableau de bord">
                 <article class="dash-card dash-plants" aria-label="Statistiques des plantes">
                     <h3>PLANTES</h3>
