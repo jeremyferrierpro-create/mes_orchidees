@@ -1,10 +1,10 @@
 import { replaceChildren } from '../core/dom.js';
 import * as authService from '../services/auth-service.js';
-import { getAllOrchids } from '../services/orchid-service.js';
-import { getAllConseils } from '../services/conseil-service.js';
+import { getAllOrchids, deleteOrchid as deleteOrchidService } from '../services/orchid-service.js';
+import { getAllConseils, saveConseil } from '../services/conseil-service.js';
 import * as modalManager from '../core/modal.js';
 import * as notifications from '../core/notifications.js';
-import { readJson, STORAGE_KEYS } from '../core/storage.js';
+import { readJson, writeJson, STORAGE_KEYS } from '../core/storage.js';
 
 // =====================================================
 // PAGE ADMINISTRATION - en français débutant
@@ -178,8 +178,13 @@ export function initAdministration() {
             });
             deleteBtn.addEventListener('click', function() {
                 if(confirm("Confirmez-vous la suppression de " + orchid.name + " ?")) {
+                    // Je supprime vraiment de la base locale /data/orchids-data.js via le service
+                    deleteOrchidService(orchid.id);
                     row.remove();
-                    notifications.success("Orchidée supprimée de l'affichage (démo).");
+                    notifications.success("Orchidée " + orchid.name + " supprimée de la base locale.");
+                    // Je mets à jour le compteur du dashboard
+                    const totalEl = document.getElementById('stat-plants-total');
+                    if (totalEl) totalEl.textContent = getAllOrchids().length;
                 }
             });
         });
@@ -234,10 +239,16 @@ export function initAdministration() {
             row.appendChild(colActions);
             container.appendChild(row);
 
-            // Bouton poubelle : je supprime la ligne
+            // Bouton poubelle : je supprime vraiment de la base locale
             deleteBtn.addEventListener('click', function() {
+                // Je retire de /data via STORAGE_KEYS.notifications
+                let notifs = readJson(STORAGE_KEYS.notifications, []);
+                notifs = notifs.filter(n => n.id !== notif.id);
+                writeJson(STORAGE_KEYS.notifications, notifs);
                 row.remove();
-                notifications.success("Notification supprimée.");
+                notifications.success("Notification supprimée de la base locale.");
+                const pendEl = document.getElementById('stat-act-pending');
+                if (pendEl) pendEl.textContent = notifs.length;
             });
             viewBtn.addEventListener('click', function() {
                 notifications.info(notifText);
@@ -267,8 +278,33 @@ export function initAdministration() {
             modalUser.addEventListener('click', (e) => { if(e.target === modalUser) closeModal(modalUser); });
             if (userForm) userForm.addEventListener('submit', function(e) {
                 e.preventDefault();
+                // Je lis ce qui est dans les champs
+                const email = document.getElementById('user-email').value.trim();
+                const original = allUsers.find(u => u.email === email) || {};
+                // Je construis la fiche mise à jour (je garde id et créé d'origine)
+                const updatedUser = {
+                    id: original.id || Date.now(),
+                    nom: document.getElementById('user-nom').value.trim(),
+                    prenom: document.getElementById('user-prenom').value.trim(),
+                    email: email,
+                    password: original.password || "demouser",
+                    role: document.getElementById('user-role').value,
+                    created: original.created || new Date().toLocaleDateString('fr-FR'),
+                    modified: new Date().toLocaleDateString('fr-FR')
+                };
+                if (!updatedUser.nom || !updatedUser.prenom || !updatedUser.email) {
+                    notifications.error("Nom, prénom et email obligatoires.");
+                    return;
+                }
+                // J'enregistre vraiment dans /data/users-data.js via localStorage
+                authService.saveUser(updatedUser);
                 closeModal(modalUser);
-                notifications.success("Utilisateur mis à jour avec succès.");
+                notifications.success("Utilisateur " + updatedUser.email + " mis à jour dans la base locale.");
+                // Je rafraîchis les chiffres du dashboard
+                const freshUsers = authService.checkUsersDb();
+                const freshConseils = getAllConseils();
+                const freshNotifs = readJson(STORAGE_KEYS.notifications, []);
+                populateDashboard(freshUsers, getAllOrchids(), freshConseils, freshNotifs);
             });
         }
 
@@ -313,9 +349,32 @@ export function initAdministration() {
             modalAdvice.addEventListener('click', (e) => { if(e.target === modalAdvice) closeModal(modalAdvice); });
             if (adviceForm) adviceForm.addEventListener('submit', function(e) {
                 e.preventDefault();
+                // Je lis le formulaire
+                const name = document.getElementById('adv-name').value.trim();
+                const cat = document.getElementById('adv-cat').value;
+                const content = document.getElementById('adv-content').value.trim();
+                if (!name || !content) {
+                    notifications.error("Nom et contenu obligatoires.");
+                    return;
+                }
+                // Je crée une vraie fiche comme dans /data/conseils-data.js
+                const newConseil = {
+                    id: "conseils-" + Date.now(),
+                    type: "category",
+                    name: name,
+                    category: cat,
+                    content: content,
+                    img: "./assets/images/site/base.jpg",
+                    careCards: { temperature: "20 °C", arrosage: "régulier", hygrometrie: "65 %", rempotage: "2 ans", engrais: "1 arrosage sur 2", substrats: "selon type" }
+                };
+                // J'enregistre vraiment dans la base locale
+                saveConseil(newConseil);
                 closeModal(modalAdvice);
-                notifications.success("Conseil ajouté (démo).");
+                notifications.success("Conseil '" + newConseil.name + "' ajouté dans la base locale.");
                 adviceForm.reset();
+                // Je mets à jour le compteur
+                const advEl = document.getElementById('stat-act-advices');
+                if (advEl) advEl.textContent = getAllConseils().length;
             });
         }
     }

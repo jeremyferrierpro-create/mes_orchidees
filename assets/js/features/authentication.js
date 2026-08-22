@@ -84,16 +84,30 @@ export function initAuthentication() {
             if (registerMessage) registerMessage.className = 'auth-message error';
             notifications.error(errorMsg);
         } else {
-            // Sinon j'ajoute l'utilisateur dans la liste locale (j'utilise la clé centralisée)
-            currentDb.push({ email: email, password: password, role: 'user' });
-            writeJson(STORAGE_KEYS.users, currentDb);
+            // Sinon je crée une vraie fiche utilisateur complète (comme dans /data/users-data.js)
+            // Je mets un nom/prénom par défaut à partir de l'email, et la date d'aujourd'hui
+            const now = new Date().toLocaleDateString('fr-FR');
+            const prefix = email.split('@')[0];
+            const parts = prefix.split(/[._-]/);
+            const newUser = {
+                id: Date.now(), // id unique avec l'heure
+                nom: (parts[0] || "Utilisateur").charAt(0).toUpperCase() + (parts[0] || "Utilisateur").slice(1), // premier morceau de l'email
+                prenom: (parts[1] || "Nouveau").charAt(0).toUpperCase() + (parts[1] || "Nouveau").slice(1), // deuxième morceau ou Nouveau
+                email: email,
+                password: password,
+                role: 'user',
+                created: now,
+                modified: now
+            };
+            // J'enregistre via le service (qui écrit dans STORAGE_KEYS.users = /data/users-data.js en local)
+            authService.saveUser(newUser);
             const successMsg = 'Inscription réussie ! Connexion en cours...';
             if (registerMessage) registerMessage.textContent = successMsg;
             if (registerMessage) registerMessage.className = 'auth-message success';
             notifications.success(successMsg);
             
-            // Je connecte directement l'utilisateur (je crée une session)
-            authService.login(email, { role: 'user' });
+            // Je connecte directement l'utilisateur (je crée une session avec son rôle)
+            authService.login(newUser.email, { role: newUser.role, id: newUser.id });
             // S'il voulait ajouter une orchidée avant de se connecter, je le renvoie à l'encyclopédie
             const pending = readString(STORAGE_KEYS.pendingOrchid);
             if (pending) {
