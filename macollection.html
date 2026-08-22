@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <meta name="theme-color" content="#0e2018">
-    <meta name="description" content="GÃ©rez votre collection d'OrchidÃ©es, les soins et les rappels.">
+    <meta name="description" content="Gérez votre collection d'Orchidées, les soins et les rappels.">
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="./assets/images/site/logotransparent.png">
     <link rel="icon" type="image/png" href="./assets/images/site/favicon.png">
@@ -15,34 +15,34 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="./assets/css/style.css">
-    <title>Ma collection - Mes OrchidÃ©es</title>
+    <title>Ma collection - Mes Orchidées</title>
 </head>
 <body>
     <a class="skip-link" href="#main-content">Aller au contenu</a>
 
     <nav id="main-sidebar" class="sidebar-container" aria-label="Menu principal" role="navigation">
         <div class="sidebar-brand">
-            <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes OrchidÃ©es">
-            <h2>Mes OrchidÃ©es</h2>
+            <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
+            <h2>Mes Orchidées</h2>
         </div>
         <div class="sidebar-menu">
             <ul class="menu-group-main">
                 <li><a href="index.html"><i class="fa-solid fa-home" aria-hidden="true"></i> Accueil</a></li>
-                <li><a href="encyclopedie.html"><i class="fa-solid fa-book" aria-hidden="true"></i> EncyclopÃ©die</a></li>
+                <li><a href="encyclopedie.html"><i class="fa-solid fa-book" aria-hidden="true"></i> Encyclopédie</a></li>
                 <li><a href="macollection.html" aria-current="page"><i class="fa-solid fa-seedling" aria-hidden="true"></i> Ma collection</a></li>
                 <li><a href="conseils.html"><i class="fa-solid fa-heart" aria-hidden="true"></i> Conseils</a></li>
             </ul>
             <ul class="menu-group-user">
                 <li><a href="administration.html"><i class="fa-solid fa-gear" aria-hidden="true"></i> Administration</a></li>
                 <li><a href="authentification.html"><i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i> Authentification</a></li>
-                <li><a href="deconnexion.html"><i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i> DÃ©connexion</a></li>
+                <li><a href="deconnexion.html"><i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i> Déconnexion</a></li>
             </ul>
         </div>
     </nav>
 
     <header id="main-header" role="banner">
-        <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes OrchidÃ©es">
-        <p class="header-tagline">EncyclopÃ©die &amp; gestion de collections</p>
+        <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
+        <p class="header-tagline">Encyclopédie &amp; gestion de collections</p>
         <button type="button" class="menu-toggle" id="menu-toggle-btn" aria-label="Ouvrir ou fermer le menu" aria-controls="main-sidebar" aria-expanded="false">
             <span class="hamburger-bar"></span>
         </button>
@@ -54,7 +54,7 @@
         </section>
 
         <div id="collection-guest-message" class="collection-guest-message" hidden>
-            <p>Veuillez vous <a href="authentification.html">connecter</a> pour accÃ©der Ã  votre collection.</p>
+            <p>Veuillez vous <a href="authentification.html">connecter</a> pour accéder à votre collection.</p>
         </div>
 
         <div id="collection-app" class="collection-app" hidden>
@@ -84,27 +84,27 @@
                     <h3>PLANTES</h3>
                     <ul id="dash-plants-stats">
                         <li><span>Total</span><strong id="stat-total">0</strong></li>
-                        <li><span>Ã‰piphytes</span><strong id="stat-epiphytes">0</strong></li>
+                        <li><span>Épiphytes</span><strong id="stat-epiphytes">0</strong></li>
                         <li><span>Terrestres</span><strong id="stat-terrestres">0</strong></li>
-                        <li><span>HÃ©mi-Ã©piphytes</span><strong id="stat-hemi">0</strong></li>
+                        <li><span>Hémi-épiphytes</span><strong id="stat-hemi">0</strong></li>
                     </ul>
                 </article>
 
                 <article class="dash-card dash-climate" aria-label="Climat moyen de la collection">
                     <h3>CLIMAT</h3>
                     <div class="dash-climate-values" id="dash-climate-values">
-                        <div class="climate-item"><i class="fa-solid fa-temperature-half" aria-hidden="true"></i><strong id="climate-temp">Ã¢â‚¬â€</strong></div>
-                        <div class="climate-item"><i class="fa-solid fa-droplet" aria-hidden="true"></i><strong id="climate-humidity">Ã¢â‚¬â€</strong></div>
-                        <div class="climate-item"><i class="fa-solid fa-sun" aria-hidden="true"></i><strong id="climate-light">Ã¢â‚¬â€</strong></div>
+                        <div class="climate-item"><i class="fa-solid fa-temperature-half" aria-hidden="true"></i><strong id="climate-temp">—</strong></div>
+                        <div class="climate-item"><i class="fa-solid fa-droplet" aria-hidden="true"></i><strong id="climate-humidity">—</strong></div>
+                        <div class="climate-item"><i class="fa-solid fa-sun" aria-hidden="true"></i><strong id="climate-light">—</strong></div>
                     </div>
                 </article>
 
                 <article class="dash-card dash-notifications" aria-label="Notifications">
                     <h3>NOTIFICATIONS</h3>
                     <ul id="dash-notifications">
-                        <li><i class="fa-solid fa-bell" aria-hidden="true"></i><span class="notif-dot notif-orange" aria-hidden="true"></span><span>Soins Ã  prÃ©voir</span></li>
+                        <li><i class="fa-solid fa-bell" aria-hidden="true"></i><span class="notif-dot notif-orange" aria-hidden="true"></span><span>Soins à prévoir</span></li>
                         <li><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i><span class="notif-dot notif-green" aria-hidden="true"></span><span>Alertes</span></li>
-                        <li><i class="fa-solid fa-clipboard-check" aria-hidden="true"></i><span class="notif-dot notif-green" aria-hidden="true"></span><span>Bilan santÃ©</span></li>
+                        <li><i class="fa-solid fa-clipboard-check" aria-hidden="true"></i><span class="notif-dot notif-green" aria-hidden="true"></span><span>Bilan santé</span></li>
                     </ul>
                 </article>
             </section>
@@ -126,7 +126,7 @@
                                 <thead>
                                     <tr>
                                         <th>Date</th>
-                                        <th>Soin effectuÃ©</th>
+                                        <th>Soin effectué</th>
                                         <th>Rappel</th>
                                         <th>Date rappel</th>
                                     </tr>
@@ -146,23 +146,23 @@
     </main>
 
     <footer id="main-footer" role="contentinfo">
-        <div class="footer-links-group"><a href="mentions.html" class="footer-link">Mentions lÃ©gales</a><a href="accessibilite.html" class="footer-link">AccessibilitÃ©</a></div>
+        <div class="footer-links-group"><a href="mentions.html" class="footer-link">Mentions légales</a><a href="accessibilite.html" class="footer-link">Accessibilité</a></div>
         <div class="footer-center">
-            <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes OrchidÃ©es">
-            <p>&copy; Mes OrchidÃ©es - Projet Fil Rouge DWWM - Jeremy Ferrier - 2026/2027</p>
+            <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
+            <p>&copy; Mes Orchidées - Projet Fil Rouge DWWM - Jeremy Ferrier - 2026/2027</p>
         </div>
-        <a href="confidentialite.html" class="footer-link">Politiques de confidentialitÃ©</a>
+        <a href="confidentialite.html" class="footer-link">Politiques de confidentialité</a>
     </footer>
 
-    <!-- MODALE 0 : AJOUTER UNE ORCHIDÃ‰E Ã€ LA COLLECTION -->
+    <!-- MODALE 0 : AJOUTER UNE ORCHIDÉE À LA COLLECTION -->
     <section class="modal-overlay" id="add-collection-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="add-modal-title">
         <div class="modal-container collection-modal" role="document">
-            <button type="button" class="modal-close" id="add-modal-close" aria-label="Fermer la fenÃªtre">Ã—</button>
+            <button type="button" class="modal-close" id="add-modal-close" aria-label="Fermer la fenêtre">×</button>
             
             <div class="collection-modal-header">
                 <div class="collection-modal-titles">
-                    <h2 id="add-modal-title" class="collection-modal-title">AJOUTER Ã€ LA COLLECTION</h2>
-                    <p class="collection-modal-short">Recherchez une orchidÃ©e ou proposez-en une nouvelle.</p>
+                    <h2 id="add-modal-title" class="collection-modal-title">AJOUTER À LA COLLECTION</h2>
+                    <p class="collection-modal-short">Recherchez une orchidée ou proposez-en une nouvelle.</p>
                 </div>
             </div>
             
@@ -170,7 +170,7 @@
                 <form id="add-collection-form">
                     <!-- Zone Recherche / Autocomplete -->
                     <div class="form-group" style="position: relative;">
-                        <label for="add-orchid-name">Nom de l'orchidÃ©e *</label>
+                        <label for="add-orchid-name">Nom de l'orchidée *</label>
                         <input type="text" id="add-orchid-name" class="edit-input" placeholder="Ex: Phalaenopsis..." autocomplete="off" required>
                         <div id="add-orchid-suggestions" class="autocomplete-suggestions glassmorphism" style="display: none; background: rgba(14, 32, 24, 0.95); border: 1px solid var(--color-gold);"></div>
                     </div>
@@ -178,17 +178,17 @@
                     <div class="form-group">
                         <label for="add-orchid-behavior">Comportement *</label>
                         <select id="add-orchid-behavior" class="edit-input" required>
-                            <option value="">-- SÃ©lectionner --</option>
-                            <option value="Ã‰piphyte">Ã‰piphyte</option>
+                            <option value="">-- Sélectionner --</option>
+                            <option value="Épiphyte">Épiphyte</option>
                             <option value="Terrestre">Terrestre</option>
                             <option value="Lithophyte">Lithophyte</option>
-                            <option value="HÃ©mi-Ã©piphyte">HÃ©mi-Ã©piphyte</option>
+                            <option value="Hémi-épiphyte">Hémi-épiphyte</option>
                         </select>
                     </div>
 
                     <div class="form-group">
                         <label for="add-orchid-origin">Origine(s)</label>
-                        <input type="text" id="add-orchid-origin" class="edit-input" placeholder="Ex: AmÃ©rique du Sud...">
+                        <input type="text" id="add-orchid-origin" class="edit-input" placeholder="Ex: Amérique du Sud...">
                     </div>
 
                     <!-- Informations Botaniques (Optionnelles mais auto-remplies si connue) -->
@@ -207,16 +207,16 @@
                             <input type="text" id="add-orchid-genre" class="edit-input">
                         </div>
                         <div class="form-group">
-                            <label for="add-orchid-species">EspÃ¨ce</label>
+                            <label for="add-orchid-species">Espèce</label>
                             <input type="text" id="add-orchid-species" class="edit-input">
                         </div>
                     </div>
 
-                    <!-- Checkbox pour proposer Ã  l'EncyclopÃ©die (MasquÃ©e si la plante est connue) -->
+                    <!-- Checkbox pour proposer à l'Encyclopédie (Masquée si la plante est connue) -->
                     <div class="form-group" id="add-propose-container" style="display: flex; align-items: center; gap: 10px; margin-top: 20px;">
                         <input type="checkbox" id="add-propose-checkbox" style="width: auto;">
                         <label for="add-propose-checkbox" style="color: var(--color-tan); font-style: italic; font-size: 0.9rem;">
-                            Je souhaite proposer cette orchidÃ©e Ã  l'EncyclopÃ©die.
+                            Je souhaite proposer cette orchidée à l'Encyclopédie.
                         </label>
                     </div>
 
@@ -229,10 +229,10 @@
         </div>
     </section>
 
-    <!-- MODALE 1 : FICHE DE L'ORCHIDÃ‰E (Ã‰DITION / AFFICHAGE) -->
+    <!-- MODALE 1 : FICHE DE L'ORCHIDÉE (ÉDITION / AFFICHAGE) -->
     <section class="modal-overlay" id="edit-collection-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="edit-modal-title">
         <div class="modal-container collection-modal" role="document">
-            <button type="button" class="modal-close" id="edit-modal-close" aria-label="Fermer la fiche">Ã—</button>
+            <button type="button" class="modal-close" id="edit-modal-close" aria-label="Fermer la fiche">×</button>
 
             <div class="collection-modal-header">
                 <img id="edit-modal-img" src="" alt="" aria-hidden="true" class="modal-orchid-img">
@@ -245,7 +245,7 @@
             <div class="collection-modal-fields" id="edit-modal-fields"></div>
 
             <div class="collection-modal-desc">
-                <h4>DESCRIPTION &amp; CARACTÃ‰RISTIQUES</h4>
+                <h4>DESCRIPTION &amp; CARACTÉRISTIQUES</h4>
                 <p id="edit-modal-long"></p>
             </div>
 
@@ -254,18 +254,18 @@
                 <div class="personal-fields">
                     <div class="form-group">
                         <label for="edit-location">Site de culture (Emplacement)</label>
-                        <input type="text" id="edit-location" class="edit-input" placeholder="Ex : Salon, VÃ©randa...">
+                        <input type="text" id="edit-location" class="edit-input" placeholder="Ex : Salon, Véranda...">
                     </div>
                     <div class="form-group">
-                        <label for="edit-temp">TempÃ©rature du site</label>
-                        <input type="text" id="edit-temp" class="edit-input" placeholder="Ex : 20-25Ã‚Â°C">
+                        <label for="edit-temp">Température du site</label>
+                        <input type="text" id="edit-temp" class="edit-input" placeholder="Ex : 20-25°C">
                     </div>
                     <div class="form-group">
-                        <label for="edit-hygro">HygromÃ©trie du site</label>
+                        <label for="edit-hygro">Hygrométrie du site</label>
                         <input type="text" id="edit-hygro" class="edit-input" placeholder="Ex : 60-70%">
                     </div>
                     <div class="form-group">
-                        <label for="edit-light">LuminositÃ© du site</label>
+                        <label for="edit-light">Luminosité du site</label>
                         <input type="text" id="edit-light" class="edit-input" placeholder="Ex : Vive sans soleil direct">
                     </div>
                     <div class="form-group">
@@ -273,7 +273,7 @@
                         <input type="text" id="edit-ventilation" class="edit-input" placeholder="Ex : Bonne ventilation">
                     </div>
                     <div class="form-group">
-                        <label for="edit-notes">Notes complÃ©mentaires</label>
+                        <label for="edit-notes">Notes complémentaires</label>
                         <textarea id="edit-notes" class="edit-textarea" rows="3" placeholder="Notes de culture..."></textarea>
                     </div>
                 </div>
@@ -288,14 +288,14 @@
 
     <section class="modal-overlay" id="care-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="care-modal-title">
         <div class="modal-container care-modal" role="document">
-            <button type="button" class="modal-close" id="care-modal-close" aria-label="Fermer le formulaire">Ã—</button>
+            <button type="button" class="modal-close" id="care-modal-close" aria-label="Fermer le formulaire">×</button>
             <h2 id="care-modal-title" class="care-modal-title">NOUVEAU SOIN</h2>
 
             <form id="care-form" class="care-form">
                     <input type="hidden" name="csrf_token" id="csrf-token" value="">
                 <div class="care-form-grid">
                     <div class="form-group">
-                        <label for="care-orchid">OrchidÃ©e</label>
+                        <label for="care-orchid">Orchidée</label>
                         <select id="care-orchid" class="edit-select" required></select>
                     </div>
                     <div class="form-group">
@@ -303,7 +303,7 @@
                         <input type="date" id="care-date" class="edit-input" required>
                     </div>
                     <fieldset class="form-group care-checks">
-                        <legend>Soins effectuÃ©s</legend>
+                        <legend>Soins effectués</legend>
                         <label><input type="checkbox" name="careType" value="arrosage"> Arrosage</label>
                         <label><input type="checkbox" name="careType" value="rempotage"> Rempotage</label>
                         <label><input type="checkbox" name="careType" value="traitement"> Traitement</label>
@@ -315,7 +315,7 @@
                     </div>
                     <div class="form-group">
                         <label for="care-substrat">Type de substrat</label>
-                        <input type="text" id="care-substrat" class="edit-input" placeholder="Ex : Ã‰corces de pin">
+                        <input type="text" id="care-substrat" class="edit-input" placeholder="Ex : Écorces de pin">
                     </div>
                     <div class="form-group">
                         <label for="care-ravageurs">Ravageurs</label>

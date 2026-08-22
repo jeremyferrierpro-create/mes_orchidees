@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <meta name="theme-color" content="#0e2018">
-    <meta name="description" content="EncyclopÃ©die des OrchidÃ©es : recherchez et consultez les fiches dÃ©taillÃ©es de chaque espÃ¨ce.">
+    <meta name="description" content="Encyclopédie des Orchidées : recherchez et consultez les fiches détaillées de chaque espèce.">
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="./assets/images/site/logotransparent.png">
     <link rel="icon" type="image/png" href="./assets/images/site/favicon.png">
@@ -15,64 +15,64 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="./assets/css/style.css">
-    <title>EncyclopÃ©die - Mes OrchidÃ©es</title>
+    <title>Encyclopédie - Mes Orchidées</title>
 </head>
 <body>
     <a class="skip-link" href="#main-content">Aller au contenu</a>
 
     <nav id="main-sidebar" class="sidebar-container" aria-label="Menu principal" role="navigation">
         <div class="sidebar-brand">
-            <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes OrchidÃ©es">
-            <h2>Mes OrchidÃ©es</h2>
+            <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
+            <h2>Mes Orchidées</h2>
         </div>
         <div class="sidebar-menu">
             <ul class="menu-group-main">
                 <li><a href="index.html"><i class="fa-solid fa-home" aria-hidden="true"></i> Accueil</a></li>
-                <li><a href="encyclopedie.html" aria-current="page"><i class="fa-solid fa-book" aria-hidden="true"></i> EncyclopÃ©die</a></li>
+                <li><a href="encyclopedie.html" aria-current="page"><i class="fa-solid fa-book" aria-hidden="true"></i> Encyclopédie</a></li>
                 <li><a href="macollection.html"><i class="fa-solid fa-seedling" aria-hidden="true"></i> Ma collection</a></li>
                 <li><a href="conseils.html"><i class="fa-solid fa-heart" aria-hidden="true"></i> Conseils</a></li>
             </ul>
             <ul class="menu-group-user">
                 <li><a href="administration.html"><i class="fa-solid fa-gear" aria-hidden="true"></i> Administration</a></li>
                 <li><a href="authentification.html"><i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i> Authentification</a></li>
-                <li><a href="deconnexion.html"><i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i> DÃ©connexion</a></li>
+                <li><a href="deconnexion.html"><i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i> Déconnexion</a></li>
             </ul>
         </div>
     </nav>
 
     <header id="main-header" role="banner">
-        <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes OrchidÃ©es">
-        <p class="header-tagline">EncyclopÃ©die &amp; gestion de collections</p>
+        <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
+        <p class="header-tagline">Encyclopédie &amp; gestion de collections</p>
         <button type="button" class="menu-toggle" id="menu-toggle-btn" aria-label="Ouvrir ou fermer le menu" aria-controls="main-sidebar" aria-expanded="false">
             <span class="hamburger-bar"></span>
         </button>
     </header>
 
     <main class="main-content" id="main-content">
-        <section class="encyclopedia-header" aria-label="Recherche dans l'EncyclopÃ©die">
-            <h1 class="page-title">ENCYCLOPÃ‰DIE</h1>
+        <section class="encyclopedia-header" aria-label="Recherche dans l'Encyclopédie">
+            <h1 class="page-title">ENCYCLOPÉDIE</h1>
             <div class="search-container">
                 <form id="encyclopedia-search-form" action="encyclopedie.html" method="GET" class="search-box" role="search">
                     <input type="hidden" name="csrf_token" id="csrf-token" value="">
-                    <label for="search-input" class="sr-only">Rechercher une orchidÃ©e</label>
-                    <input type="text" id="search-input" name="search" placeholder="Rechercher une orchidÃ©e..." autocomplete="off">
+                    <label for="search-input" class="sr-only">Rechercher une orchidée</label>
+                    <input type="text" id="search-input" name="search" placeholder="Rechercher une orchidée..." autocomplete="off">
                     <button type="submit" class="search-btn">RECHERCHER</button>
                 </form>
             </div>
         </section>
 
-        <section class="encyclopedia-grid-container" aria-label="RÃ©sultats de la recherche">
+        <section class="encyclopedia-grid-container" aria-label="Résultats de la recherche">
             <div class="orchid-grid" id="orchid-grid-container"></div>
         </section>
     </main>
 
     <footer id="main-footer" role="contentinfo">
-        <div class="footer-links-group"><a href="mentions.html" class="footer-link">Mentions lÃ©gales</a><a href="accessibilite.html" class="footer-link">AccessibilitÃ©</a></div>
+        <div class="footer-links-group"><a href="mentions.html" class="footer-link">Mentions légales</a><a href="accessibilite.html" class="footer-link">Accessibilité</a></div>
         <div class="footer-center">
-            <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes OrchidÃ©es">
-            <p>&copy; Mes OrchidÃ©es - Projet Fil Rouge DWWM - Jeremy Ferrier - 2026/2027</p>
+            <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
+            <p>&copy; Mes Orchidées - Projet Fil Rouge DWWM - Jeremy Ferrier - 2026/2027</p>
         </div>
-        <a href="confidentialite.html" class="footer-link">Politiques de confidentialitÃ©</a>
+        <a href="confidentialite.html" class="footer-link">Politiques de confidentialité</a>
     </footer>
 
     <div id="orchid-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-orchid-title" aria-hidden="true">
@@ -95,24 +95,24 @@
 
                 <div class="modal-specs-grid">
                     <div class="spec-item"><span class="spec-label">Ordre</span><div id="spec-ordre" class="spec-value">...</div></div>
-                    <div class="spec-item"><span class="spec-label">EspÃ¨ce</span><div id="spec-espece" class="spec-value">...</div></div>
+                    <div class="spec-item"><span class="spec-label">Espèce</span><div id="spec-espece" class="spec-value">...</div></div>
                     <div class="spec-item"><span class="spec-label">Genre</span><div id="spec-genre" class="spec-value">...</div></div>
                     <div class="spec-item"><span class="spec-label">Famille</span><div id="spec-famille" class="spec-value">...</div></div>
                     <div class="spec-item"><span class="spec-label">Sous-Famille</span><div id="spec-subfamily" class="spec-value">...</div></div>
                     <div class="spec-item"><span class="spec-label">Tribu</span><div id="spec-tribu" class="spec-value">...</div></div>
                     <div class="spec-item"><span class="spec-label">Sous-Tribu</span><div id="spec-subtribu" class="spec-value">...</div></div>
                     <div class="spec-item"><span class="spec-label">Comportement</span><div id="spec-behavior" class="spec-value">...</div></div>
-                    <div class="spec-item"><span class="spec-label">DÃ©couverte par</span><div id="spec-discovered" class="spec-value">...</div></div>
+                    <div class="spec-item"><span class="spec-label">Découverte par</span><div id="spec-discovered" class="spec-value">...</div></div>
                     <div class="spec-item spec-item--full"><span class="spec-label">Origines</span><div id="spec-origin" class="spec-value">...</div></div>
                 </div>
 
                 <div class="modal-description-block">
-                    <h4>Description &amp; CaractÃ©ristiques</h4>
+                    <h4>Description &amp; Caractéristiques</h4>
                     <p id="modal-orchid-long" class="modal-long-desc">...</p>
                 </div>
 
                 <div class="modal-footer-action">
-                    <button type="button" class="btn-add-collection" aria-label="Ajouter cette espÃ¨ce d'orchidÃ©e Ã  ma collection personnelle">+ COLLECTION</button>
+                    <button type="button" class="btn-add-collection" aria-label="Ajouter cette espèce d'orchidée à ma collection personnelle">+ COLLECTION</button>
                 </div>
             </div>
         </div>
