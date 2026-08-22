@@ -5,6 +5,7 @@ import { getAllConseils, saveConseil } from '../services/conseil-service.js';
 import * as modalManager from '../core/modal.js';
 import * as notifications from '../core/notifications.js';
 import { readJson, writeJson, STORAGE_KEYS } from '../core/storage.js';
+import { db } from '../core/db.js'; // je passe par la fausse BDD Supabase (assets/data/*.json)
 
 // =====================================================
 // PAGE ADMINISTRATION - en français débutant
@@ -43,16 +44,11 @@ export function initAdministration() {
     const users = authService.checkUsersDb();
     const conseils = getAllConseils();
     
-    // Je récupère les notifications (ou j'en crée 3 fausses si vide)
-    let notificationsDb = readJson(STORAGE_KEYS.notifications, null);
-    if (!notificationsDb) {
-        notificationsDb = [
-            { id: 1, date: "01/04/2026", message: "Rappel arrosage Acacalis Cyanea" },
-            { id: 2, date: "02/04/2026", message: "Inscription de J. Martin" },
-            { id: 3, date: "10/04/2026", message: "Nouvelle fiche proposée" }
-        ];
-        localStorage.setItem(STORAGE_KEYS.notifications, JSON.stringify(notificationsDb));
-    }
+    // Je récupère les notifications depuis la table notifications (via db, comme Supabase)
+    // C'est comme faire SELECT * FROM notifications
+    let notifRes = db.from('notifications').select().execute();
+    let notificationsDb = notifRes.data;
+    // Si la table est vide au premier lancement, db.js l'a déjà remplie avec notifications.json, rien à faire
 
     // Je remplis le haut de page (les 3 cartes chiffrées)
     populateDashboard(users, orchids, conseils, notificationsDb);
@@ -82,8 +78,8 @@ export function initAdministration() {
         // Je prends la première orchidée comme "phare" au lieu de mettre ACACALIS en dur
         const phare = orchids[0] ? orchids[0].genre.toUpperCase() : "-";
         document.getElementById('stat-plants-phare').textContent = phare;
-        // Je compte les plantes dans les collections des utilisateurs (si tu as macollection)
-        const collection = readJson(STORAGE_KEYS.userCollection, []);
+        // Je compte les plantes dans les collections (table collections via db, comme Supabase)
+        const collection = db.from('collections').select().execute().data || [];
         document.getElementById('stat-plants-owned').textContent = collection.length;
         // Je prends la dernière comme "la plus rare" au lieu de BARLIA qui n'existe pas
         const rare = orchids[orchids.length - 1] ? orchids[orchids.length - 1].genre.toUpperCase() : "-";
@@ -239,12 +235,11 @@ export function initAdministration() {
             row.appendChild(colActions);
             container.appendChild(row);
 
-            // Bouton poubelle : je supprime vraiment de la base locale
+            // Bouton poubelle : je supprime vraiment de la table notifications (via db, comme DELETE FROM notifications WHERE id=...)
             deleteBtn.addEventListener('click', function() {
-                // Je retire de /data via STORAGE_KEYS.notifications
-                let notifs = readJson(STORAGE_KEYS.notifications, []);
-                notifs = notifs.filter(n => n.id !== notif.id);
-                writeJson(STORAGE_KEYS.notifications, notifs);
+                // Je fais DELETE FROM notifications WHERE id = notif.id
+                db.from('notifications').delete().eq('id', notif.id).execute();
+                let notifs = db.from('notifications').select().execute().data || [];
                 row.remove();
                 notifications.success("Notification supprimée de la base locale.");
                 const pendEl = document.getElementById('stat-act-pending');
@@ -300,10 +295,10 @@ export function initAdministration() {
                 authService.saveUser(updatedUser);
                 closeModal(modalUser);
                 notifications.success("Utilisateur " + updatedUser.email + " mis à jour dans la base locale.");
-                // Je rafraîchis les chiffres du dashboard
+                // Je rafraîchis les chiffres du dashboard depuis les vraies tables via db
                 const freshUsers = authService.checkUsersDb();
                 const freshConseils = getAllConseils();
-                const freshNotifs = readJson(STORAGE_KEYS.notifications, []);
+                const freshNotifs = db.from('notifications').select().execute().data || [];
                 populateDashboard(freshUsers, getAllOrchids(), freshConseils, freshNotifs);
             });
         }

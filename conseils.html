@@ -1,11 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
+<!-- Page branchee sur /assets/js/data/*.json via db.js (simulation Supabase) - 100% dynamique -->
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <meta name="theme-color" content="#0e2018">
-    <meta name="description" content="Conseils de culture pour les Orchidées filtrables par type de plante et niveau d'expertise.">
+    <meta name="description" content="Conseils de culture pour les OrchidÃ©es filtrables par type de plante et niveau d'expertise.">
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="./assets/images/site/logotransparent.png">
     <link rel="icon" type="image/png" href="./assets/images/site/favicon.png">
@@ -14,33 +15,33 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="./assets/css/style.css">
-    <title>Conseils - Mes Orchidées</title>
+    <title>Conseils - Mes OrchidÃ©es</title>
 </head>
 <body>
     <a class="skip-link" href="#main-content">Aller au contenu</a>
         <nav id="main-sidebar" class="sidebar-container" aria-label="Menu principal" role="navigation">
         <div class="sidebar-brand">
-            <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
-            <h2>Mes Orchidées</h2>
+            <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes OrchidÃ©es">
+            <h2>Mes OrchidÃ©es</h2>
         </div>
         <div class="sidebar-menu">
             <ul class="menu-group-main">
                 <li><a href="index.html"><i class="fa-solid fa-home" aria-hidden="true"></i> Accueil</a></li>
-                <li><a href="encyclopedie.html"><i class="fa-solid fa-book" aria-hidden="true"></i> Encyclopédie</a></li>
+                <li><a href="encyclopedie.html"><i class="fa-solid fa-book" aria-hidden="true"></i> EncyclopÃ©die</a></li>
                 <li><a href="macollection.html"><i class="fa-solid fa-seedling" aria-hidden="true"></i> Ma collection</a></li>
                 <li><a href="conseils.html" aria-current="page"><i class="fa-solid fa-heart" aria-hidden="true"></i> Conseils</a></li>
             </ul>
             <ul class="menu-group-user">
                 <li><a href="administration.html"><i class="fa-solid fa-gear" aria-hidden="true"></i> Administration</a></li>
                 <li><a href="authentification.html"><i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i> Authentification</a></li>
-                <li><a href="deconnexion.html"><i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i> Déconnexion</a></li>
+                <li><a href="deconnexion.html"><i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i> DÃ©connexion</a></li>
             </ul>
         </div>
     </nav>
 
     <header id="main-header" role="banner">
-        <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
-        <p class="header-tagline">Encyclopédie &amp; gestion de collections</p>
+        <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes OrchidÃ©es">
+        <p class="header-tagline">EncyclopÃ©die &amp; gestion de collections</p>
         <button type="button" class="menu-toggle" id="menu-toggle-btn" aria-label="Ouvrir ou fermer le menu" aria-controls="main-sidebar" aria-expanded="false">
             <span class="hamburger-bar"></span>
         </button>
@@ -53,54 +54,54 @@
 
         <section class="conseils-search" aria-label="Rechercher une fiche de culture">
             <form class="search-box" id="conseil-search-form" action="#" method="GET" role="search" novalidate>
-                <label for="conseil-search-input" class="sr-only">Saisir le nom d'une orchidée ou d'une rubrique</label>
-                <input type="text" id="conseil-search-input" name="search" placeholder="Saisir le nom d'une orchidée ..." autocomplete="off">
+                <label for="conseil-search-input" class="sr-only">Saisir le nom d'une orchidÃ©e ou d'une rubrique</label>
+                <input type="text" id="conseil-search-input" name="search" placeholder="Saisir le nom d'une orchidÃ©e ..." autocomplete="off">
                 <button type="submit" class="search-btn" id="conseil-search-btn">RECHERCHER</button>
             </form>
             <p id="conseil-search-help" class="conseil-search-help" aria-live="polite"></p>
         </section>
 
         <section class="conseils-grid" aria-label="Rubriques de conseils, cliquez pour consulter">
-            <!-- Chaque carte a un data-conseil-id qui correspond à l'id dans conseils-data.js -->
+            <!-- Chaque carte a un data-conseil-id qui correspond Ã  l'id dans conseils-data.js -->
             <article class="conseil-card" data-conseil-id="conseils-base" data-category="Conseils de base" tabindex="0" role="button" aria-label="Consulter les conseils de base">
                 <h2>Conseils de base</h2>
-                <p>Débutez votre collection d'Orchidées avec ces conseils de base. Selon vos affinités, vous évoluerez vers les épiphytes, terrestres ou hémi-épiphytes. Bonne culture !</p>
+                <p>DÃ©butez votre collection d'OrchidÃ©es avec ces conseils de base. Selon vos affinitÃ©s, vous Ã©voluerez vers les Ã©piphytes, terrestres ou hÃ©mi-Ã©piphytes. Bonne culture !</p>
                 <span class="conseil-card-cta">Voir le conseil</span>
             </article>
 
-            <article class="conseil-card" data-conseil-id="conseils-epiphytes" data-category="Pour les épiphytes" tabindex="0" role="button" aria-label="Consulter les conseils pour les épiphytes">
-                <h2>Pour les épiphytes</h2>
-                <p>Vous aimez les Orchidées épiphytes. Cette rubrique est faîtes pour vous. Vous y trouverez tous les conseils de culture pour réussir vos épiphytes, comme un professionnel ! Bonne culture !</p>
+            <article class="conseil-card" data-conseil-id="conseils-epiphytes" data-category="Pour les Ã©piphytes" tabindex="0" role="button" aria-label="Consulter les conseils pour les Ã©piphytes">
+                <h2>Pour les Ã©piphytes</h2>
+                <p>Vous aimez les OrchidÃ©es Ã©piphytes. Cette rubrique est faÃ®tes pour vous. Vous y trouverez tous les conseils de culture pour rÃ©ussir vos Ã©piphytes, comme un professionnel ! Bonne culture !</p>
                 <span class="conseil-card-cta">Voir le conseil</span>
             </article>
 
             <article class="conseil-card" data-conseil-id="conseils-terrestres" data-category="Pour les terrestres" tabindex="0" role="button" aria-label="Consulter les conseils pour les terrestres">
                 <h2>Pour les terrestres</h2>
-                <p>Vous aimez les Orchidées terrestres. Cette rubrique est faîtes pour vous. Vous y trouverez tous les conseils de culture pour réussir vos terrestres, comme un professionnel ! Bonne culture !</p>
+                <p>Vous aimez les OrchidÃ©es terrestres. Cette rubrique est faÃ®tes pour vous. Vous y trouverez tous les conseils de culture pour rÃ©ussir vos terrestres, comme un professionnel ! Bonne culture !</p>
                 <span class="conseil-card-cta">Voir le conseil</span>
             </article>
 
-            <article class="conseil-card" data-conseil-id="conseils-hemi-epiphytes" data-category="Pour les hémi-épiphytes" tabindex="0" role="button" aria-label="Consulter les conseils pour les hémi-épiphytes">
-                <h2>Pour les hémi-épiphytes</h2>
-                <p>Vous aimez les Orchidées hémi-épiphytes. Cette rubrique est faîtes pour vous. Vous y trouverez tous les conseils de culture pour réussir vos hémi-épiphytes, comme un professionnel ! Bonne culture !</p>
+            <article class="conseil-card" data-conseil-id="conseils-hemi-epiphytes" data-category="Pour les hÃ©mi-Ã©piphytes" tabindex="0" role="button" aria-label="Consulter les conseils pour les hÃ©mi-Ã©piphytes">
+                <h2>Pour les hÃ©mi-Ã©piphytes</h2>
+                <p>Vous aimez les OrchidÃ©es hÃ©mi-Ã©piphytes. Cette rubrique est faÃ®tes pour vous. Vous y trouverez tous les conseils de culture pour rÃ©ussir vos hÃ©mi-Ã©piphytes, comme un professionnel ! Bonne culture !</p>
                 <span class="conseil-card-cta">Voir le conseil</span>
             </article>
 
             <article class="conseil-card" data-conseil-id="conseils-flask" data-category="Sortie de flask" tabindex="0" role="button" aria-label="Consulter les conseils sur la sortie de flask">
                 <h2>Sortie de flask</h2>
-                <p>Vous êtes un amateur orchidophile. Vous souhaitez cultiver des Orchidées sorties de flask ? Ici, vous trouverez tous nos conseils de pro pour réussir vos sorties de flask.</p>
+                <p>Vous Ãªtes un amateur orchidophile. Vous souhaitez cultiver des OrchidÃ©es sorties de flask ? Ici, vous trouverez tous nos conseils de pro pour rÃ©ussir vos sorties de flask.</p>
                 <span class="conseil-card-cta">Voir le conseil</span>
             </article>
 
-            <article class="conseil-card" data-conseil-id="conseils-apres-achat" data-category="Après achat" tabindex="0" role="button" aria-label="Consulter les conseils d'après achat">
-                <h2>Après achat</h2>
-                <p>Vous venez d'acheter vos premières Orchidées ? Découvrez nos conseils d'après achat. Nous vous conseillons de consulter les conseils de base, par la suite, pour vous familiariser avec vos Orchidées.</p>
+            <article class="conseil-card" data-conseil-id="conseils-apres-achat" data-category="AprÃ¨s achat" tabindex="0" role="button" aria-label="Consulter les conseils d'aprÃ¨s achat">
+                <h2>AprÃ¨s achat</h2>
+                <p>Vous venez d'acheter vos premiÃ¨res OrchidÃ©es ? DÃ©couvrez nos conseils d'aprÃ¨s achat. Nous vous conseillons de consulter les conseils de base, par la suite, pour vous familiariser avec vos OrchidÃ©es.</p>
                 <span class="conseil-card-cta">Voir le conseil</span>
             </article>
         </section>
 
-        <section class="advice-catalog" id="advice-catalog" aria-label="Résultats de recherche">
-            <h2 class="section-title">Fiches trouvées</h2>
+        <section class="advice-catalog" id="advice-catalog" aria-label="RÃ©sultats de recherche">
+            <h2 class="section-title">Fiches trouvÃ©es</h2>
             <div id="advice-results" class="advice-results" aria-live="polite" aria-label="Fiches de culture correspondantes"></div>
         </section>
     </main>
@@ -127,7 +128,7 @@
             <div class="conseil-care-grid" aria-label="Conseils de culture">
                 <div class="care-card">
                     <i class="fa-solid fa-thermometer-half" aria-hidden="true"></i>
-                    <span>Températures</span>
+                    <span>TempÃ©ratures</span>
                     <strong id="care-temperature"></strong>
                 </div>
                 <div class="care-card">
@@ -137,7 +138,7 @@
                 </div>
                 <div class="care-card">
                     <i class="fa-solid fa-percent" aria-hidden="true"></i>
-                    <span>Hygrométrie</span>
+                    <span>HygromÃ©trie</span>
                     <strong id="care-hygrometrie"></strong>
                 </div>
                 <div class="care-card">
@@ -160,16 +161,17 @@
     </section>
 
     <footer id="main-footer" role="contentinfo">
-        <div class="footer-links-group"><a href="mentions.html" class="footer-link">Mentions légales</a><a href="accessibilite.html" class="footer-link">Accessibilité</a></div>
+        <div class="footer-links-group"><a href="mentions.html" class="footer-link">Mentions lÃ©gales</a><a href="accessibilite.html" class="footer-link">AccessibilitÃ©</a></div>
         <div class="footer-center">
-            <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
-            <p>&copy; Mes Orchidées - Projet Fil Rouge DWWM - Jeremy Ferrier - 2026/2027</p>
+            <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes OrchidÃ©es">
+            <p>&copy; Mes OrchidÃ©es - Projet Fil Rouge DWWM - Jeremy Ferrier - 2026/2027</p>
         </div>
-        <a href="confidentialite.html" class="footer-link">Politiques de confidentialité</a>
+        <a href="confidentialite.html" class="footer-link">Politiques de confidentialitÃ©</a>
     </footer>
 
     <script type="module" src="./assets/js/app.js"></script>
 
 </body>
 </html>
+
 

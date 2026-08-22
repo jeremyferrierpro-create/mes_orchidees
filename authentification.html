@@ -1,11 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
+<!-- Page branchee sur /assets/js/data/*.json via db.js (simulation Supabase) - 100% dynamique -->
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <meta name="theme-color" content="#0e2018">
-    <meta name="description" content="Authentification à Mes Orchidées.">
+    <meta name="description" content="Authentification Ã  Mes OrchidÃ©es.">
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="./assets/images/site/logotransparent.png">
     <link rel="icon" type="image/png" href="./assets/images/site/favicon.png">
@@ -14,34 +15,34 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="./assets/css/style.css">
-    <title>Authentification - Mes Orchidées</title>
+    <title>Authentification - Mes OrchidÃ©es</title>
 </head>
 <body>
     <a class="skip-link" href="#main-content">Aller au contenu</a>
 
     <nav id="main-sidebar" class="sidebar-container" aria-label="Menu principal" role="navigation">
         <div class="sidebar-brand">
-            <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
-            <h2>Mes Orchidées</h2>
+            <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes OrchidÃ©es">
+            <h2>Mes OrchidÃ©es</h2>
         </div>
         <div class="sidebar-menu">
             <ul class="menu-group-main">
                 <li><a href="index.html"><i class="fa-solid fa-home" aria-hidden="true"></i> Accueil</a></li>
-                <li><a href="encyclopedie.html"><i class="fa-solid fa-book" aria-hidden="true"></i> Encyclopédie</a></li>
+                <li><a href="encyclopedie.html"><i class="fa-solid fa-book" aria-hidden="true"></i> EncyclopÃ©die</a></li>
                 <li><a href="macollection.html"><i class="fa-solid fa-seedling" aria-hidden="true"></i> Ma collection</a></li>
                 <li><a href="conseils.html"><i class="fa-solid fa-heart" aria-hidden="true"></i> Conseils</a></li>
             </ul>
             <ul class="menu-group-user">
                 <li><a href="administration.html"><i class="fa-solid fa-gear" aria-hidden="true"></i> Administration</a></li>
                 <li><a href="authentification.html" aria-current="page"><i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i> Authentification</a></li>
-                <li><a href="deconnexion.html"><i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i> Déconnexion</a></li>
+                <li><a href="deconnexion.html"><i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i> DÃ©connexion</a></li>
             </ul>
         </div>
     </nav>
 
     <header id="main-header" role="banner">
-        <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
-        <p class="header-tagline">Encyclopédie &amp; gestion de collections</p>
+        <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes OrchidÃ©es">
+        <p class="header-tagline">EncyclopÃ©die &amp; gestion de collections</p>
         <button type="button" class="menu-toggle" id="menu-toggle-btn" aria-label="Ouvrir ou fermer le menu" aria-controls="main-sidebar" aria-expanded="false">
             <span class="hamburger-bar"></span>
         </button>
@@ -50,7 +51,7 @@
     <main class="main-content" id="main-content">
         <section class="auth-header" aria-label="Authentification">
             <h1 class="page-title">AUTHENTIFICATION</h1>
-            <p class="page-intro">Connectez-vous pour accéder à votre collection personnelle.</p>
+            <p class="page-intro">Connectez-vous pour accÃ©der Ã  votre collection personnelle.</p>
         </section>
 
         <section class="auth-form-container" aria-label="Formulaire d'authentification">
@@ -60,7 +61,7 @@
             </div>
 
             <!-- Formulaire de Connexion : 100% local en JavaScript (pas de PHP pour l'instant) -->
-            <!-- J'ai retiré le PHP car tu n'as pas encore vu les bases de données. Tout reste dans le navigateur avec localStorage -->
+            <!-- J'ai retirÃ© le PHP car tu n'as pas encore vu les bases de donnÃ©es. Tout reste dans le navigateur avec localStorage -->
             <form id="login-form" action="#" method="GET" class="auth-form" novalidate>
                 <div class="form-group">
                     <label for="email">Adresse email</label>
@@ -107,24 +108,25 @@
             </form>
 
             <p class="auth-note">
-                Authentification locale (sans base de données).<br>
-                Tes identifiants sont gardés dans ton navigateur (localStorage).<br>
+                Authentification locale (sans base de donnÃ©es).<br>
+                Tes identifiants sont gardÃ©s dans ton navigateur (localStorage).<br>
                 Plus tard, on remplacera par PHP + Supabase.
             </p>
         </section>
     </main>
 
     <footer id="main-footer" role="contentinfo">
-        <div class="footer-links-group"><a href="mentions.html" class="footer-link">Mentions légales</a><a href="accessibilite.html" class="footer-link">Accessibilité</a></div>
+        <div class="footer-links-group"><a href="mentions.html" class="footer-link">Mentions lÃ©gales</a><a href="accessibilite.html" class="footer-link">AccessibilitÃ©</a></div>
         <div class="footer-center">
-            <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
-            <p>&copy; Mes Orchidées - Projet Fil Rouge DWWM - Jeremy Ferrier - 2026/2027</p>
+            <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes OrchidÃ©es">
+            <p>&copy; Mes OrchidÃ©es - Projet Fil Rouge DWWM - Jeremy Ferrier - 2026/2027</p>
         </div>
-        <a href="confidentialite.html" class="footer-link">Politiques de confidentialité</a>
+        <a href="confidentialite.html" class="footer-link">Politiques de confidentialitÃ©</a>
     </footer>
 
     <script type="module" src="./assets/js/app.js"></script>
 
 </body>
 </html>
+
 

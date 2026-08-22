@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
+<!-- Page branchee sur /assets/js/data/*.json via db.js (simulation Supabase) - 100% dynamique -->
 <html lang="fr">
 
 <head>
@@ -6,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <meta name="theme-color" content="#0e2018">
-    <meta name="description" content="Espace d'administration de Mes Orchidées.">
+    <meta name="description" content="Espace d'administration de Mes OrchidÃ©es.">
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="./assets/images/site/logotransparent.png">
     <link rel="icon" type="image/png" href="./assets/images/site/favicon.png">
@@ -16,7 +17,7 @@
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="./assets/css/style.css">
-    <title>Administration - Mes Orchidées</title>
+    <title>Administration - Mes OrchidÃ©es</title>
 </head>
 
 <body>
@@ -24,13 +25,13 @@
 
     <nav id="main-sidebar" class="sidebar-container" aria-label="Menu principal" role="navigation">
         <div class="sidebar-brand">
-            <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
-            <h2>Mes Orchidées</h2>
+            <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes OrchidÃ©es">
+            <h2>Mes OrchidÃ©es</h2>
         </div>
         <div class="sidebar-menu">
             <ul class="menu-group-main">
                 <li><a href="index.html"><i class="fa-solid fa-home" aria-hidden="true"></i> Accueil</a></li>
-                <li><a href="encyclopedie.html"><i class="fa-solid fa-book" aria-hidden="true"></i> Encyclopédie</a>
+                <li><a href="encyclopedie.html"><i class="fa-solid fa-book" aria-hidden="true"></i> EncyclopÃ©die</a>
                 </li>
                 <li><a href="macollection.html"><i class="fa-solid fa-seedling" aria-hidden="true"></i> Ma
                         collection</a></li>
@@ -42,14 +43,14 @@
                 <li><a href="authentification.html"><i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i>
                         Authentification</a></li>
                 <li><a href="deconnexion.html"><i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
-                        Déconnexion</a></li>
+                        DÃ©connexion</a></li>
             </ul>
         </div>
     </nav>
 
     <header id="main-header" role="banner">
-        <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
-        <p class="header-tagline">Encyclopédie &amp; gestion de collections</p>
+        <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes OrchidÃ©es">
+        <p class="header-tagline">EncyclopÃ©die &amp; gestion de collections</p>
         <button type="button" class="menu-toggle" id="menu-toggle-btn" aria-label="Ouvrir ou fermer le menu"
             aria-controls="main-sidebar" aria-expanded="false">
             <span class="hamburger-bar"></span>
@@ -58,7 +59,7 @@
 
     <main class="main-content" id="main-content">
         <section class="admin-header text-center" aria-label="Administration">
-            <!-- J'ai enlevé le style en dur, il est maintenant dans _admin.scss -->
+            <!-- J'ai enlevÃ© le style en dur, il est maintenant dans _admin.scss -->
             <h1 class="page-title">ADMINISTRATION</h1>
         </section>
 
@@ -82,37 +83,37 @@
                     <div class="admin-dash-grid">
                         <div class="dash-stat"><span>TOTAL</span><strong id="stat-plants-total">0</strong></div>
                         <div class="dash-stat"><span>PHARE</span><strong id="stat-plants-phare">-</strong></div>
-                        <div class="dash-stat"><span>DÉTENUES</span><strong id="stat-plants-owned">0</strong></div>
+                        <div class="dash-stat"><span>DÃ‰TENUES</span><strong id="stat-plants-owned">0</strong></div>
                         <div class="dash-stat"><span>LA + RARE</span><strong id="stat-plants-rare">-</strong></div>
                     </div>
                 </div>
 
-                <!-- Carte Activités -->
+                <!-- Carte ActivitÃ©s -->
                 <div class="admin-dash-card">
-                    <h3>ACTIVITÉS</h3>
+                    <h3>ACTIVITÃ‰S</h3>
                     <div class="admin-dash-grid">
                         <div class="dash-stat"><span>EN ATTENTE</span><strong id="stat-act-pending">0</strong></div>
                         <div class="dash-stat"><span>CONSEILS</span><strong id="stat-act-advices">0</strong></div>
-                        <div class="dash-stat"><span>VALIDÉE</span><strong id="stat-act-approved">0</strong></div>
-                        <div class="dash-stat"><span>REFUSÉE</span><strong id="stat-act-rejected">0</strong></div>
+                        <div class="dash-stat"><span>VALIDÃ‰E</span><strong id="stat-act-approved">0</strong></div>
+                        <div class="dash-stat"><span>REFUSÃ‰E</span><strong id="stat-act-rejected">0</strong></div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- GESTION ENCYCLOPÉDIE -->
-        <section class="admin-encyclopedia-section" aria-label="Gestion de l'Encyclopédie">
-            <h2 class="admin-section-title">GESTION DE L'ENCYCLOPÉDIE</h2>
+        <!-- GESTION ENCYCLOPÃ‰DIE -->
+        <section class="admin-encyclopedia-section" aria-label="Gestion de l'EncyclopÃ©die">
+            <h2 class="admin-section-title">GESTION DE L'ENCYCLOPÃ‰DIE</h2>
             <div class="admin-table-container">
                 <div class="admin-table-header">
                     <div class="col-nom">NOM</div>
-                    <div class="col-etat">ÉTAT</div>
+                    <div class="col-etat">Ã‰TAT</div>
                     <div class="col-origines">ORIGINES</div>
-                    <div class="col-decouverte">DÉCOUVERTE PAR</div>
+                    <div class="col-decouverte">DÃ‰COUVERTE PAR</div>
                     <div class="col-actions">ACTIONS</div>
                 </div>
                 <div class="admin-table-body" id="admin-encyclopedia-list">
-                    <!-- Les lignes seront injectées en JS -->
+                    <!-- Les lignes seront injectÃ©es en JS -->
                 </div>
             </div>
         </section>
@@ -121,14 +122,14 @@
         <section class="admin-bottom-section">
             <div class="admin-big-actions">
                 <button type="button" class="admin-big-btn btn-tan" id="btn-moderate-orchid">
-                    MODÉRER UN<br>AJOUT<br>D'ORCHIDÉE
+                    MODÃ‰RER UN<br>AJOUT<br>D'ORCHIDÃ‰E
                 </button>
                 <button type="button" class="admin-big-btn btn-green" id="btn-add-advice">
                     AJOUTER UN<br>NOUVEAU<br>CONSEIL
                 </button>
-                <!-- Bouton demandé : je le garde, il est maintenant bien intégré au design du mockup -->
+                <!-- Bouton demandÃ© : je le garde, il est maintenant bien intÃ©grÃ© au design du mockup -->
                 <button type="button" class="admin-big-btn btn-outline" id="btn-manage-users">
-                    GÉRER LES<br>UTILISATEURS
+                    GÃ‰RER LES<br>UTILISATEURS
                 </button>
             </div>
 
@@ -141,7 +142,7 @@
                         <div class="col-actions">ACTIONS</div>
                     </div>
                     <div class="admin-table-body" id="admin-notifications-list">
-                        <!-- Notifications injectées en JS -->
+                        <!-- Notifications injectÃ©es en JS -->
                     </div>
                 </div>
             </div>
@@ -160,7 +161,7 @@
                 <div class="form-row">
                     <label for="user-nom">NOM</label>
                     <input type="text" id="user-nom" class="pill-input" required>
-                    <label for="user-prenom" style="margin-left:1rem;">PRÉNOM</label>
+                    <label for="user-prenom" style="margin-left:1rem;">PRÃ‰NOM</label>
                     <input type="text" id="user-prenom" class="pill-input" required>
                 </div>
                 <div class="form-row">
@@ -168,7 +169,7 @@
                     <input type="email" id="user-email" class="pill-input full-width" required>
                 </div>
                 <div class="form-row">
-                    <label for="user-role">RÔLE</label>
+                    <label for="user-role">RÃ”LE</label>
                     <select id="user-role" class="pill-input full-width">
                         <option value="user">Utilisateur</option>
                         <option value="admin">Admin</option>
@@ -176,8 +177,8 @@
                 </div>
 
                 <div class="form-footer-dates">
-                    <span id="user-created-date">Créé le : --/--/----</span>
-                    <span id="user-modified-date">Modifié le : --/--/----</span>
+                    <span id="user-created-date">CrÃ©Ã© le : --/--/----</span>
+                    <span id="user-modified-date">ModifiÃ© le : --/--/----</span>
                 </div>
 
                 <div class="admin-modal-actions">
@@ -188,12 +189,12 @@
         </div>
     </div>
 
-    <!-- MODALE MODÉRATION ORCHIDÉE -->
+    <!-- MODALE MODÃ‰RATION ORCHIDÃ‰E -->
     <div id="modal-moderate-orchid" class="modal-overlay" role="dialog" aria-modal="true"
         aria-labelledby="modal-mod-title" aria-hidden="true">
         <div class="modal-container">
             <button type="button" class="modal-close" id="modal-mod-close"
-                aria-label="Fermer la fenêtre">&times;</button>
+                aria-label="Fermer la fenÃªtre">&times;</button>
 
             <div class="orchid-modal-view">
                 <div class="modal-header-block">
@@ -211,7 +212,7 @@
                     <div class="spec-item"><span class="spec-label">Ordre</span>
                         <div id="mod-spec-ordre" class="spec-value">...</div>
                     </div>
-                    <div class="spec-item"><span class="spec-label">Espèce</span>
+                    <div class="spec-item"><span class="spec-label">EspÃ¨ce</span>
                         <div id="mod-spec-espece" class="spec-value">...</div>
                     </div>
                     <div class="spec-item"><span class="spec-label">Genre</span>
@@ -232,7 +233,7 @@
                     <div class="spec-item"><span class="spec-label">Comportement</span>
                         <div id="mod-spec-behavior" class="spec-value">...</div>
                     </div>
-                    <div class="spec-item"><span class="spec-label">Découverte par</span>
+                    <div class="spec-item"><span class="spec-label">DÃ©couverte par</span>
                         <div id="mod-spec-discovered" class="spec-value">...</div>
                     </div>
                     <div class="spec-item spec-item--full"><span class="spec-label">Origines</span>
@@ -241,7 +242,7 @@
                 </div>
 
                 <div class="modal-description-block">
-                    <h2>Description &amp; Caractéristiques</h2>
+                    <h2>Description &amp; CaractÃ©ristiques</h2>
                     <p id="mod-orchid-long" class="modal-long-desc">...</p>
                 </div>
 
@@ -267,7 +268,7 @@
                     <input type="text" id="adv-name" class="pill-input full-width" required>
                 </div>
                 <div class="form-row">
-                    <label for="adv-cat">CATÉGORIE</label>
+                    <label for="adv-cat">CATÃ‰GORIE</label>
                     <select id="adv-cat" class="pill-input full-width" required>
                         <option value="Entretien & Soins">Entretien & Soins</option>
                         <option value="Floraison">Floraison</option>
@@ -288,12 +289,12 @@
     </div>
 
     <footer id="main-footer" role="contentinfo">
-        <div class="footer-links-group"><a href="mentions.html" class="footer-link">Mentions légales</a><a href="accessibilite.html" class="footer-link">Accessibilité</a></div>
+        <div class="footer-links-group"><a href="mentions.html" class="footer-link">Mentions lÃ©gales</a><a href="accessibilite.html" class="footer-link">AccessibilitÃ©</a></div>
         <div class="footer-center">
-            <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes Orchidées">
-            <p>&copy; Mes Orchidées - Projet Fil Rouge DWWM - Jeremy Ferrier - 2026/2027</p>
+            <img src="./assets/images/site/logotransparent.png" alt="Logo de Mes OrchidÃ©es">
+            <p>&copy; Mes OrchidÃ©es - Projet Fil Rouge DWWM - Jeremy Ferrier - 2026/2027</p>
         </div>
-        <a href="confidentialite.html" class="footer-link">Politiques de confidentialité</a>
+        <a href="confidentialite.html" class="footer-link">Politiques de confidentialitÃ©</a>
     </footer>
 
     <script type="module" src="./assets/js/app.js"></script>
@@ -301,4 +302,5 @@
 </body>
 
 </html>
+
 

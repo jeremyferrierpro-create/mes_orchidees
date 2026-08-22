@@ -6,6 +6,7 @@ import { getConseilById } from '../services/conseil-service.js';
 import * as modalManager from '../core/modal.js';
 import * as notifications from '../core/notifications.js';
 import { STORAGE_KEYS, readJson, writeJson } from '../core/storage.js';
+import { db } from '../core/db.js'; // pour les notifications (table notifications via db)
 
 // MA COLLECTION - Le tableau de bord de l'utilisateur (en français débutant)
 // ======================================================
@@ -670,14 +671,12 @@ export function initCollection() {
             saveCollection();
 
             if (isProposition) {
-                // Je crée une notification pour l'admin (j'utilise la clé centralisée)
-                const adminNotifs = readJson(STORAGE_KEYS.notifications, []) || [];
-                adminNotifs.push({
+                // Je crée une notification pour l'admin via la table notifications (comme INSERT INTO notifications)
+                db.from('notifications').insert({
                     id: Date.now(),
                     date: new Date().toLocaleDateString('fr-FR'),
                     message: "Nouvelle proposition d'orchidée : " + name
-                });
-                writeJson(STORAGE_KEYS.notifications, adminNotifs);
+                }).execute();
             }
 
             closeAddModal();
