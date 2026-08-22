@@ -3,13 +3,13 @@
 // Demain il fera fetch('https://xxx.supabase.co/rest/v1/...')
 // Comme ça, mes services n'ont pas besoin de changer : ils font toujours db.from('users').select()
 
-// J'importe les 5 tables JSON qui sont dans /assets/data/ (ce sont mes vraies tables)
-import usersSeed from '../../data/users.json' with { type: 'json' };
-import orchidsSeed from '../../data/orchids.json' with { type: 'json' };
-import conseilsSeed from '../../data/conseils.json' with { type: 'json' };
-import collectionsSeed from '../../data/collections.json' with { type: 'json' };
-import soinsSeed from '../../data/soins.json' with { type: 'json' };
-import notificationsSeed from '../../data/notifications.json' with { type: 'json' };
+// J'importe les 6 tables JSON qui sont dans /assets/js/data/ (ce sont mes vraies tables, les prémices)
+import usersSeed from '../data/users.json' with { type: 'json' };
+import orchidsSeed from '../data/orchids.json' with { type: 'json' };
+import conseilsSeed from '../data/conseils.json' with { type: 'json' };
+import collectionsSeed from '../data/collections.json' with { type: 'json' };
+import soinsSeed from '../data/soins.json' with { type: 'json' };
+import notificationsSeed from '../data/notifications.json' with { type: 'json' };
 
 // Je fais une petite liste qui dit : "table users = fichier users.json, etc."
 const SEEDS = {
@@ -32,7 +32,7 @@ function readTable(table) {
   if (raw) {
     try { return JSON.parse(raw); } catch (e) { console.error('Table cassée', table, e); return []; }
   }
-  // Si rien, je prends la table de départ dans /assets/data/ et je la range pour la prochaine fois
+  // Si rien, je prends la table de départ dans /assets/js/data/ et je la range pour la prochaine fois
   const seed = SEEDS[table] || [];
   // Je copie le tableau (pour ne pas modifier l'original)
   const copy = JSON.parse(JSON.stringify(seed));
