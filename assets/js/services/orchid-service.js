@@ -1,53 +1,56 @@
-// J'importe la vraie base d'orchidées (c'est notre faux fichier qui remplace la future base Supabase)
-import { orchidsDatabase as seedOrchids } from '../data/orchids-data.js';
-// J'importe les clés centralisées et les outils pour lire/écrire dans le navigateur
-import { STORAGE_KEYS, readJson, writeJson } from '../core/storage.js';
+// J'importe ma fausse BDD Supabase locale
+import { db } from '../core/db.js';
 
-// Je récupère toutes les orchidées (depuis le navigateur si déjà enregistrées, sinon depuis la base de départ)
+// Je veux toutes les orchidées : SELECT * FROM orchids
 export function getAllOrchids() {
-    // Je regarde dans le tiroir du navigateur qui s'appelle mo_orchids (défini dans STORAGE_KEYS)
-    let orchids = readJson(STORAGE_KEYS.orchids, null);
-    // Si le tiroir est vide, je copie la base de départ et je la range
-    if (!orchids) {
-        orchids = seedOrchids;
-        writeJson(STORAGE_KEYS.orchids, orchids);
-    }
-    return orchids;
+  // Je demande à la table orchids : donne-moi tout
+  const res = db.from('orchids').select().execute();
+  // Si erreur, je rends un tableau vide
+  if (res.error) {
+    console.error('Erreur orchids', res.error);
+    return [];
+  }
+  return res.data; // c'est le tableau des 21 orchidées
 }
 
-// Je cherche une orchidée par son id (ex: "acacalis_cyanea")
+// Je veux une orchidée par son id : SELECT * FROM orchids WHERE id = 'acacalis_cyanea'
 export function getOrchidById(id) {
-    return getAllOrchids().find(o => o.id === id);
+  // Je filtre sur id
+  const res = db.from('orchids').select().eq('id', id).single();
+  // single() me rend soit l'objet, soit une erreur si pas trouvé
+  if (res.error) return null;
+  return res.data;
 }
 
-// J'enregistre une orchidée (nouvelle ou modifiée)
+// J'enregistre une orchidée (INSERT ou UPDATE)
 export function saveOrchid(orchid) {
-    let orchids = getAllOrchids();
-    const index = orchids.findIndex(o => o.id === orchid.id);
-    if (index >= 0) {
-        orchids[index] = orchid;
-    } else {
-        if (!orchid.id) orchid.id = Date.now();
-        orchids.push(orchid);
-    }
-    writeJson(STORAGE_KEYS.orchids, orchids);
+  // Je regarde si elle existe déjà
+  const existing = db.from('orchids').select().eq('id', orchid.id).execute();
+  if (existing.data && existing.data.length > 0) {
+    // Elle existe : UPDATE
+    db.from('orchids').update(orchid).eq('id', orchid.id).execute();
+  } else {
+    // Elle n'existe pas : INSERT (je donne un id si besoin)
+    if (!orchid.id) orchid.id = 'orchid-' + Date.now();
+    db.from('orchids').insert(orchid).execute();
+  }
 }
 
-// Je supprime une orchidée
+// Je supprime une orchidée : DELETE FROM orchids WHERE id = ...
 export function deleteOrchid(id) {
-    let orchids = getAllOrchids();
-    orchids = orchids.filter(o => o.id !== id);
-    writeJson(STORAGE_KEYS.orchids, orchids);
+  db.from('orchids').delete().eq('id', id).execute();
 }
 
-// Je cherche avec un mot-clé (nom, nom courant, ou petite description)
+// Je cherche avec un mot-clé : je fais SELECT * puis je filtre en JS (comme un LIKE en SQL)
 export function searchOrchids(query) {
-    const db = getAllOrchids();
-    if (!query) return db;
-    const q = query.toLowerCase();
-    return db.filter(o => 
-        o.name.toLowerCase().includes(q) || 
-        o.vernacular.toLowerCase().includes(q) ||
-        o.shortDesc.toLowerCase().includes(q)
-    );
+  // Je prends tout d'abord
+  const all = getAllOrchids();
+  if (!query) return all; // si pas de mot, je rends tout
+  const q = query.toLowerCase(); // je mets en minuscule
+  // Je garde celles où le nom, vernaculaire ou description contient le mot
+  return all.filter(o =>
+    o.name.toLowerCase().includes(q) ||
+    o.vernacular.toLowerCase().includes(q) ||
+    o.shortDesc.toLowerCase().includes(q)
+  );
 }

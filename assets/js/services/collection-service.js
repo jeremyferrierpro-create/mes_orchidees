@@ -1,94 +1,103 @@
-// J'importe les clés et outils pour ranger dans le navigateur
-import { STORAGE_KEYS, readJson, writeJson } from '../core/storage.js';
+// J'importe ma fausse BDD Supabase locale
+import { db } from '../core/db.js';
+// Pour filtrer par utilisateur connecté (comme le futur RLS)
+import { getCurrentUser } from './auth-service.js';
 
-// Chaque plante dans la collection a un collectionId (unique pour l'exemplaire)
-// C'est différent de orchidId (l'espèce) car on peut avoir 2 fois la même espèce
+// Chaque plante dans collections a un collectionId (exemplaire) différent de orchidId (espèce)
 
-// Elle lit la collection et garantit de toujours rendre un tableau (même vide)
+// Elle lit la collection : SELECT * FROM collections (filtrée par user si connecté)
 export function getCollection() {
-    const collection = readJson(STORAGE_KEYS.userCollection, []); // je lis le tiroir, ou [] si vide
-    return Array.isArray(collection) ? collection : []; // si c'est bien un tableau je le rends, sinon []
+  // Je prends tout dans la table collections
+  const res = db.from('collections').select().execute();
+  if (res.error) {
+    console.error('Erreur collections', res.error);
+    return [];
+  }
+  let data = res.data;
+  // Si je suis connecté, je ne rends que MES plantes (comme le futur RLS Supabase)
+  const user = getCurrentUser();
+  if (user && user.id) {
+    // Je filtre où user_id === mon id (si la colonne existe)
+    const filtered = data.filter(item => !item.user_id || String(item.user_id) === String(user.id));
+    // Si au moins une a un user_id, je rends le filtré, sinon je rends tout (pour compatibilité avec anciennes données)
+    if (data.some(item => item.user_id)) {
+      return filtered;
+    }
+  }
+  // Si pas de user_id dans les données, je rends tout
+  return Array.isArray(data) ? data : [];
 }
 
-// Elle enregistre toute la collection d'un coup
+// Elle enregistre toute la collection d'un coup : je vide puis je réinsère tout (simple pour le MVP)
 export function saveCollection(collection) {
-    // Sécurité : si ce n'est pas un tableau, j'arrête
-    if (!Array.isArray(collection)) {
-        console.warn('La collection doit être un tableau.'); // j'avertis dans la console
-        return false;
-    }
-
-    return writeJson(STORAGE_KEYS.userCollection, collection); // je range
+  if (!Array.isArray(collection)) {
+    console.warn('La collection doit être un tableau.');
+    return false;
+  }
+  // Je vide la table collections
+  const existing = db.from('collections').select().execute();
+  // Je supprime tout ce qui existe
+  for (const row of existing.data) {
+    db.from('collections').delete().eq('collectionId', row.collectionId).execute();
+  }
+  // Je réinsère tout
+  for (const item of collection) {
+    db.from('collections').insert(item).execute();
+  }
+  return true;
 }
 
-// Elle ajoute une orchidée à la collection
+// Elle ajoute une orchidée : INSERT INTO collections
 export function addOrchid(orchid) {
-    const collection = getCollection(); // je récupère
-    collection.push(orchid); // j'ajoute à la fin
-    return saveCollection(collection); // je re-range
+  // J'ajoute le user_id si connecté (pour le futur RLS)
+  const user = getCurrentUser();
+  if (user && user.id && !orchid.user_id) {
+    orchid.user_id = user.id;
+  }
+  const res = db.from('collections').insert(orchid).execute();
+  return !res.error;
 }
 
-// Elle met à jour une orchidée grâce à son collectionId
+// Elle met à jour une orchidée : UPDATE collections SET ... WHERE collectionId = ...
 export function updateOrchid(collectionId, updatedData) {
-    const collection = getCollection(); // je récupère
-    const index = collection.findIndex((item) => item.collectionId === collectionId); // je cherche sa place
-
-    if (index === -1) { // si pas trouvé
-        return false;
-    }
-
-    // Je garde l'ancien + j'écrase avec les nouvelles données (ex: nouvel emplacement)
-    collection[index] = { ...collection[index], ...updatedData };
-    return saveCollection(collection); // je re-range
+  const res = db.from('collections').update(updatedData).eq('collectionId', collectionId).execute();
+  return !res.error && res.data && res.data.length > 0;
 }
 
-// Elle supprime une orchidée grâce à son collectionId
+// Elle supprime une orchidée : DELETE FROM collections WHERE collectionId = ...
 export function deleteOrchid(collectionId) {
-    const collection = getCollection(); // je récupère
-    // Je garde tout sauf celle qui a ce collectionId
-    const newCollection = collection.filter((item) => item.collectionId !== collectionId);
-
-    if (newCollection.length === collection.length) { // si rien n'a été supprimé
-        return false;
-    }
-
-    return saveCollection(newCollection); // je range la nouvelle liste
+  const before = db.from('collections').select().execute().data.length;
+  db.from('collections').delete().eq('collectionId', collectionId).execute();
+  const after = db.from('collections').select().execute().data.length;
+  return after < before;
 }
 
-// Elle rend l'historique des soins d'une plante
+// Elle rend l'historique des soins d'une plante : SELECT * FROM soins WHERE collectionId = ...
 export function getCareHistory(collectionId) {
-    const orchid = getCollection().find((item) => item.collectionId === collectionId); // je cherche la plante
-    // Si elle existe et a un careHistory qui est un tableau, je le rends, sinon []
-    return orchid && Array.isArray(orchid.careHistory) ? orchid.careHistory : [];
+  // Je cherche dans la table soins (si elle existe) ou dans collections.careHistory (ancien)
+  const res = db.from('soins').select().eq('collectionId', collectionId).execute();
+  if (!res.error && res.data && res.data.length > 0) {
+    return res.data;
+  }
+  // Fallback : ancien système où careHistory est dans collections
+  const orchid = db.from('collections').select().eq('collectionId', collectionId).single();
+  if (!orchid.error && orchid.data && Array.isArray(orchid.data.careHistory)) {
+    return orchid.data.careHistory;
+  }
+  return [];
 }
 
-// Elle ajoute un soin puis trie par date (le plus récent en premier)
+// Elle ajoute un soin : INSERT INTO soins + trie par date
 export function addCareEntry(collectionId, date, type, notes = '') {
-    const collection = getCollection(); // je récupère
-    const index = collection.findIndex((item) => item.collectionId === collectionId); // je cherche la plante
-
-    if (index === -1) { // si pas trouvée
-        return false;
-    }
-
-    // Je récupère son historique ou [] si pas encore
-    const careHistory = Array.isArray(collection[index].careHistory)
-        ? collection[index].careHistory
-        : [];
-
-    // J'ajoute le nouveau soin
-    careHistory.push({
-        id: `care-${Date.now()}`, // id unique avec l'heure
-        date, // date du soin
-        type, // type (arrosage...)
-        notes // notes
-    });
-
-    // Je trie : le plus récent d'abord
-    careHistory.sort((firstCare, secondCare) => {
-        return new Date(secondCare.date) - new Date(firstCare.date);
-    });
-
-    collection[index].careHistory = careHistory; // je remets l'historique trié
-    return saveCollection(collection); // je re-range
+  const newCare = {
+    id: `care-${Date.now()}`,
+    collectionId: collectionId,
+    date,
+    type,
+    notes
+  };
+  // J'insère dans la table soins
+  db.from('soins').insert(newCare).execute();
+  // Je trie côté lecture, pas besoin de trier ici
+  return true;
 }

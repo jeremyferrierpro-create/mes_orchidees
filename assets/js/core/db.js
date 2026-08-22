@@ -87,9 +87,9 @@ export const db = {
         _filters.push({ field, value });
         return builder;
       },
-      // Je veux un seul résultat : .single() (au lieu d'un tableau)
-      async single() {
-        const res = await builder.execute();
+      // Je veux un seul résultat : .single() (au lieu d'un tableau) - version synchrone pour le MVP local
+      single() {
+        const res = builder.execute(); // je lance sans await, c'est instantané en local
         // Si tableau avec 1 élément, je rends l'élément, sinon erreur comme Supabase
         if (res.data && Array.isArray(res.data) && res.data.length === 1) {
           return { data: res.data[0], error: null };
@@ -99,8 +99,8 @@ export const db = {
         }
         return res;
       },
-      // J'exécute vraiment la requête (c'est ce qui se passe quand tu fais await)
-      async execute() {
+      // J'exécute vraiment la requête (c'est ce qui se passe quand tu fais await) - synchrone pour l'instant
+      execute() {
         let rows = readTable(table); // je lis la table
 
         // Si c'est un SELECT, je filtre
@@ -163,9 +163,14 @@ export const db = {
 
         return { data: null, error: { message: 'Opération inconnue' } };
       },
-      // Pour que await marche direct (ex: await db.from('users').select().eq(...))
+      // Pour que await marche direct (ex: await db.from('users').select().eq(...)) - même si c'est synchrone en local
       then(onFulfilled, onRejected) {
-        return builder.execute().then(onFulfilled, onRejected);
+        try {
+          const res = builder.execute(); // j'exécute tout de suite
+          return Promise.resolve(res).then(onFulfilled, onRejected); // je rends une promesse pour que await marche
+        } catch (e) {
+          return Promise.reject(e).then(null, onRejected);
+        }
       }
     };
     return builder;

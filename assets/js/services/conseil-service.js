@@ -1,54 +1,51 @@
-// Je récupère la vraie base qui est dans conseils-data.js (c'est notre faux fichier de données)
-import { conseilsDatabase as seedConseils } from '../data/conseils-data.js';
-// J'importe les clés centralisées et les outils de stockage
-import { STORAGE_KEYS, readJson, writeJson } from '../core/storage.js';
+// J'importe ma fausse BDD Supabase locale
+import { db } from '../core/db.js';
 
-// Je récupère toutes les fiches (si elles sont déjà dans le navigateur, je les prends, sinon je prends la base de départ)
+// Je veux tous les conseils : SELECT * FROM conseils
 export function getAllConseils() {
-    // Je regarde dans le tiroir mo_conseils du navigateur
-    let conseils = readJson(STORAGE_KEYS.conseils, null);
-    // Si rien n'est enregistré, je copie la base de départ
-    if (!conseils) {
-        conseils = seedConseils;
-        writeJson(STORAGE_KEYS.conseils, conseils);
-    }
-    return conseils;
+  // Je demande à la table conseils
+  const res = db.from('conseils').select().execute();
+  if (res.error) {
+    console.error('Erreur conseils', res.error);
+    return [];
+  }
+  return res.data; // 27 fiches (6 catégories + 21 espèces)
 }
 
-// Je cherche une fiche par son id (ex: "conseils-base")
+// Je veux un conseil par son id : SELECT * FROM conseils WHERE id = 'conseils-base'
 export function getConseilById(id) {
-    return getAllConseils().find(c => c.id === id);
+  const res = db.from('conseils').select().eq('id', id).single();
+  if (res.error) return null;
+  return res.data;
 }
 
-// J'enregistre une fiche (nouvelle ou modifiée)
+// J'enregistre un conseil (INSERT ou UPDATE)
 export function saveConseil(conseil) {
-    let conseils = getAllConseils();
-    const index = conseils.findIndex(c => c.id === conseil.id);
-    if (index >= 0) {
-        conseils[index] = conseil;
-    } else {
-        if (!conseil.id) conseil.id = Date.now();
-        conseils.push(conseil);
-    }
-    writeJson(STORAGE_KEYS.conseils, conseils);
+  const existing = db.from('conseils').select().eq('id', conseil.id).execute();
+  if (existing.data && existing.data.length > 0) {
+    // UPDATE
+    db.from('conseils').update(conseil).eq('id', conseil.id).execute();
+  } else {
+    // INSERT
+    if (!conseil.id) conseil.id = 'conseils-' + Date.now();
+    db.from('conseils').insert(conseil).execute();
+  }
 }
 
-// Je supprime une fiche
+// Je supprime un conseil : DELETE FROM conseils WHERE id = ...
 export function deleteConseil(id) {
-    let conseils = getAllConseils();
-    conseils = conseils.filter(c => c.id !== id);
-    writeJson(STORAGE_KEYS.conseils, conseils);
+  db.from('conseils').delete().eq('id', id).execute();
 }
 
-// Je cherche des fiches avec un mot-clé (je cherche dans le nom, le contenu ET la catégorie)
+// Je cherche avec un mot-clé : je filtre en JS comme un LIKE
 export function searchConseils(query) {
-    const db = getAllConseils();
-    if (!query) return db;
-    // Je mets tout en minuscules pour que "Epiphyte" et "épiphyte" donnent le même résultat
-    const q = query.toLowerCase();
-    return db.filter(c => 
-        (c.name && c.name.toLowerCase().includes(q)) || 
-        (c.content && c.content.toLowerCase().includes(q)) ||
-        (c.category && c.category.toLowerCase().includes(q))
-    );
+  const all = getAllConseils();
+  if (!query) return all;
+  const q = query.toLowerCase();
+  // Je cherche dans le nom, le contenu et la catégorie
+  return all.filter(c =>
+    (c.name && c.name.toLowerCase().includes(q)) ||
+    (c.content && c.content.toLowerCase().includes(q)) ||
+    (c.category && c.category.toLowerCase().includes(q))
+  );
 }
