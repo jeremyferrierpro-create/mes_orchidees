@@ -13,6 +13,31 @@ import { readJson, STORAGE_KEYS } from '../core/storage.js';
 // Tout vient des vraies données dans /assets/js/data/
 
 export function initAdministration() {
+    // --- VERROU ADMIN : je bloque l'accès si pas admin ---
+    // Je regarde qui est connecté (ou rien si personne)
+    const currentUser = authService.getCurrentUser();
+    // Je vérifie : est-ce que la personne est bien connectée et a le rôle "admin" ?
+    if (!authService.isAuthenticated() || !currentUser || currentUser.role !== 'admin') {
+        // Je prépare un message clair pour la personne
+        const isConnected = authService.isAuthenticated();
+        const message = isConnected
+            ? "Accès refusé : ton compte (" + (currentUser ? currentUser.email : "inconnu") + ") n'a pas le rôle administrateur."
+            : "Accès refusé : tu dois te connecter avec un compte administrateur.";
+        // J'affiche une petite notification rouge en haut à droite
+        notifications.error(message);
+        // Je cache le contenu admin pour ne rien montrer (sécurité visuelle)
+        const mainContent = document.getElementById('main-content');
+        if (mainContent) {
+            mainContent.innerHTML = '<section class="admin-header text-center" style="padding:60px 20px;"><h1 class="page-title">ACCÈS REFUSÉ</h1><p style="margin-top:20px; color:#fff; font-size:1.1rem;">' + message + '</p><p style="margin-top:10px;"><a href="authentification.html" class="btn btn-primary">Se connecter</a> <a href="index.html" class="btn btn-outline" style="margin-left:10px;">Retour accueil</a></p></section>';
+        }
+        // Après 2,5 secondes je renvoie vers la page de connexion (ou accueil si déjà connecté mais pas admin)
+        setTimeout(() => {
+            window.location.href = isConnected ? 'index.html' : 'authentification.html';
+        }, 2500);
+        return; // j'arrête tout, je ne charge PAS le tableau de bord
+    }
+
+    // Si on arrive ici, c'est que c'est bien un admin : je continue normalement
     // Je récupère les vraies listes : orchidées, utilisateurs, conseils
     const orchids = getAllOrchids();
     const users = authService.checkUsersDb();
