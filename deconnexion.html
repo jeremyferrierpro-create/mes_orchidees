@@ -66,6 +66,14 @@
     </footer>
 
     <script type="module" src="./assets/js/app.js"></script>
+    <script type="module">
+        // Déconnexion propre : on vide la session locale, puis on revient à l'accueil
+        import('./assets/js/services/auth-service.js').then(mod => {
+            mod.logout();
+            // Petite pause pour que la notification de succès soit visible, puis retour à l'accueil
+            setTimeout(() => { window.location.href = 'index.html'; }, 1200);
+        });
+    </script>
 
 </body>
 </html>
