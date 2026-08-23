@@ -1,41 +1,57 @@
-// J'importe la fausse BDD qui imite Supabase (elle parle localStorage aujourd'hui, fetch demain)
+// ===========================================================================
+// FICHIER : services/auth-service.js — Authentification et session
+// ===========================================================================
+// J'ai isolé toute la logique d'authentification dans ce service pour ne pas
+// polluer mes composants visuels. Pourquoi ? Pour que mes pages n'aient qu'à
+// appeler isAuthenticated() ou getCurrentUser() sans savoir OÙ la session est
+// stockée. C'est encore une application du principe de séparation.
+
+// J'importe ma couche d'abstraction BDD : elle me permettra de passer de
+// localStorage à Supabase Auth sans toucher aux composants. Aujourd'hui elle
+// parle localStorage, demain elle fera fetch() vers Supabase.
 import { db } from '../core/db.js';
-// Je garde les clés pour la session (qui n'est pas une table, c'est juste "qui est connecté ?")
+// J'importe mes clés centralisées et mes helpers de storage pour la session.
+// Pourquoi séparer session et table users ? Parce que la session n'est pas
+// une table SQL : c'est juste "qui est connecté maintenant", stocké côté client.
 import { STORAGE_KEYS, readJson, writeJson, remove } from '../core/storage.js';
 
-// Elle dit si quelqu'un est connecté (vrai/faux) - je regarde le tiroir session
+// Je vérifie si un utilisateur est connecté en regardant si une session existe.
+// Pourquoi un simple test sur localStorage ? Parce qu'en MVP je n'ai pas de
+// token JWT à valider : la présence d'un objet session suffit à prouver la connexion.
 export function isAuthenticated() {
-  // Je regarde dans le tiroir session : s'il y a quelque chose, c'est connecté
   return readJson(STORAGE_KEYS.session) !== null;
 }
 
-// Elle dit qui est connecté (email, rôle...)
+// Je renvoie l'utilisateur actuellement connecté (email, rôle, id, timestamp).
+// Pourquoi une fonction dédiée ? Pour que mes pages puissent afficher
+// "Bonjour Jeremy" sans avoir à manipuler directement le localStorage.
 export function getCurrentUser() {
-  // Je rends ce qu'il y a dans le tiroir session
   return readJson(STORAGE_KEYS.session);
 }
 
-// Elle connecte quelqu'un (après inscription ou connexion réussie)
+// Je connecte un utilisateur après une inscription ou une connexion réussie.
+// Pourquoi j'enregistre email + rôle + id + timestamp ? Pour que le reste de
+// l'application puisse vérifier les droits (ex: accès admin) sans refaire
+// une requête BDD à chaque page.
 export function login(email, userObj) {
-  // Je range dans le tiroir session : email + infos + heure
   writeJson(STORAGE_KEYS.session, {
-    email: email, // l'adresse
-    ...userObj, // le reste (rôle, id...)
-    timestamp: Date.now() // heure actuelle
+    email: email,
+    ...userObj,
+    timestamp: Date.now()
   });
 }
 
-// Elle déconnecte
+// Je déconnecte l'utilisateur en supprimant simplement la clé de session.
+// Pourquoi c'est suffisant ? Parce que toute mon application se base sur
+// isAuthenticated() : sans session, elle considère l'utilisateur comme invité.
 export function logout() {
-  // Je vide le tiroir session
   remove(STORAGE_KEYS.session);
 }
 
-// Elle récupère la liste de tous les utilisateurs (depuis la table users via db)
+// Je récupère la liste de tous les utilisateurs depuis la table "users" via db.
+// En SQL, ce serait "SELECT * FROM users". C'est utile pour l'administration.
 export function checkUsersDb() {
-  // Je fais comme Supabase : SELECT * FROM users
   const res = db.from('users').select().execute();
-  // res.data est le tableau, res.error est l'erreur si ça rate
   if (res.error) {
     console.error('Erreur lecture users', res.error);
     return [];
@@ -43,21 +59,19 @@ export function checkUsersDb() {
   return res.data;
 }
 
-// Elle enregistre un utilisateur (nouveau ou modifié) via db
+// J'enregistre un utilisateur : je choisis entre INSERT et UPDATE selon que
+// l'email existe déjà. Pourquoi ce test ? Pour gérer à la fois la création
+// de compte et la modification de profil avec la même fonction.
 export function saveUser(userObj) {
-  // Je cherche d'abord si cet email existe déjà
   const existing = db.from('users').select().eq('email', userObj.email).execute();
   if (existing.data && existing.data.length > 0) {
-    // Il existe : je fais UPDATE users SET ... WHERE email = ...
     db.from('users').update(userObj).eq('email', userObj.email).execute();
   } else {
-    // Il n'existe pas : je fais INSERT INTO users
     db.from('users').insert(userObj).execute();
   }
 }
 
-// Elle supprime un utilisateur par son email via db
+// Je supprime un utilisateur par son email, comme un "DELETE FROM users WHERE email = ...".
 export function deleteUser(email) {
-  // Je fais DELETE FROM users WHERE email = ...
   db.from('users').delete().eq('email', email).execute();
 }

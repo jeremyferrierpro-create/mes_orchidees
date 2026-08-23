@@ -1,79 +1,97 @@
-// J'importe les outils
-import { getElement } from '../core/dom.js'; // pour chercher un élément
-import * as authService from '../services/auth-service.js'; // pour savoir si connecté
-import * as collectionService from '../services/collection-service.js'; // pour ajouter à la collection
-import { getAllOrchids } from '../services/orchid-service.js'; // pour trouver l'orchidée
-import * as notifications from '../core/notifications.js'; // pour les petits messages
-import { STORAGE_KEYS, writeString } from '../core/storage.js'; // pour la clé pending
+// ===========================================================================
+// FICHIER : features/add-button.js — Bouton "+ COLLECTION" de la modale
+// ===========================================================================
+// J'ai isolé ce bouton dans son propre module pour deux raisons : d'abord pour
+// vérifier l'authentification avant tout ajout, ensuite pour gérer le cas du
+// "pendingOrchid" (orchidée en attente quand l'utilisateur n'est pas connecté).
+// C'est un excellent exemple de parcours utilisateur complet à expliquer au jury.
 
-// Elle fait marcher le bouton "+ COLLECTION" dans la modale d'orchidée
+import { getElement } from '../core/dom.js';
+import * as authService from '../services/auth-service.js';
+import * as collectionService from '../services/collection-service.js';
+import { getAllOrchids } from '../services/orchid-service.js';
+import * as notifications from '../core/notifications.js';
+import { STORAGE_KEYS, writeString } from '../core/storage.js';
+
+// J'initialise le bouton d'ajout présent dans la modale d'orchidée.
 export function initAddButton() {
-    const modalTitle = getElement('#modal-orchid-title'); // je récupère le titre dans la modale (ex: "ACACALIS CYANEA")
-    const modal = getElement('#orchid-modal'); // je récupère la modale elle-même
-    const addButton = getElement('.btn-add-collection'); // je récupère le bouton +
+    // Je récupère le titre affiché dans la modale : c'est ma source de vérité
+    // pour savoir quelle orchidée l'utilisateur veut ajouter.
+    const modalTitle = getElement('#modal-orchid-title');
+    const modal = getElement('#orchid-modal');
+    const addButton = getElement('.btn-add-collection');
 
-    if (!addButton) return; // si pas de bouton (page sans modale), j'arrête
+    if (!addButton) return;
 
-    // Elle cache/montr le bouton selon si on est connecté
+    // Je masque ou j'affiche le bouton selon que l'utilisateur est connecté.
+    // Pourquoi ? Pour ne pas proposer une action impossible à un invité et pour
+    // respecter le principe de moindre surprise.
     function updateCollectionButtonVisibility() {
-        addButton.hidden = !authService.isAuthenticated(); // caché si pas connecté, visible si connecté
+        addButton.hidden = !authService.isAuthenticated();
     }
 
-    // Quand la modale s'ouvre, je vérifie si on doit montrer le bouton
+    // J'écoute l'événement custom 'orchidModalOpened' tiré depuis search.js.
+    // Pourquoi un événement custom ? Pour découpler les modules : search.js n'a
+    // pas besoin de connaître add-button.js, il se contente d'annoncer l'ouverture.
     if (modal) {
         modal.addEventListener('orchidModalOpened', updateCollectionButtonVisibility);
     }
-    updateCollectionButtonVisibility(); // je vérifie aussi au démarrage
+    updateCollectionButtonVisibility();
 
-    // Elle ajoute vraiment l'orchidée à la collection
+    // J'ajoute réellement l'orchidée à la collection personnelle.
     function ajouterAMaCollection(orchidName) {
-        if (!orchidName || orchidName === '...') return; // si pas de nom, j'arrête
+        if (!orchidName || orchidName === '...') return;
 
-        // Si pas connecté, je propose de se connecter
+        // Si l'utilisateur n'est pas connecté, je ne l'ajoute pas brutalement.
+        // Je lui propose de se connecter et je mémorise son intention via
+        // pendingOrchid : après connexion, je pourrai le rediriger et finaliser l'ajout.
         if (!authService.isAuthenticated()) {
-            const choix = confirm( // petite fenêtre oui/non du navigateur
+            const choix = confirm(
                 'Vous devez être connecté pour ajouter une orchidée à votre collection.\n\n' +
                 'Souhaitez-vous vous connecter ou créer un compte dès maintenant ?'
             );
-            if (choix) { // si oui
-                writeString(STORAGE_KEYS.pendingOrchid, orchidName); // je note quelle orchidée il voulait
-                window.location.href = 'authentification.html'; // je l'envoie se connecter
+            if (choix) {
+                writeString(STORAGE_KEYS.pendingOrchid, orchidName);
+                window.location.href = 'authentification.html';
             }
-            return; // j'arrête
+            return;
         }
 
-        // Je cherche l'orchidée par son nom (sans tenir compte de la casse)
+        // Je retrouve l'objet orchidée complet à partir de son nom affiché.
+        // Pourquoi une recherche par nom ? Parce que la modale ne stocke que le
+        // texte, pas l'id. Je normalise en minuscules pour éviter les erreurs de casse.
         const orchid = getAllOrchids().find(o => o.name.toLowerCase() === orchidName.toLowerCase());
 
-        if (!orchid) { // si pas trouvée (ne devrait pas arriver)
+        if (!orchid) {
             notifications.error('Impossible d\'ajouter cette orchidée : elle n\'est pas référencée.');
             return;
         }
 
-        const maCollection = collectionService.getCollection(); // je récupère la collection
-        const dejaPresente = maCollection.some(item => item.orchidId === orchid.id); // est-elle déjà dedans ?
+        const maCollection = collectionService.getCollection();
+        const dejaPresente = maCollection.some(item => item.orchidId === orchid.id);
 
-        if (dejaPresente) { // si oui
+        if (dejaPresente) {
             notifications.warning('L\'orchidée "' + orchid.name + '" est déjà présente dans votre collection.');
             return;
         }
 
-        // J'ajoute (id unique avec l'heure + id de l'espèce)
+        // J'ajoute l'orchidée avec un collectionId unique basé sur le timestamp
+        // pour distinguer deux exemplaires de la même espèce.
         collectionService.addOrchid({
-            collectionId: 'col-' + Date.now(), // id unique pour l'exemplaire
-            orchidId: orchid.id, // id de l'espèce
-            addedAt: new Date().toISOString(), // date d'ajout
-            location: '', // vide pour l'instant
-            notes: '', // vide
-            careHistory: [] // pas encore de soins
+            collectionId: 'col-' + Date.now(),
+            orchidId: orchid.id,
+            addedAt: new Date().toISOString(),
+            location: '',
+            notes: '',
+            careHistory: []
         });
         
-        notifications.success('L\'orchidée "' + orchid.name + '" a été ajoutée à votre collection.'); // message vert
+        notifications.success('L\'orchidée "' + orchid.name + '" a été ajoutée à votre collection.');
     }
 
-    // Quand on clique sur le bouton +, j'appelle la fonction avec le nom affiché dans la modale
+    // Au clic sur le bouton "+", je lis le titre actuel de la modale et je lance l'ajout.
     addButton.addEventListener('click', function () {
-        const orchidName = modalTitle ? modalTitle.textContent.trim() : null; // je lis le titre
+        const orchidName = modalTitle ? modalTitle.textContent.trim() : null;
         if (orchidName) {
             ajouterAMaCollection(orchidName);
         }

@@ -7,13 +7,13 @@
     align-items: center;
     justify-content: space-between;
     padding: 6px;
-    border-radius: 50px; // Forme pilule parfaite pour la barre
+    border-radius: 50px; // Forme pilule pour la barre
     width: 100%;
     
     // On applique notre mixin de verre
     @include glass-effect; 
-    // TRUC DE PRO : On ajoute un tout petit fond blanc hyper transparent (8%) 
-    // en plus du mixin pour forcer le verre à être visible sur ton fond ultra sombre
+    // On ajoute un tout petit fond blanc hyper transparent (8%) 
+    // en plus du mixin pour forcer le verre à être visible sur le fond sombre
     background-color: rgba(255, 255, 255, 0.05); 
 
     // Le champ texte d'entrée
@@ -49,7 +49,7 @@
         color: $clr-bg; 
         border: none;
         padding: 15px 30px;
-        border-radius: 50px; // CORRECTION : Bords parfaitement arrondis style pilule !
+        border-radius: 50px; //  Bords arrondis style pilule !
         font-family: $font-titles; // Cinzel
         font-size: 14px;
         font-weight: bold;

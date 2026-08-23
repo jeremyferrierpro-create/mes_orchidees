@@ -1,5 +1,5 @@
 // ==========================================================================
-// COMPOSANT : FENÊTRES MODALES (FICHE TECHNIQUE UNIFORME - REPRODUCTION STRICTE)
+// COMPOSANT : FENÊTRES MODALES (FICHE TECHNIQUE UNIFORME )
 // ==========================================================================
 
 // Le calque d'arrière-plan qui assombrit le site
@@ -23,11 +23,11 @@
     }
 }
 
-// La grande boîte de la fiche plante (Copie conforme image_2b1bff.png)
+// La grande boîte de la fiche plante 
 .modal-container {
     width: min(92%, 700px);
     max-height: 88vh;
-    overflow-y: auto; // Permet le défilement si l'écran est petit (iPhone en paysage ou SE)
+    overflow-y: auto; // Permet le défilement si l'écran est petit
     padding: clamp(15px, 3vw, 30px);
     
     @include respond-to('xs') {
@@ -36,7 +36,7 @@
     }
     @include respond-to('micro') {
         width: 100%;
-        border-radius: 0; // Prend tout l'écran
+        border-radius: 0; // Prend tout l'écran avec des bordures arrondies
     }
     border-radius: 8px;
     position: relative;
@@ -139,7 +139,7 @@
         }
     }
 
-    // La grille des caractéristiques (3 colonnes de blocs grisés arrondis)
+    // La grille des caractéristiques
     .modal-specs-grid {
         display: grid;
         // 3 colonnes sur PC/iPad Pro, 2 colonnes sur tablette, 1 colonne sur iPhone SE

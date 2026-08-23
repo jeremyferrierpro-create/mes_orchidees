@@ -1,34 +1,58 @@
-// Ce fichier empêche que la touche Tab sorte de la petite fenêtre (modale)
-// Quand une modale est ouverte, on doit rester piégé dedans pour les personnes qui naviguent au clavier
+// ===========================================================================
+// FICHIER : core/focus.js — Mécanisme de Focus Trap (piégeage de focus)
+// ===========================================================================
+// J'ai créé ce module pour répondre à une exigence d'accessibilité fondamentale
+// du RGAA (critères 7.1 et 12.9) : quand une modale est ouverte, l'utilisateur
+// qui navigue au clavier ou avec un lecteur d'écran ne doit JAMAIS pouvoir
+// tabuler vers l'arrière-plan. Sans ce piégeage, il se perdrait derrière la
+// modale, ce qui est très désorientant pour une personne non-voyante.
 
+// J'exporte une seule fonction trapFocus qui sera appelée à chaque pression de Tab
+// depuis le gestionnaire modal.js. Pourquoi une fonction séparée ? Pour isoler
+// cette logique complexe et la tester indépendamment.
 export function trapFocus(modal, event) {
-    // Je liste tous les éléments où on peut cliquer/taper : liens, boutons, champs, etc.
+    // Je définis le sélecteur CSS qui cible TOUS les éléments focalisables par
+    // le clavier : liens, boutons non désactivés, champs de formulaire, éléments
+    // avec tabindex="0" ou contenteditable. C'est la liste officielle WAI-ARIA.
     const focusableElementsString = 'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex="0"], [contenteditable]';
-    let focusableElements = modal.querySelectorAll(focusableElementsString); // je les cherche dans la modale
+    let focusableElements = modal.querySelectorAll(focusableElementsString);
     
-    // Je ne garde que ceux qui sont vraiment visibles (pas cachés)
+    // Je filtre pour ne garder que les éléments réellement visibles à l'écran.
+    // Pourquoi ce filtre ? Parce que certains éléments peuvent être présents dans
+    // le DOM mais cachés via display:none. Ils ne doivent pas être comptés.
+    // J'autorise aussi document.activeElement même s'il est temporairement invisible.
     focusableElements = Array.from(focusableElements).filter(el => {
         return el.offsetWidth > 0 || el.offsetHeight > 0 || el === document.activeElement;
     });
 
-    // Si rien n'est cliquable, j'arrête
+    // Si la modale ne contient aucun élément focalisable, je n'ai rien à piéger.
     if (focusableElements.length === 0) return;
 
-    // Je note le premier et le dernier élément cliquable
-    const firstTabStop = focusableElements[0]; // le premier
-    const lastTabStop = focusableElements[focusableElements.length - 1]; // le dernier
+    // J'identifie le premier et le dernier élément focalisable de la modale.
+    // Ce sont mes deux bornes : c'est entre elles que le focus doit reboucler.
+    // Pourquoi c'est important ? Parce que le piège consiste à faire un cercle.
+    const firstTabStop = focusableElements[0];
+    const lastTabStop = focusableElements[focusableElements.length - 1];
 
-    // Si on fait Shift+Tab (reculer) et qu'on est sur le premier, je saute au dernier
+    // Cas 1 : l'utilisateur fait Shift + Tab (navigation à reculons) et il est
+    // déjà sur le PREMIER élément. S'il continue, il sortirait de la modale.
+    // J'intercepte donc l'événement, j'annule son comportement par défaut avec
+    // preventDefault(), et je téléporte le focus sur le DERNIER élément. Ainsi,
+    // la navigation reboucle en arrière.
     if (event.shiftKey) {
         if (document.activeElement === firstTabStop) {
-            event.preventDefault(); // j'empêche de sortir
-            lastTabStop.focus(); // je vais au dernier
+            event.preventDefault();
+            lastTabStop.focus();
         }
     } else {
-        // Si on fait Tab (avancer) et qu'on est sur le dernier, je reviens au premier
+        // Cas 2 : l'utilisateur fait Tab (navigation en avant) et il est sur le
+        // DERNIER élément. Même logique : j'empêche la sortie et je renvoie au
+        // PREMIER élément. La boucle est bouclée, l'utilisateur reste piégé
+        // de manière bienveillante à l'intérieur de la modale jusqu'à ce qu'il
+        // appuie sur Échap.
         if (document.activeElement === lastTabStop) {
-            event.preventDefault(); // j'empêche de sortir
-            firstTabStop.focus(); // je reviens au premier
+            event.preventDefault();
+            firstTabStop.focus();
         }
     }
 }

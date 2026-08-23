@@ -8,15 +8,21 @@ import * as notifications from '../core/notifications.js';
 import { STORAGE_KEYS, readJson, writeJson } from '../core/storage.js';
 import { db } from '../core/db.js'; // pour les notifications (table notifications via db)
 
-// MA COLLECTION - Le tableau de bord de l'utilisateur (en français débutant)
-// ======================================================
-// Ce fichier fait TOUT pour la page macollection.html :
-// 1. Il lit la collection dans le navigateur (localStorage)
-// 2. Il calcule les chiffres du haut (Total, Épiphytes, Terrestres, Hémi - et Climat)
-// 3. Il affiche la grille de vignettes + le tableau des soins + l'aperçu conseil
-// 4. Il gère les 3 petites fenêtres : voir/éditer une plante, ajouter une plante, ajouter un soin
-// Chaque ligne est commentée pour que tu puisses l'expliquer à l'oral mot à mot
-// Plus tard, tous les readJson/writeJson seront remplacés par fetch() vers PHP/Supabase
+// ===========================================================================
+// FICHIER : features/collection.js — Tableau de bord personnel "Ma Collection"
+// ===========================================================================
+// J'ai conçu ce module comme le cœur de l'expérience utilisateur connectée.
+// Pourquoi un seul fichier pour toute la page ? Parce que "Ma Collection" est
+// un véritable dashboard qui agrège 4 responsabilités que j'ai voulu garder
+// cohérentes : 1) la lecture de la collection via collection-service (qui
+// lui-même passe par ma couche db.js), 2) le calcul des statistiques du haut
+// (Total, Épiphytes, Terrestres, Hémiépiphytes + Climat), 3) le rendu de la
+// grille de vignettes, du tableau des soins et de l'aperçu conseil, 4) la
+// gestion des 3 modales (voir/éditer une plante, ajouter une plante, ajouter un soin).
+// J'ai volontairement commenté chaque bloc en première personne pour pouvoir le
+// pitcher à l'oral sans jargon. Aujourd'hui je persiste en localStorage, mais
+// j'ai déjà prévu que chaque readJson/writeJson deviendra un fetch() vers mon
+// API Supabase sans toucher à la logique d'affichage, grâce à ma couche db.js.
 
 export function initCollection() {
     const orchidsDatabase = getAllOrchids();

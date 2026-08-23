@@ -2,34 +2,40 @@ import * as authService from '../services/auth-service.js';
 import * as notifications from '../core/notifications.js';
 import { STORAGE_KEYS, readString, remove, writeJson } from '../core/storage.js';
 
-// =====================================================
-// AUTHENTIFICATION 100% LOCALE (sans PHP, sans base de données)
-// =====================================================
-// Ce fichier gère les 2 formulaires de la page authentification.html
-// Tout est gardé dans le navigateur avec localStorage
-// Plus tard on remplacera par PHP + Supabase
+// ===========================================================================
+// FICHIER : features/authentication.js — Double formulaire connexion/inscription
+// ===========================================================================
+// J'ai conçu ce module comme une authentification 100% locale le temps du MVP.
+// Pourquoi locale ? Parce que je n'ai pas encore de back-end PHP/Supabase, mais
+// je voulais déjà valider le parcours utilisateur complet. Toute la logique
+// est donc stockée dans le localStorage via auth-service.js et sera remplacée
+// par des appels fetch() en Phase 3 sans toucher à l'interface.
 
 export function initAuthentication() {
-    // Je récupère les 2 boutons qui permettent de basculer entre Connexion / Inscription
+    // Je récupère les deux boutons qui permettent de basculer entre les vues.
+    // Pourquoi deux boutons et non deux pages ? Pour garder l'utilisateur sur la
+    // même URL et offrir une transition fluide, conforme aux attentes UX modernes.
     const btnLogin = document.getElementById('btn-show-login');
     const btnRegister = document.getElementById('btn-show-register');
-    // Je récupère les 2 formulaires
     const loginForm = document.getElementById('login-form');
     const registerForm = document.getElementById('register-form');
-    // Je récupère les petites zones de messages sous chaque formulaire (pour afficher erreur ou succès)
+    // Ces deux zones m'affichent les messages d'erreur/succès sous chaque formulaire.
+    // J'utilise textContent pour éviter le XSS, comme expliqué dans search.js.
     const loginMessage = document.getElementById('login-message');
     const registerMessage = document.getElementById('register-message');
 
-    // Si je ne suis pas sur la page authentification, j'arrête tout
+    // Si je ne suis pas sur la page authentification (ex: accueil), je sors proprement.
+    // C'est une garde-fou indispensable car ce module est chargé globalement via app.js.
     if (!btnLogin || !btnRegister || !loginForm || !registerForm) return;
 
-    // Fonction pour afficher le formulaire de connexion
+    // J'affiche le formulaire de connexion et je masque celui d'inscription.
+    // Pourquoi j'utilise l'attribut hidden et aria-pressed ? Pour l'accessibilité :
+    // hidden retire sémantiquement le formulaire du flux, et aria-pressed="true"
+    // indique aux lecteurs d'écran quel onglet est actif (critère RGAA 7.1).
     const showLogin = () => {
-        // J'affiche le formulaire de connexion et je cache celui d'inscription
         loginForm.removeAttribute('hidden');
         registerForm.setAttribute('hidden', 'true');
 
-        // Je change la couleur des boutons pour montrer lequel est actif
         btnLogin.classList.replace('btn-outline', 'btn-primary');
         btnLogin.setAttribute('aria-pressed', 'true');
 
@@ -37,13 +43,12 @@ export function initAuthentication() {
         btnRegister.setAttribute('aria-pressed', 'false');
     };
 
-    // Fonction pour afficher le formulaire d'inscription
+    // Même logique inversée pour l'inscription. J'ai factorisé pour ne pas dupliquer
+    // le code de bascule d'état visuel et sémantique.
     const showRegister = () => {
-        // J'affiche l'inscription et je cache la connexion
         registerForm.removeAttribute('hidden');
         loginForm.setAttribute('hidden', 'true');
 
-        // Je change la couleur des boutons
         btnRegister.classList.replace('btn-outline', 'btn-primary');
         btnRegister.setAttribute('aria-pressed', 'true');
 
@@ -51,64 +56,72 @@ export function initAuthentication() {
         btnLogin.setAttribute('aria-pressed', 'false');
     };
 
-    // Quand on clique sur les boutons, j'appelle la bonne fonction
     btnLogin.addEventListener('click', showLogin);
     btnRegister.addEventListener('click', showRegister);
 
-    // --- Formulaire d'inscription ---
+    // Je gère la soumission du formulaire d'inscription. Pourquoi un addEventListener
+    // sur 'submit' et non sur le bouton ? Pour intercepter aussi l'envoi via la
+    // touche Entrée, garantissant une accessibilité clavier complète.
     registerForm.addEventListener('submit', function (event) {
-        // J'empêche le navigateur de recharger la page ou d'aller vers un fichier PHP
+        // J'empêche le rechargement natif du navigateur. Sans preventDefault(), la
+        // page se rechargerait et je perdrais l'état de ma validation JS.
         event.preventDefault();
 
-        // Je récupère ce que l'utilisateur a tapé
         const email = document.getElementById('reg-email').value.trim();
         const password = document.getElementById('reg-password').value;
         const passwordConfirm = document.getElementById('reg-password-confirm').value;
-        const errors = []; // Je prépare une liste d'erreurs vide
+        const errors = [];
 
-        // Je vérifie chaque règle une par une (en français simple)
+        // Je valide chaque règle métier une par une. Pourquoi en français et avec
+        // des messages explicites ? Pour que l'utilisateur comprenne immédiatement
+        // ce qu'il doit corriger, critère d'accessibilité et d'UX.
         if (!email || !email.includes('@')) errors.push('Email invalide.');
         if (password.length < 8) errors.push('Le mot de passe doit contenir au moins 8 caractères.');
         if (password !== passwordConfirm) errors.push('Les mots de passe ne correspondent pas.');
 
-        // Je regarde si cet email existe déjà dans la fausse base de données
+        // Je vérifie l'unicité de l'email dans ma fausse table users via le service.
+        // C'est l'équivalent d'un SELECT WHERE email = ... avant un INSERT.
         const currentDb = authService.checkUsersDb();
         if (currentDb.find(function(u) { return u.email === email; })) {
             errors.push('Cette adresse email est déjà utilisée.');
         }
 
-        // S'il y a des erreurs, je les affiche et je m'arrête
+        // Si des erreurs existent, je les affiche à deux endroits : dans la zone
+        // dédiée du formulaire (textContent sécurisé) et en toast d'alerte.
         if (errors.length > 0) {
             const errorMsg = errors.join(' ');
             if (registerMessage) registerMessage.textContent = errorMsg;
             if (registerMessage) registerMessage.className = 'auth-message error';
             notifications.error(errorMsg);
         } else {
-            // Sinon je crée une vraie fiche utilisateur complète (comme dans /data/users-data.js)
-            // Je mets un nom/prénom par défaut à partir de l'email, et la date d'aujourd'hui
+            // Je crée une fiche utilisateur complète. Pourquoi générer nom/prénom
+            // à partir de l'email ? Pour fournir une valeur par défaut même si
+            // l'utilisateur ne remplit que l'email, tout en restant personnalisé.
             const now = new Date().toLocaleDateString('fr-FR');
             const prefix = email.split('@')[0];
             const parts = prefix.split(/[._-]/);
             const newUser = {
-                id: Date.now(), // id unique avec l'heure
-                nom: (parts[0] || "Utilisateur").charAt(0).toUpperCase() + (parts[0] || "Utilisateur").slice(1), // premier morceau de l'email
-                prenom: (parts[1] || "Nouveau").charAt(0).toUpperCase() + (parts[1] || "Nouveau").slice(1), // deuxième morceau ou Nouveau
+                id: Date.now(),
+                nom: (parts[0] || "Utilisateur").charAt(0).toUpperCase() + (parts[0] || "Utilisateur").slice(1),
+                prenom: (parts[1] || "Nouveau").charAt(0).toUpperCase() + (parts[1] || "Nouveau").slice(1),
                 email: email,
                 password: password,
                 role: 'user',
                 created: now,
                 modified: now
             };
-            // J'enregistre via le service (qui écrit dans STORAGE_KEYS.users = /data/users-data.js en local)
+            // J'enregistre via le service qui fait un INSERT dans db.from('users').
             authService.saveUser(newUser);
             const successMsg = 'Inscription réussie ! Connexion en cours...';
             if (registerMessage) registerMessage.textContent = successMsg;
             if (registerMessage) registerMessage.className = 'auth-message success';
             notifications.success(successMsg);
             
-            // Je connecte directement l'utilisateur (je crée une session avec son rôle)
+            // Je connecte directement l'utilisateur après inscription : c'est une
+            // bonne UX qui évite de lui redemander ses identifiants.
             authService.login(newUser.email, { role: newUser.role, id: newUser.id });
-            // S'il voulait ajouter une orchidée avant de se connecter, je le renvoie à l'encyclopédie
+            // Si l'utilisateur voulait ajouter une orchidée avant de s'inscrire,
+            // je le redirige vers l'encyclopédie pour finaliser son intention.
             const pending = readString(STORAGE_KEYS.pendingOrchid);
             if (pending) {
                 remove(STORAGE_KEYS.pendingOrchid);
@@ -120,42 +133,39 @@ export function initAuthentication() {
         }
     });
 
-    // --- Formulaire de connexion ---
+    // Je gère la connexion. La logique est volontairement miroir de l'inscription
+    // pour rester cohérente et prévisible.
     loginForm.addEventListener('submit', function (event) {
-        // J'empêche le navigateur d'aller vers un fichier PHP
         event.preventDefault();
 
-        // Je récupère email et mot de passe tapés
         const email = document.getElementById('email').value.trim();
         const password = document.getElementById('password').value;
         const errors = [];
 
-        // Vérification simple : les champs ne doivent pas être vides
         if (!email || !password) errors.push('Veuillez remplir tous les champs.');
 
-        // Je cherche l'utilisateur dans la fausse base
+        // Je cherche l'utilisateur avec une correspondance exacte email + password.
+        // En production, ce sera un appel Supabase Auth avec hachage, mais ici je
+        // simule en clair pour le MVP.
         const currentDb = authService.checkUsersDb();
         const user = currentDb.find(function(u) { return u.email === email && u.password === password; });
 
-        // Si je ne le trouve pas, c'est que les identifiants sont faux
         if (!user) {
             errors.push('Identifiants incorrects.');
         }
 
-        // J'affiche les erreurs s'il y en a
         if (errors.length > 0) {
             const errorMsg = errors.join(' ');
             if (loginMessage) loginMessage.textContent = errorMsg;
             if (loginMessage) loginMessage.className = 'auth-message error';
             notifications.error(errorMsg);
         } else {
-            // Sinon connexion réussie
             const successMsg = 'Connexion réussie !';
             if (loginMessage) loginMessage.textContent = successMsg;
             if (loginMessage) loginMessage.className = 'auth-message success';
             notifications.success(successMsg);
             
-            // Je crée la session (je dis au site : "cette personne est connectée")
+            // Je crée la session côté client : désormais isAuthenticated() renverra true.
             authService.login(user.email, { role: user.role });
             const pending = readString(STORAGE_KEYS.pendingOrchid);
             if (pending) {

@@ -1,38 +1,53 @@
-// J'importe l'outil qui vide/remplit vite
+// ===========================================================================
+// FICHIER : core/loader.js — Gestion des états de chargement (UX + Accessibilité)
+// ===========================================================================
+// J'ai créé ce module pour gérer les deux types de chargement que j'utilise :
+// le voile plein écran (global) et le petit spinner inline. Pourquoi ? Pour
+// donner un feedback visuel immédiat à l'utilisateur et respecter l'accessibilité
+// (aria-live, role="dialog") pendant que les données se chargent.
+
+// J'importe mon helper de manipulation DOM pour vider proprement les conteneurs.
 import { replaceChildren } from './dom.js';
 
-// Je garde en mémoire quels chargements sont affichés
+// Je garde en mémoire l'état des loaders actifs pour éviter d'en ouvrir deux
+// superposés. C'est une précaution contre les doubles appels intempestifs.
 const activeLoaders = {
-    overlay: null, // le gros voile sur toute la page
-    inline: new Map() // les petits chargements dans une zone précise
+    overlay: null,
+    inline: new Map()
 };
 
-// Je crée le petit rond qui tourne (spinner) + son texte
+// Je fabrique le DOM du spinner + son texte. Pourquoi une fonction dédiée ?
+// Pour uniformiser le style de tous les chargements et garantir l'accessibilité.
 function createSpinnerDOM(text = '', isSmall = false) {
-    const group = document.createElement('div'); // le conteneur du tout
-    group.className = 'loader-group'; // classe pour le style
+    const group = document.createElement('div');
+    group.className = 'loader-group';
 
-    const spinner = document.createElement('div'); // le rond qui tourne
-    spinner.className = 'loader-spinner'; // classe pour l'animation
-    if (isSmall) { // si on veut un petit rond
-        spinner.classList.add('loader-spinner--sm'); // j'ajoute la classe petite taille
+    const spinner = document.createElement('div');
+    spinner.className = 'loader-spinner';
+    if (isSmall) {
+        spinner.classList.add('loader-spinner--sm');
     }
-    group.appendChild(spinner); // je mets le rond dans le groupe
+    group.appendChild(spinner);
 
-    if (text) { // si on a donné un texte (ex: "Chargement...")
-        const textEl = document.createElement('div'); // je crée la zone de texte
-        textEl.className = 'loader-text'; // classe pour le style
-        textEl.setAttribute('aria-live', 'polite'); // pour les lecteurs d'écran
-        textEl.textContent = text; // je mets le texte
-        group.appendChild(textEl); // je l'ajoute sous le rond
+    if (text) {
+        const textEl = document.createElement('div');
+        textEl.className = 'loader-text';
+        // J'ajoute aria-live="polite" pour que les lecteurs d'écran annoncent
+        // le changement de texte sans interrompre brutalement l'utilisateur.
+        textEl.setAttribute('aria-live', 'polite');
+        textEl.textContent = text;
+        group.appendChild(textEl);
     }
 
-    return group; // je rends le groupe complet
+    return group;
 }
 
-// Je montre le GROS chargement qui bloque toute la page
+// J'affiche le voile global qui bloque toute interaction. Pourquoi bloquer ?
+// Pour éviter que l'utilisateur ne clique ailleurs pendant qu'une opération
+// critique (ex: suppression) est en cours, ce qui pourrait corrompre l'état.
 export function showGlobalLoader(text = 'Chargement...') {
-    // Si déjà affiché, je mets juste à jour le texte
+    // Si un loader global est déjà visible, je mets simplement à jour son texte
+    // au lieu d'en créer un second. C'est plus propre.
     if (activeLoaders.overlay) {
         const textEl = activeLoaders.overlay.querySelector('.loader-text');
         if (textEl && text) {
@@ -41,78 +56,86 @@ export function showGlobalLoader(text = 'Chargement...') {
         return;
     }
 
-    const overlay = document.createElement('div'); // je crée le voile gris
-    overlay.className = 'loader-overlay'; // classe pour le style plein écran
-    overlay.id = 'global-loader'; // id unique
-    overlay.setAttribute('role', 'dialog'); // pour accessibilité
-    overlay.setAttribute('aria-modal', 'true'); // dit que c'est bloquant
-    overlay.setAttribute('aria-label', 'Veuillez patienter'); // texte pour aveugles
+    const overlay = document.createElement('div');
+    overlay.className = 'loader-overlay';
+    overlay.id = 'global-loader';
+    // J'annonce ce voile comme une boîte de dialogue modale pour les lecteurs
+    // d'écran : ils comprendront que le reste de la page est temporairement
+    // inaccessible, comme pour une modale.
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+    overlay.setAttribute('aria-label', 'Veuillez patienter');
 
-    const spinnerDom = createSpinnerDOM(text); // je crée le rond + texte
-    overlay.appendChild(spinnerDom); // je le mets dans le voile
+    const spinnerDom = createSpinnerDOM(text);
+    overlay.appendChild(spinnerDom);
 
-    document.body.appendChild(overlay); // j'ajoute le voile à la page
+    document.body.appendChild(overlay);
 
-    void overlay.offsetWidth; // petite astuce pour forcer l'animation
+    void overlay.offsetWidth;
     
-    overlay.classList.add('loader-active'); // je lance l'animation d'apparition
+    overlay.classList.add('loader-active');
     
-    document.body.style.overflow = 'hidden'; // j'empêche de scroller derrière
+    // Je bloque le scroll de l'arrière-plan exactement comme pour les modales,
+    // pour la même raison d'UX : on ne doit pas scroller derrière un voile.
+    document.body.style.overflow = 'hidden';
 
-    activeLoaders.overlay = overlay; // je note que le voile est ouvert
+    activeLoaders.overlay = overlay;
 }
 
-// Je cache le GROS chargement
+// Je cache le voile global avec une animation de sortie.
 export function hideGlobalLoader() {
-    const overlay = activeLoaders.overlay; // je récupère le voile
-    if (!overlay) return; // s'il n'y en a pas, j'arrête
+    const overlay = activeLoaders.overlay;
+    if (!overlay) return;
 
-    overlay.classList.remove('loader-active'); // je lance l'animation de disparition
-    document.body.style.overflow = ''; // je remets le scroll
+    overlay.classList.remove('loader-active');
+    document.body.style.overflow = '';
 
-    // Après 300ms (temps de l'animation), je supprime le voile du HTML
+    // Je laisse 300ms pour l'animation CSS de disparition avant de retirer le
+    // nœud du DOM. Sans ce délai, la transition serait coupée brutalement.
     setTimeout(() => {
         if (overlay.parentNode) {
             overlay.parentNode.removeChild(overlay);
         }
     }, 300);
 
-    activeLoaders.overlay = null; // je note qu'il n'y a plus de voile
+    activeLoaders.overlay = null;
 }
 
-// Je montre un PETIT chargement à l'intérieur d'une zone précise (ex: grille d'orchidées)
+// J'affiche un petit spinner à l'intérieur d'une zone précise (ex: grille).
+// Pourquoi deux types ? Parce que parfois je ne veux bloquer qu'une section,
+// pas toute la page. C'est plus respectueux de l'utilisateur.
 export function showInlineLoader(target, text = '', clearTarget = true) {
-    // target peut être "#ma-zone" ou directement l'élément
     const container = typeof target === 'string' ? document.querySelector(target) : target;
-    if (!container) return; // si la zone n'existe pas, j'arrête
+    if (!container) return;
 
-    if (activeLoaders.inline.has(container)) return; // si déjà un chargement dedans, j'arrête
+    if (activeLoaders.inline.has(container)) return;
 
-    if (clearTarget) { // si on veut vider la zone avant
-        replaceChildren(container); // je vide
+    if (clearTarget) {
+        replaceChildren(container);
     }
 
-    const loaderWrapper = document.createElement('div'); // je crée le conteneur du petit chargement
-    loaderWrapper.className = 'loader-inline'; // classe pour le style
-    loaderWrapper.appendChild(createSpinnerDOM(text)); // je mets le rond dedans
+    const loaderWrapper = document.createElement('div');
+    loaderWrapper.className = 'loader-inline';
+    loaderWrapper.appendChild(createSpinnerDOM(text));
 
-    container.appendChild(loaderWrapper); // je l'ajoute dans la zone
-    activeLoaders.inline.set(container, loaderWrapper); // je note qu'il y a un chargement dans cette zone
+    container.appendChild(loaderWrapper);
+    activeLoaders.inline.set(container, loaderWrapper);
 }
 
-// Je cache le PETIT chargement d'une zone
+// Je retire le spinner inline d'une zone.
 export function hideInlineLoader(target) {
     const container = typeof target === 'string' ? document.querySelector(target) : target;
     if (!container) return;
 
-    const loaderWrapper = activeLoaders.inline.get(container); // je récupère le chargement de cette zone
-    if (loaderWrapper && loaderWrapper.parentNode === container) { // s'il existe et est bien dedans
-        container.removeChild(loaderWrapper); // je l'enlève
-        activeLoaders.inline.delete(container); // j'oublie cette zone
+    const loaderWrapper = activeLoaders.inline.get(container);
+    if (loaderWrapper && loaderWrapper.parentNode === container) {
+        container.removeChild(loaderWrapper);
+        activeLoaders.inline.delete(container);
     }
 }
 
-// Je l'expose aussi en global pour les anciens scripts (compatibilité)
+// J'expose une API globale pour la compatibilité avec d'anciens scripts qui
+// utilisaient window.AppLoader. C'est une transition douce avant migration complète.
 window.AppLoader = {
     show: showGlobalLoader,
     hide: hideGlobalLoader,

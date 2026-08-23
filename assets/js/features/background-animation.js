@@ -1,7 +1,15 @@
-// J'importe l'outil pour créer un élément
+// ===========================================================================
+// FICHIER : features/background-animation.js — Animation poétique de l'accueil
+// ===========================================================================
+// J'ai voulu donner une identité visuelle forte à la page d'accueil avec des
+// noms latins qui flottent en arrière-plan. Pourquoi un module séparé ?
+// Pour que cette animation purement décorative ne pollue pas le code métier et
+// puisse être désactivée facilement sur les autres pages.
+
 import { getElement, createElement } from '../core/dom.js';
 
-// Liste de noms latins qui vont flotter sur l'accueil (comme un fond d'écran qui bouge)
+// Ma liste de 38 noms latins d'orchidées. Je les ai choisis pour leur
+// musicalité et pour rappeler la richesse botanique que le site met en valeur.
 const orchidNames = [
     'Phalaenopsis amabilis', 'Cattleya labiata', 'Dendrobium nobile',
     'Vanda coerulea', 'Oncidium flexuosum', 'Paphiopedilum insigne',
@@ -18,63 +26,68 @@ const orchidNames = [
     'Renanthera coccinea', 'Sophronitis coccinea', 'Thunia alba'
 ];
 
-// Je découpe l'écran en 9 zones (3x3) pour que les mots ne se chevauchent pas
+// Je découpe l'écran en 9 zones (grille 3x3) pour répartir les mots.
+// Pourquoi 9 zones ? Pour éviter que deux mots ne se chevauchent et pour
+// garantir une couverture homogène de l'écran, même sur grand écran.
 const gridZones = [
-    { xMin: 5,  xMax: 25, yMin: 5,  yMax: 25 }, // en haut à gauche
-    { xMin: 35, xMax: 55, yMin: 5,  yMax: 25 }, // en haut au milieu
-    { xMin: 65, xMax: 85, yMin: 5,  yMax: 25 }, // en haut à droite
-    { xMin: 5,  xMax: 25, yMin: 35, yMax: 55 }, // au centre à gauche
-    { xMin: 35, xMax: 55, yMin: 35, yMax: 55 }, // au centre
-    { xMin: 65, xMax: 85, yMin: 35, yMax: 55 }, // au centre à droite
-    { xMin: 5,  xMax: 25, yMin: 65, yMax: 85 }, // en bas à gauche
-    { xMin: 35, xMax: 55, yMin: 65, yMax: 85 }, // en bas au milieu
-    { xMin: 65, xMax: 85, yMin: 65, yMax: 85 } // en bas à droite
+    { xMin: 5,  xMax: 25, yMin: 5,  yMax: 25 },
+    { xMin: 35, xMax: 55, yMin: 5,  yMax: 25 },
+    { xMin: 65, xMax: 85, yMin: 5,  yMax: 25 },
+    { xMin: 5,  xMax: 25, yMin: 35, yMax: 55 },
+    { xMin: 35, xMax: 55, yMin: 35, yMax: 55 },
+    { xMin: 65, xMax: 85, yMin: 35, yMax: 55 },
+    { xMin: 5,  xMax: 25, yMin: 65, yMax: 85 },
+    { xMin: 35, xMax: 55, yMin: 65, yMax: 85 },
+    { xMin: 65, xMax: 85, yMin: 65, yMax: 85 }
 ];
 
-let zoneIndex = 0; // je retiens dans quelle zone je dois mettre le prochain mot (tourne en boucle)
-let animationInterval = null; // l'horloge qui lance un mot toutes les 1,5s
+let zoneIndex = 0;
+let animationInterval = null;
 
-// Elle démarre l'animation (appelée depuis app.js)
+// Je démarre l'animation. Cette fonction est appelée depuis app.js sur le
+// DOMContentLoaded, mais je vérifie que le conteneur existe pour ne rien faire
+// sur les autres pages.
 export function initBackgroundAnimation() {
-    const container = getElement('#latin-bg-layer'); // je cherche le calque où mettre les mots (dans index.html)
-    if (!container) return; // si pas sur l'accueil (pas de calque), j'arrête
+    const container = getElement('#latin-bg-layer');
+    if (!container) return;
 
-    // Elle crée UN mot qui flotte
+    // Je crée un mot flottant à une position aléatoire dans la zone suivante.
     function createFloatingWord() {
-        // Si le calque a disparu (on a changé de page), j'arrête l'horloge
+        // Si le conteneur a disparu (changement de page sans rechargement),
+        // j'arrête l'intervalle pour ne pas fuir en mémoire. C'est une bonne
+        // pratique de nettoyage.
         if (!document.body.contains(container)) {
             clearInterval(animationInterval);
             return;
         }
 
-        const randomIndex = Math.floor(Math.random() * orchidNames.length); // je tire un nom au hasard
-        const zone = gridZones[zoneIndex]; // je prends la zone suivante
-        zoneIndex = (zoneIndex + 1) % gridZones.length; // je passe à la zone d'après (revient à 0 après 8)
+        const randomIndex = Math.floor(Math.random() * orchidNames.length);
+        const zone = gridZones[zoneIndex];
+        zoneIndex = (zoneIndex + 1) % gridZones.length;
 
-        // Je tire une position au hasard DANS la zone
         const randomX = Math.floor(Math.random() * (zone.xMax - zone.xMin)) + zone.xMin;
         const randomY = Math.floor(Math.random() * (zone.yMax - zone.yMin)) + zone.yMin;
 
-        // Je crée le mot
         const span = createElement('span', {
-            className: 'latin-word', // classe pour le style (italique, transparent...)
-            text: orchidNames[randomIndex] // le nom tiré
+            className: 'latin-word',
+            text: orchidNames[randomIndex]
         });
 
-        span.style.left = randomX + '%'; // je le place en X
-        span.style.top = randomY + '%'; // je le place en Y
+        span.style.left = randomX + '%';
+        span.style.top = randomY + '%';
 
-        container.appendChild(span); // je l'ajoute au calque
+        container.appendChild(span);
 
-        // Après 50ms, je lance l'animation d'apparition
+        // Je déclenche l'apparition avec un léger délai pour laisser le temps au
+        // navigateur d'appliquer la transition CSS (opacity 0 -> 1).
         setTimeout(() => {
             span.classList.add('word-visible');
         }, 50);
 
-        // Après 6 secondes, je lance l'animation de disparition puis je supprime
+        // Après 6 secondes d'affichage, je lance la disparition puis je supprime
+        // le nœud du DOM pour ne pas accumuler des dizaines de span invisibles.
         setTimeout(() => {
             span.classList.remove('word-visible');
-            // Après 2,5s de disparition, je supprime du HTML
             setTimeout(() => {
                 if (span.parentNode) {
                     span.parentNode.removeChild(span);
@@ -83,8 +96,10 @@ export function initBackgroundAnimation() {
         }, 6000);
     }
 
-    animationInterval = setInterval(createFloatingWord, 1500); // toutes les 1,5s, je crée un mot
-    createFloatingWord(); // j'en crée un tout de suite
-    setTimeout(createFloatingWord, 500); // un 2e après 0,5s
-    setTimeout(createFloatingWord, 1000); // un 3e après 1s
+    // Je lance la création toutes les 1,5s et j'en crée 3 immédiatement pour
+    // que l'accueil ne soit pas vide au premier affichage.
+    animationInterval = setInterval(createFloatingWord, 1500);
+    createFloatingWord();
+    setTimeout(createFloatingWord, 500);
+    setTimeout(createFloatingWord, 1000);
 }

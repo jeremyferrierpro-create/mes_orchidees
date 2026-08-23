@@ -1,55 +1,68 @@
-// J'importe ma fausse BDD Supabase locale
+// ===========================================================================
+// FICHIER : services/collection-service.js — Logique de la collection perso
+// ===========================================================================
+// J'ai dédié ce service à la collection personnelle de l'utilisateur. Pourquoi
+// un service séparé ? Parce que la collection a des règles métier spécifiques
+// (filtrage par utilisateur, distinction collectionId/orchidId) que je ne veux
+// pas mélanger avec le catalogue général des orchidées.
+
+// J'importe ma fausse BDD pour interroger la table "collections" comme avec Supabase.
 import { db } from '../core/db.js';
-// Pour filtrer par utilisateur connecté (comme le futur RLS)
-import { getCurrentUser } from './auth-service.js';
+// J'importe aussi le service d'authentification pour filtrer par utilisateur.
+// C'est une préfiguration du futur RLS (Row Level Security) de Supabase.
 
-// Chaque plante dans collections a un collectionId (exemplaire) différent de orchidId (espèce)
+// Chaque plante dans "collections" possède un collectionId unique (l'exemplaire
+// physique de l'utilisateur) distinct de l'orchidId (l'espèce botanique). Pourquoi ?
+// Parce qu'un utilisateur peut posséder deux fois la même espèce à des endroits
+// différents : il faut les distinguer.
 
-// Elle lit la collection : SELECT * FROM collections (filtrée par user si connecté)
+// Je lis la collection. En SQL, ce serait "SELECT * FROM collections" filtré par
+// l'utilisateur connecté, comme le fera le RLS côté Supabase.
 export function getCollection() {
-  // Je prends tout dans la table collections
   const res = db.from('collections').select().execute();
   if (res.error) {
     console.error('Erreur collections', res.error);
     return [];
   }
   let data = res.data;
-  // Si je suis connecté, je ne rends que MES plantes (comme le futur RLS Supabase)
+  // Si un utilisateur est connecté, je ne lui rends que SES plantes.
+  // Pourquoi ce filtre ? Pour préparer le RLS : demain, Supabase ne renverra que
+  // les lignes où user_id = auth.uid(). En attendant, je le simule en JS.
   const user = getCurrentUser();
   if (user && user.id) {
-    // Je filtre où user_id === mon id (si la colonne existe)
     const filtered = data.filter(item => !item.user_id || String(item.user_id) === String(user.id));
-    // Si au moins une a un user_id, je rends le filtré, sinon je rends tout (pour compatibilité avec anciennes données)
+    // Je vérifie si au moins une ligne possède un user_id : si oui, j'applique
+    // le filtre, sinon je reste compatible avec les anciennes données sans user_id.
     if (data.some(item => item.user_id)) {
       return filtered;
     }
   }
-  // Si pas de user_id dans les données, je rends tout
   return Array.isArray(data) ? data : [];
 }
 
-// Elle enregistre toute la collection d'un coup : je vide puis je réinsère tout (simple pour le MVP)
+// J'enregistre toute la collection d'un coup : je vide puis je réinsère.
+// Pourquoi cette stratégie simple pour le MVP ? Parce qu'elle m'évite de gérer
+// finement les diffs et reste très lisible, quitte à être un peu moins performante.
 export function saveCollection(collection) {
   if (!Array.isArray(collection)) {
     console.warn('La collection doit être un tableau.');
     return false;
   }
-  // Je vide la table collections
+  // Je supprime toutes les lignes existantes une par une via leur collectionId.
   const existing = db.from('collections').select().execute();
-  // Je supprime tout ce qui existe
   for (const row of existing.data) {
     db.from('collections').delete().eq('collectionId', row.collectionId).execute();
   }
-  // Je réinsère tout
+  // Je réinsère l'intégralité du nouveau tableau.
   for (const item of collection) {
     db.from('collections').insert(item).execute();
   }
   return true;
 }
 
-// Elle ajoute une orchidée : INSERT INTO collections
+// J'ajoute une seule orchidée à la collection. J'y attache le user_id si
+// l'utilisateur est connecté, pour préfigurer le RLS.
 export function addOrchid(orchid) {
-  // J'ajoute le user_id si connecté (pour le futur RLS)
   const user = getCurrentUser();
   if (user && user.id && !orchid.user_id) {
     orchid.user_id = user.id;
@@ -58,13 +71,15 @@ export function addOrchid(orchid) {
   return !res.error;
 }
 
-// Elle met à jour une orchidée : UPDATE collections SET ... WHERE collectionId = ...
+// Je mets à jour une plante précise via son collectionId, comme un
+// "UPDATE collections SET ... WHERE collectionId = ...".
 export function updateOrchid(collectionId, updatedData) {
   const res = db.from('collections').update(updatedData).eq('collectionId', collectionId).execute();
   return !res.error && res.data && res.data.length > 0;
 }
 
-// Elle supprime une orchidée : DELETE FROM collections WHERE collectionId = ...
+// Je supprime une plante via son collectionId. Je vérifie que le nombre de
+// lignes a bien diminué pour confirmer la suppression.
 export function deleteOrchid(collectionId) {
   const before = db.from('collections').select().execute().data.length;
   db.from('collections').delete().eq('collectionId', collectionId).execute();
@@ -72,14 +87,14 @@ export function deleteOrchid(collectionId) {
   return after < before;
 }
 
-// Elle rend l'historique des soins d'une plante : SELECT * FROM soins WHERE collectionId = ...
+// Je récupère l'historique des soins d'une plante. J'interroge d'abord la table
+// dédiée "soins", puis je retombe sur l'ancien système où careHistory était
+// imbriqué dans collections, pour assurer la compatibilité ascendante.
 export function getCareHistory(collectionId) {
-  // Je cherche dans la table soins (si elle existe) ou dans collections.careHistory (ancien)
   const res = db.from('soins').select().eq('collectionId', collectionId).execute();
   if (!res.error && res.data && res.data.length > 0) {
     return res.data;
   }
-  // Fallback : ancien système où careHistory est dans collections
   const orchid = db.from('collections').select().eq('collectionId', collectionId).single();
   if (!orchid.error && orchid.data && Array.isArray(orchid.data.careHistory)) {
     return orchid.data.careHistory;
@@ -87,7 +102,9 @@ export function getCareHistory(collectionId) {
   return [];
 }
 
-// Elle ajoute un soin : INSERT INTO soins + trie par date
+// J'ajoute une entrée de soin dans la table "soins". Pourquoi une table séparée ?
+// Pour normaliser les données comme en SQL : une collection a plusieurs soins
+// (relation 1-N), ce qui sera une vraie table PostgreSQL demain.
 export function addCareEntry(collectionId, date, type, notes = '') {
   const newCare = {
     id: `care-${Date.now()}`,
@@ -96,8 +113,6 @@ export function addCareEntry(collectionId, date, type, notes = '') {
     type,
     notes
   };
-  // J'insère dans la table soins
   db.from('soins').insert(newCare).execute();
-  // Je trie côté lecture, pas besoin de trier ici
   return true;
 }

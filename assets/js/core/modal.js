@@ -1,84 +1,125 @@
-// J'importe la fonction qui bloque la touche Tab dans la modale
+// ===========================================================================
+// FICHIER : core/modal.js — Gestionnaire centralisé de fenêtres modales
+// ===========================================================================
+// J'ai centralisé toute la logique des modales ici pour garantir une
+// accessibilité irréprochable (RGAA / WAI-ARIA) et éviter de dupliquer le même
+// code dans chaque feature. Pourquoi un module dédié ? Parce que l'ouverture
+// d'une modale implique 4 responsabilités critiques : l'ARIA, le scroll, le
+// focus et le clavier, que je ne veux gérer qu'une seule fois.
+
+// J'importe ma fonction de piégeage de focus. Elle m'est indispensable pour
+// respecter le critère RGAA qui impose de ne pas laisser le focus s'échapper
+// de la modale.
 import { trapFocus } from './focus.js';
 
-// Je garde en mémoire quelle modale est ouverte et où on était avant
-let activeModal = null; // la modale actuellement ouverte (une seule à la fois)
-let lastFocusedElement = null; // le bouton qui a ouvert la modale (pour y revenir après)
-let previousBodyOverflow = ''; // pour remettre le scroll comme avant
+// Je garde en mémoire l'état global de la modale : une seule modale peut être
+// ouverte à la fois, c'est un choix d'UX pour éviter la confusion.
+let activeModal = null;
+let lastFocusedElement = null;
+let previousBodyOverflow = '';
 
-// Elle gère les touches quand une modale est ouverte
+// Je gère les interactions clavier quand une modale est ouverte.
+// Pourquoi un seul écouteur global sur document ? Pour intercepter Escape et Tab
+// quel que soit l'élément qui a le focus à l'intérieur de la modale.
 function handleKeyDown(event) {
-    if (!activeModal) { // si aucune modale ouverte, je ne fais rien
+    if (!activeModal) {
         return;
     }
 
-    // Si on appuie sur Échap, je ferme la modale
+    // J'écoute la touche Échap (Escape). Pourquoi ? Pour garantir une sortie
+    // rapide sans souris, exigence RGAA/WCAG 2.1 : l'utilisateur au clavier doit
+    // pouvoir fermer la modale en une seule frappe, sans avoir à tabuler jusqu'au ×.
     if (event.key === 'Escape') {
         close(activeModal);
     }
 
-    // Si on appuie sur Tab, je bloque pour rester dans la modale
+    // J'intercepte la touche Tab et je délègue à mon Focus Trap.
+    // Sans cela, l'utilisateur pourrait tabuler vers l'arrière-plan et se perdre.
     if (event.key === 'Tab') {
         trapFocus(activeModal, event);
     }
 }
 
-// Elle ouvre une petite fenêtre (modale)
+// J'ouvre une modale et je mets en place toutes les garanties d'accessibilité.
 export function open(modalElement, triggerElement = null) {
-    if (!modalElement) { // si pas de modale donnée, j'arrête
+    if (!modalElement) {
         return;
     }
 
-    // Si une autre modale est déjà ouverte, je la ferme d'abord
+    // Si une autre modale était déjà ouverte, je la ferme proprement avant.
+    // Pourquoi ? Pour éviter deux fonds sombres superposés et deux Focus Trap actifs.
     if (activeModal && activeModal !== modalElement) {
         close(activeModal);
     }
 
-    activeModal = modalElement; // je note que cette modale est ouverte
-    lastFocusedElement = triggerElement || document.activeElement; // je me souviens d'où on vient
-    previousBodyOverflow = document.body.style.overflow; // je me souviens si on pouvait scroller
+    activeModal = modalElement;
+    // Je sauvegarde l'élément qui avait le focus avant l'ouverture.
+    // Pourquoi ? Pour pouvoir restituer automatiquement le curseur clavier sur le
+    // bouton d'origine à la fermeture, comme l'exige le RGAA 12.9. Sans cela,
+    // l'utilisateur non-voyant perdrait sa position dans la page.
+    lastFocusedElement = triggerElement || document.activeElement;
+    previousBodyOverflow = document.body.style.overflow;
 
-    modalElement.classList.add('active'); // j'ajoute la classe qui l'affiche (CSS)
-    modalElement.setAttribute('aria-hidden', 'false'); // je dis aux lecteurs d'écran qu'elle est visible
-    document.body.style.overflow = 'hidden'; // j'empêche de scroller la page derrière
+    modalElement.classList.add('active');
+    // Je bascule aria-hidden de "true" à "false" pour avertir immédiatement les
+    // technologies d'assistance (lecteurs d'écran NVDA, JAWS, VoiceOver) que ce
+    // contenu devient visible. J'ai aussi prévu en HTML les attributs
+    // role="dialog" et aria-modal="true" sur la modale pour indiquer que c'est
+    // une fenêtre de dialogue qui bloque l'interaction avec l'arrière-plan.
+    modalElement.setAttribute('aria-hidden', 'false');
+    // Je bloque le défilement de l'arrière-plan avec overflow = 'hidden'.
+    // Pourquoi ? Pour éviter le "scroll bleed" : quand on scrolle dans une modale
+    // longue, on ne veut pas que la page derrière bouge aussi, ce qui désoriente.
+    document.body.style.overflow = 'hidden';
 
-    // J'enlève l'ancien écouteur clavier puis j'en mets un nouveau (évite les doublons)
+    // Je m'assure de ne pas accumuler plusieurs écouteurs keydown. J'enlève
+    // l'ancien avant d'ajouter le nouveau : c'est une bonne pratique pour éviter
+    // les fuites mémoire et les doubles fermetures.
     document.removeEventListener('keydown', handleKeyDown);
     document.addEventListener('keydown', handleKeyDown);
 
-    // Après 50ms, je mets le focus sur le bouton fermer (pour le clavier)
+    // Après un court délai de 50ms (le temps que la transition CSS se lance),
+    // je place le focus sur le bouton de fermeture. Pourquoi ? Pour que
+    // l'utilisateur au clavier soit immédiatement à l'intérieur de la modale et
+    // n'ait pas à tabuler depuis le fond de page.
     window.setTimeout(() => {
-        const closeButton = modalElement.querySelector('.modal-close, .close-modal'); // je cherche le bouton ×
+        const closeButton = modalElement.querySelector('.modal-close, .close-modal');
 
-        if (closeButton) { // si trouvé
-            closeButton.focus(); // je mets le curseur clavier dessus
-        } else if (typeof modalElement.focus === 'function') { // sinon je mets sur la modale elle-même
+        if (closeButton) {
+            closeButton.focus();
+        } else if (typeof modalElement.focus === 'function') {
             modalElement.focus();
         }
     }, 50);
 }
 
-// Elle ferme la modale et remet le focus où on était
+// Je ferme la modale et je restaure l'état antérieur, comme si rien ne s'était passé.
 export function close(modalElement) {
-    // Si pas de modale ou pas la bonne, j'arrête
     if (!modalElement || modalElement !== activeModal) {
         return;
     }
 
-    modalElement.classList.remove('active'); // j'enlève la classe qui l'affiche
-    modalElement.setAttribute('aria-hidden', 'true'); // je dis qu'elle est cachée
-    document.body.style.overflow = previousBodyOverflow; // je remets le scroll comme avant
+    modalElement.classList.remove('active');
+    // Je repasse aria-hidden à "true" pour que les lecteurs d'écran ignorent à
+    // nouveau ce contenu caché. C'est le pendant indispensable de l'ouverture.
+    modalElement.setAttribute('aria-hidden', 'true');
+    // Je restaure la valeur d'overflow que j'avais sauvegardée pour rendre
+    // le scroll à la page. Sans cela, la page resterait bloquée après fermeture.
+    document.body.style.overflow = previousBodyOverflow;
 
-    document.removeEventListener('keydown', handleKeyDown); // j'enlève l'écouteur clavier
-    activeModal = null; // plus de modale ouverte
+    document.removeEventListener('keydown', handleKeyDown);
+    activeModal = null;
 
-    // Je remets le focus sur le bouton qui avait ouvert (pour revenir où on était)
+    // Je restitue le focus sur l'élément qui avait ouvert la modale.
+    // C'est crucial pour la continuité de navigation au clavier : l'utilisateur
+    // retrouve exactement sa position, il n'est pas renvoyé en haut de page.
     if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
         lastFocusedElement.focus();
     }
 
-    lastFocusedElement = null; // j'oublie
+    lastFocusedElement = null;
 }
 
-// Pour les anciens fichiers qui utilisent window.ModalManager
+// J'expose aussi une API globale window.ModalManager pour la compatibilité avec
+// d'anciens fichiers qui l'appelaient encore directement. C'est une transition douce.
 window.ModalManager = { open, close };

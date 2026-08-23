@@ -1,46 +1,65 @@
-// Petite boîte à outils pour manipuler le HTML plus facilement
-// Au lieu d'écrire document.querySelector partout, j'utilise ces 4 fonctions
+// ===========================================================================
+// FICHIER : core/dom.js — Ma boîte à outils DOM sécurisée
+// ===========================================================================
+// J'ai créé ce petit module utilitaire pour simplifier et sécuriser toutes mes
+// manipulations du DOM (Document Object Model). Pourquoi des wrappers ?
+// Parce qu'écrire document.querySelector partout est répétitif et source
+// d'erreurs. En centralisant ici, je garantis une écriture propre et je
+// pourrai faire évoluer la logique à un seul endroit.
 
-// Je cherche UN élément dans la page (ex: "#mon-bouton")
+// Je cherche UN seul élément dans la page, comme document.querySelector.
+// Pourquoi un wrapper ? Pour pouvoir préciser un "root" (contexte de recherche)
+// et pour uniformiser mon code : partout j'utilise getElement().
 export function getElement(selector, root = document) {
-    // selector = le nom CSS ("#id" ou ".classe"), root = où chercher (par défaut toute la page)
-    return root.querySelector(selector); // je le cherche et je le rends
+    return root.querySelector(selector);
 }
 
-// Je cherche PLUSIEURS éléments (ex: tous les ".carte")
+// Je cherche PLUSIEURS éléments et je les renvoie sous forme de vrai tableau JS.
+// Pourquoi Array.from() ? Parce que querySelectorAll renvoie une NodeList qui
+// n'a pas les méthodes pratiques comme .filter() ou .map(). En la convertissant,
+// je m'offre toute la puissance des tableaux modernes.
 export function getAllElements(selector, root = document) {
-    // Je les cherche tous puis je les transforme en vrai tableau
     return Array.from(root.querySelectorAll(selector));
 }
 
-// Je crée un nouvel élément HTML de zéro
+// Je crée un élément HTML de zéro en une seule ligne, sans concaténation de
+// chaînes. Pourquoi cette fonction ? Pour éviter innerHTML et me protéger du XSS,
+// tout en rendant mon code beaucoup plus lisible que des createElement + appendChild
+// répétés.
 export function createElement(tagName, {
-    className = '', // classe CSS si on veut
-    text = '', // texte dedans si on veut
-    html = '', // code HTML dedans (seulement pour icônes)
-    attributes = {} // autres attributs comme src, alt, etc.
+    className = '',
+    text = '',
+    html = '',
+    attributes = {}
 } = {}) {
-    const element = document.createElement(tagName); // je crée la balise (ex: "div")
+    const element = document.createElement(tagName);
 
-    if (className) element.className = className; // je mets la classe si donnée
-    if (text) element.textContent = text; // je mets le texte si donné
-    if (html) element.innerHTML = html; // je mets le HTML si donné (pour icônes)
+    if (className) element.className = className;
+    // J'utilise textContent pour le texte brut : c'est sécurisé contre le XSS,
+    // car le navigateur n'interprétera jamais le contenu comme du HTML.
+    if (text) element.textContent = text;
+    // J'utilise innerHTML uniquement quand je dois insérer une icône déjà
+    // validée par mes soins. C'est un cas d'usage maîtrisé et volontaire.
+    if (html) element.innerHTML = html;
 
-    // Pour chaque attribut dans la liste, je l'ajoute (ex: src="image.jpg")
+    // Je pose tous les attributs supplémentaires (src, alt, aria-*, data-*) en
+    // bouclant sur l'objet attributes. C'est plus propre qu'une longue liste de setAttribute.
     for (const [name, value] of Object.entries(attributes)) {
         element.setAttribute(name, value);
     }
 
-    return element; // je rends l'élément créé
+    return element;
 }
 
-// Je vide un conteneur et je mets du nouveau contenu (plus propre que innerHTML = "")
+// Je vide un conteneur et j'y injecte de nouveaux enfants, de manière propre.
+// Pourquoi ne pas faire container.innerHTML = '' ? Parce que innerHTML casse
+// potentiellement les écouteurs d'événements et peut être moins performant.
+// J'utilise la méthode moderne replaceChildren si elle existe, sinon je
+// fournis un fallback manuel pour la compatibilité avec les vieux navigateurs.
 export function replaceChildren(container, ...nodes) {
-    // Si le navigateur sait faire replaceChildren (moderne), je l'utilise
     if (container.replaceChildren) {
         container.replaceChildren(...nodes);
     } else {
-        // Sinon (vieux navigateur), je vide à la main puis j'ajoute
         container.innerHTML = '';
         container.append(...nodes);
     }

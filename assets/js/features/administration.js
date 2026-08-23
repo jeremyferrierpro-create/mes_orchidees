@@ -7,11 +7,17 @@ import * as notifications from '../core/notifications.js';
 import { readJson, writeJson, STORAGE_KEYS } from '../core/storage.js';
 import { db } from '../core/db.js'; // je passe par la fausse BDD Supabase (assets/data/*.json)
 
-// =====================================================
-// PAGE ADMINISTRATION - en français débutant
-// =====================================================
-// Cette page affiche le tableau de bord + 2 tableaux + 3 gros boutons
-// Tout vient des vraies données dans /assets/js/data/
+// ===========================================================================
+// FICHIER : features/administration.js — Panneau d'administration sécurisé
+// ===========================================================================
+// J'ai développé cette page comme un back-office complet réservé aux admins.
+// Pourquoi un module dédié ? Parce qu'elle concentre 3 responsabilités critiques
+// que je voulais isoler : 1) le tableau de bord chiffré (utilisateurs, plantes,
+// activités), 2) les deux tableaux de gestion (encyclopédie + notifications),
+// 3) les trois actions à fort impact (modérer une orchidée, ajouter un conseil,
+// gérer les utilisateurs). Toutes les données proviennent de ma couche db.js
+// (qui lit /assets/js/data/*.json) : ainsi, je valide déjà le circuit de données
+// qui deviendra Supabase en Phase 3 sans toucher à l'interface.
 
 export function initAdministration() {
     // --- VERROU ADMIN : je bloque l'accès si pas admin ---
