@@ -12,7 +12,7 @@
 // (ex: fetch('https://xxx.supabase.co/rest/v1/users')). Grâce à cette
 // abstraction, je n'aurai à modifier AUCUN composant graphique : seul ce
 // fichier changera, car l'interface db.from().select().eq() restera identique.
-// C'est exactement comme cela que fonctionne l'ORM officiel de Supabase.
+// C'est exactement comme cela que fonctionne l'ORM (Mappage Objet-Relationnel), officiel de Supabase.
 
 // J'importe ici mes 6 tables de départ au format JSON depuis /assets/js/data/.
 // Ces fichiers sont les prémices de mes futures tables SQL. En local, ils me

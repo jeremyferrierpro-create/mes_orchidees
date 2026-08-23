@@ -1,61 +1,78 @@
 // ==========================================================================
-// COMPOSANT : BARRE DE RECHERCHE (AJUSTEMENT CONTRASTE ET ARRONDIS)
+// COMPOSANT : BARRE DE RECHERCHE PRINCIPALE (STYLE PILULE & FLUIDE)
+// Ce fichier gère la boîte de recherche visible sur l'accueil et l'encyclopédie.
+// Mon but : un composant moderne, contrasté et 100% responsive sur mobile.
 // ==========================================================================
 
 .search-box {
+    // 1. MISE EN PAGE FLEXBOX
+    // J'utilise Flexbox pour aligner sur la même ligne le champ de saisie et le bouton.
+    // space-between pousse le bouton à droite et laisse le texte respirer à gauche.
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 6px;
-    border-radius: 50px; // Forme pilule pour la barre
+    border-radius: 50px; // Forme "pilule" arrondie caractéristique de mon UI
     width: 100%;
     
-    // On applique notre mixin de verre
+    // 2. EFFET DE VERRE (GLASSMORPHISM)
+    // J'inclus mon mixin réutilisable qui applique le flou d'arrière-plan (backdrop-filter).
     @include glass-effect; 
-    // On ajoute un tout petit fond blanc hyper transparent (8%) 
-    // en plus du mixin pour forcer le verre à être visible sur le fond sombre
+    
+    // J'ajoute un fond blanc subtil à 5% pour que le champ ressorte nettement
+    // sur le fond sombre de la jungle et garantisse le contraste RGAA.
     background-color: rgba(255, 255, 255, 0.05); 
 
-    // Le champ texte d'entrée
+    // 3. LE CHAMP DE SAISIE TEXTE (<input>)
     input {
+        // flex: 1 prend tout l'espace disponible restant dans la barre.
         flex: 1;
-        min-width: 0; // TRÈS IMPORTANT : Permet à l'input de se compresser sur mobile
+        
+        // RÈGLE DE SÉCURITÉ FLEXBOX CRUCIALE :
+        // Par défaut, un input a une largeur minimale incompressible.
+        // "min-width: 0" lui permet de se rétrécir sans déborder sur les petits écrans (ex: iPhone SE).
+        min-width: 0; 
+        
         background: transparent; 
         border: none;
         color: $clr-white;
         padding: 12px 25px;
-        font-family: $font-body; // Inter
+        font-family: $font-body; // Police Inter pour une lisibilité parfaite
         font-size: 15px;
         outline: none; 
 
+        // Placeholder semi-transparent mais suffisamment contrasté pour Lighthouse
         &::placeholder {
             color: rgba(255, 255, 255, 0.7); 
         }
 
-        // Correction pour empêcher le navigateur de mettre un fond blanc en cas d'autocomplétion
+        // 4. NEUTRALISATION DU FOND BLANC D'AUTOCOMPLÉTION
+        // Quand Chrome pré-remplit un champ, il met un fond blanc qui casse le design sombre.
+        // Cette astuce avec une ombre interne transparente conserve le thème sombre intact.
         &:-webkit-autofill,
         &:-webkit-autofill:hover, 
         &:-webkit-autofill:focus, 
-        &:-webkit-autofill:active{
+        &:-webkit-autofill:active {
             -webkit-box-shadow: 0 0 0 30px transparent inset !important;
             -webkit-text-fill-color: $clr-white !important;
             transition: background-color 5000s ease-in-out 0s;
         }
     }
 
-    // Le bouton de validation à l'intérieur de la boîte
+    // 5. LE BOUTON D'ACTION "RECHERCHER"
     .search-btn {
-        background-color: $clr-gold;
-        color: $clr-bg; 
+        background-color: $clr-gold; // Doré végétal (#c4a47c) de ma charte
+        color: $clr-bg;              // Texte sombre pour respecter le ratio de contraste 4.5:1
         border: none;
         padding: 15px 30px;
-        border-radius: 50px; //  Bords arrondis style pilule !
-        font-family: $font-titles; // Cinzel
+        border-radius: 50px;
+        font-family: $font-titles;   // Police Cinzel pour la signature botanique
         font-size: 14px;
         font-weight: bold;
         letter-spacing: 1px;
         transition: transform 0.2s ease, opacity 0.2s ease;
 
+        // Effet au survol : légère mise en valeur sans saut brusque
         &:hover {
             opacity: 0.9;
             transform: scale(1.02); 

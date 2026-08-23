@@ -1,21 +1,31 @@
 // ==========================================================================
-// COMPOSANT : FENÊTRES MODALES (FICHE TECHNIQUE UNIFORME )
+// COMPOSANT : FENÊTRES MODALES ACCESSIBLES (FICHE TECHNIQUE BOTANIQUE)
+// Ce fichier contrôle le calque d'arrière-plan et la boîte de dialogue modale.
+// Structure conçue pour la conformité RGAA 4.1.2 et le confort sur mobile.
 // ==========================================================================
 
-// Le calque d'arrière-plan qui assombrit le site
+// --------------------------------------------------------------------------
+// A. LE VOILE D'ARRIÈRE-PLAN (.modal-overlay)
+// --------------------------------------------------------------------------
 .modal-overlay {
+    // Couvre 100% de la fenêtre active, même si la page est défilée
     position: fixed;
     inset: 0;
-    background-color: rgba(6, 14, 10, 0.8); // Fond très sombre
-    backdrop-filter: blur(6px);
+    background-color: rgba(6, 14, 10, 0.8); // Assombrissement vert-noir profond
+    backdrop-filter: blur(6px);              // Flou d'arrière-plan pour isoler la modale
     z-index: 500;
-    display: none; // Règle l'alerte Lighthouse aria-hidden quand fermée
+    
+    // GESTION CRUCIALE LIGHTHOUSE & ACCESSIBILITÉ :
+    // Fermée par défaut en "display: none". Les lecteurs d'écran et l'arbre d'accessibilité
+    // ignorent ainsi totalement les éléments interactifs masqués tant qu'elle n'est pas ouverte.
+    display: none; 
     align-items: center;
     justify-content: center;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease;
 
+    // Classe injectée par JavaScript (modal.js) à l'ouverture
     &.active {
         display: flex;
         opacity: 1;
@@ -23,27 +33,40 @@
     }
 }
 
-// La grande boîte de la fiche plante 
+// --------------------------------------------------------------------------
+// B. LA BOÎTE DE CONTENU (.modal-container)
+// --------------------------------------------------------------------------
 .modal-container {
+    // DIMENSIONS FLUIDES SANS DÉBORDEMENT :
+    // Prend 92% de la largeur sur smartphone et se plafonne à 700px sur grand écran.
     width: min(92%, 700px);
+    
+    // DÉFILEMENT INTERNE SÉCURISÉ :
+    // Bloqué à 88% de la hauteur de l'écran (vh). Si l'utilisateur est sur un écran réduit
+    // ou en mode paysage, le contenu ne déborde jamais et s'affiche avec un ascenseur propre.
     max-height: 88vh;
-    overflow-y: auto; // Permet le défilement si l'écran est petit
+    overflow-y: auto; 
+    
+    // ESPACEMENT ADAPTATIF :
+    // clamp() fait varier automatiquement les marges de 15px (mobile) à 30px (desktop).
     padding: clamp(15px, 3vw, 30px);
     
+    // Adaptations fines via mes mixins responsive
     @include respond-to('xs') {
         width: 95%;
         padding: 15px;
     }
     @include respond-to('micro') {
         width: 100%;
-        border-radius: 0; // Prend tout l'écran avec des bordures arrondies
+        border-radius: 0; // Plein écran sur les très vieux téléphones (320px)
     }
+    
     border-radius: 8px;
     position: relative;
     @include glass-effect;
-    background-color: rgba(14, 32, 24, 0.85); // Vert foncé opaque identique au mockup
+    background-color: rgba(14, 32, 24, 0.85); // Vert forêt nuit très opaque pour lisibilité
 
-    // La croix de fermeture en haut à droite
+    // BOUTON DE FERMETURE (CROIX ×)
     .modal-close {
         position: absolute;
         top: 20px;
@@ -56,29 +79,32 @@
         transition: color 0.2s;
 
         &:hover {
-            color: $clr-gold;
+            color: $clr-gold; // Éclat doré au survol
         }
     }
 }
 
-// --- STRUCTURE INTERNE DE LA FICHE ---
+// --------------------------------------------------------------------------
+// C. STRUCTURE INTERNE DE LA FICHE PLANTE (.orchid-modal-view)
+// --------------------------------------------------------------------------
 .orchid-modal-view {
     display: flex;
     flex-direction: column;
     gap: 25px;
 
-    // Entête : Photo à gauche, Titres à droite
+    // EN-TÊTE : Photo + Titres botaniques
     .modal-header-block {
         display: flex;
-        flex-direction: row;
+        flex-direction: row; // Côte à côte sur grand écran
         gap: 20px;
         align-items: flex-start;
 
+        // Bascule en colonne centrée sur petit écran pour ne pas écraser la photo
         @include respond-to('xs') {
             flex-direction: column;
             align-items: center;
             text-align: center;
-            margin-top: 25px; // Évite que le contenu chevauche la croix de fermeture sur mobile
+            margin-top: 25px; // Évite tout chevauchement avec la croix de fermeture
         }
 
         .modal-orchid-img {
@@ -112,15 +138,15 @@
             }
 
             .modal-scientific {
-                font-family: $font-titles; // Cinzel
+                font-family: $font-titles;
                 font-size: 20px;
                 color: #ffffff;
                 margin: 0;
-                font-style: italic;
+                font-style: italic; // Rigueur taxonomique en italique
             }
 
             .modal-label-desc {
-                font-family: $font-titles; // Cinzel
+                font-family: $font-titles;
                 font-size: 14px;
                 color: $clr-gold;
                 margin-top: 10px;
@@ -139,10 +165,12 @@
         }
     }
 
-    // La grille des caractéristiques
+    // GRILLE DES 10 CARACTÉRISTIQUES BOTANIQUES
     .modal-specs-grid {
         display: grid;
-        // 3 colonnes sur PC/iPad Pro, 2 colonnes sur tablette, 1 colonne sur iPhone SE
+        // FORMULE AUTO-FIT RÉACTIVE :
+        // Crée automatiquement 3 colonnes sur PC, 2 sur tablette et 1 sur smartphone
+        // sans avoir besoin de multiplier les règles media queries.
         grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr));
         gap: 10px;
 
@@ -152,7 +180,7 @@
             gap: 5px;
 
             label {
-                font-family: $font-titles; // Cinzel
+                font-family: $font-titles;
                 font-size: 12px;
                 color: $clr-gold;
                 letter-spacing: 1px;
@@ -160,25 +188,25 @@
             }
 
             .spec-value {
-                background-color: rgba(255, 255, 255, 0.12); // Bloc grisé du mockup
+                background-color: rgba(255, 255, 255, 0.12); // Bloc étiquette translucide
                 color: #ffffff;
-                font-family: $font-body; // Inter
+                font-family: $font-body;
                 font-size: 13px;
                 padding: 8px 16px;
-                border-radius: 20px; // Coins très arrondis
+                border-radius: 20px; // Coins arrondis style badge
                 border: 1px solid rgba(255, 255, 255, 0.05);
             }
         }
     }
 
-    // Section basse : Longue description
+    // SECTION BASSE : DESCRIPTION LONGUE
     .modal-description-block {
         display: flex;
         flex-direction: column;
         gap: 8px;
 
         h4 {
-            font-family: $font-titles; // Cinzel
+            font-family: $font-titles;
             font-size: 13px;
             color: $clr-gold;
             margin: 0;
@@ -187,8 +215,8 @@
         }
 
         .modal-long-desc {
-            background-color: rgba(255, 255, 255, 0.06); // Grand bloc arrondi pour le paragraphe
-            font-family: $font-body; // Inter
+            background-color: rgba(255, 255, 255, 0.06);
+            font-family: $font-body;
             font-size: 13px;
             line-height: 1.5;
             color: #ffffff;
@@ -205,19 +233,19 @@
         }
     }
 
-    // Le bouton d'action calé tout en bas à droite
+    // BOUTON D'AJOUT À LA COLLECTION
     .modal-footer-action {
         display: flex;
         justify-content: flex-end;
         width: 100%;
 
         .btn-add-collection {
-            background-color: #c4a47c; // Couleur sable/doré
+            background-color: #c4a47c;
             color: #0e2018;
             border: none;
             padding: 10px 25px;
             border-radius: 50px;
-            font-family: $font-titles; // Cinzel
+            font-family: $font-titles;
             font-size: 12px;
             font-weight: bold;
             cursor: pointer;
